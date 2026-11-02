@@ -15,6 +15,8 @@ kit/cjk_table.json
 kit/dialogue_en.jsonl
 kit/zh_cache.json
 kit/zh_dialog.bin
+kit/zh_gloss_cache.json
+kit/zh_gloss.bin
 
 __pycache__/
 *.pyc

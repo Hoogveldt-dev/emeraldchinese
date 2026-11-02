@@ -20,6 +20,15 @@
 - PokemonWoofer, branch `ccr-b774cd4f-bc9hgz`: aangemaakt, met een kopie van
   dit document in `docs/OVERDRACHT-woordenboek.md`. Verder nog geen code.
 
+## Update: fase 1 geschreven (branch `ccr-f8302ad8-9uq3y4`)
+
+De punten hieronder zijn uitgevoerd in `kit/`: `zh_pinyin.py` (lettergrepen),
+`zh_gloss.py` (prompt, controles, CC-CEDICT), `zh_gloss_bin.py` (formaat,
+schrijver en lezer), de commando's `gloss` en `review` in
+`translate_dialogue.py`, en `test_zh_gloss.py` (11 tests, slagen). Nog te
+doen: de proefronde met ROM en API-sleutel, en het oordeel over de
+steekproef. Daarna fase 2.
+
 ## Volgende stap: fase 1 in PokemonWoofer (`kit/`)
 
 Nieuwe stap `gloss` in `kit/translate_dialogue.py`, met de helpers in een

@@ -7,11 +7,17 @@ Stappen:
   2. build      maakt van de cache het bestand zh_dialog.bin voor op de SD-kaart:
                 sdmc:/3ds/emerald3ds/zh_dialog.bin  (in Citra/Azahar: de map
                 sdmc van de emulator, zie LEESMIJ).
-  3. status     laat zien hoeveel er vertaald is.
+  3. gloss      laat het taalmodel per vertaalde tekst de woorden bepalen, met
+                pinyin, korte betekenis en HSK-niveau (zh_gloss_cache.json,
+                hervatbaar). build schrijft daarna ook zh_gloss.bin.
+  4. review     toont die woorden voor een paar contexten, om na te lopen.
+  5. status     laat zien hoeveel er vertaald is.
 
 Voorbeelden:
   python translate_dialogue.py translate --provider anthropic --only birch_speech,LittlerootTown
   python translate_dialogue.py translate --provider openai --base-url https://api.deepseek.com --model deepseek-chat
+  python translate_dialogue.py gloss --only birch_speech,LittlerootTown
+  python translate_dialogue.py review --only birch_speech
   python translate_dialogue.py build
 
 API-sleutels komen uit de omgeving: ANTHROPIC_API_KEY of OPENAI_API_KEY
@@ -33,10 +39,13 @@ from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE))
+import zh_gloss  # noqa: E402
+from zh_gloss_bin import GlossWriter  # noqa: E402
 from zh_text import Encoder, write_table  # noqa: E402
 
 SOURCE = HERE / "dialogue_en.jsonl"
 CACHE = HERE / "zh_cache.json"
+GLOSS_CACHE = HERE / "zh_gloss_cache.json"
 GLOSSARY = HERE / "glossary.json"
 WIDTHS = HERE / "font_widths.json"
 
@@ -263,12 +272,84 @@ def cmd_translate(args):
     print("\nRun again to retry what failed; 'build' makes zh_dialog.bin.")
 
 
+def load_gloss_cache() -> dict:
+    return json.loads(GLOSS_CACHE.read_text(encoding="utf-8")) if GLOSS_CACHE.exists() else {}
+
+
+def names_for(group, cache, glossary: dict) -> dict:
+    """Official names (Chinese -> English) that occur in the Chinese of these texts."""
+    text = " ".join(" ".join(cache[r["hash"]]["zh"]) for r in group)
+    return {zh: en for en, zh in glossary.items() if zh and zh in text}
+
+
+def cmd_gloss(args):
+    cache = load_cache()
+    gloss = load_gloss_cache()
+    lock = threading.Lock()
+    glossary = json.loads(GLOSSARY.read_text(encoding="utf-8"))
+    cedict = zh_gloss.Cedict(args.cedict) if args.cedict else None
+    rows = [r for r in load_rows(args.only) if r["hash"] in cache
+            and gloss.get(r["hash"], {}).get("zh") != zh_gloss.zh_key(cache[r["hash"]]["zh"])]
+    if args.limit:
+        rows = rows[:args.limit]
+    todo = list(batches(rows, args.batch, 2500))
+    print("%d texts to annotate in %d requests" % (len(rows), len(todo)))
+    if not todo:
+        return
+    failed = []
+
+    def work(group):
+        items = []
+        for r in group:
+            paras, _ = split_paragraphs(r["en"])
+            items.append({"id": r["hash"], "en": paras, "zh": cache[r["hash"]]["zh"]})
+        user = ("Official names in these texts (Chinese -> English):\n"
+                + json.dumps(names_for(group, cache, glossary), ensure_ascii=False)
+                + "\n\nTexts:\n" + json.dumps(items, ensure_ascii=False))
+        for attempt in range(4):
+            try:
+                answer = parse_json(call_api(args, zh_gloss.SYSTEM, user))
+                break
+            except (urllib.error.URLError, json.JSONDecodeError, KeyError, TimeoutError) as e:
+                if isinstance(e, urllib.error.HTTPError) and e.code in (400, 401, 403):
+                    raise SystemExit("API error %s: %s" % (e.code, e.read()[:300]))
+                time.sleep(5 * (attempt + 1))
+        else:
+            return 0
+        done = 0
+        with lock:
+            for r, item in zip(group, items):
+                paras, errors = zh_gloss.check_answer(item["zh"], answer.get(r["hash"]))
+                if errors:
+                    failed.append((r["id"], errors))
+                    continue
+                warn = zh_gloss.cedict_warnings(paras, cedict) if cedict else []
+                gloss[r["hash"]] = {"zh": zh_gloss.zh_key(item["zh"]), "w": paras, "warn": warn}
+                done += 1
+            GLOSS_CACHE.write_text(json.dumps(gloss, ensure_ascii=False, indent=0), encoding="utf-8")
+        return done
+
+    total = 0
+    with ThreadPoolExecutor(max_workers=args.workers) as pool:
+        for n, f in enumerate(as_completed([pool.submit(work, g) for g in todo]), 1):
+            total += f.result()
+            print("\r%d/%d requests, %d texts annotated" % (n, len(todo), total), end="", flush=True)
+    print()
+    for text_id, errors in failed[:20]:
+        print("rejected %s: %s" % (text_id, "; ".join(errors[:3])))
+    if failed:
+        print("%d texts rejected; run again to retry them." % len(failed))
+
+
 def cmd_build(args):
     enc = Encoder(HERE / "charmap.txt", HERE / "cjk_table.json")
     measure = Measure(enc)
     cache = load_cache()
     rows = {r["hash"]: r for r in load_rows()}
     table, problems, missing_chars = {}, 0, set()
+    gloss = load_gloss_cache()
+    writer = GlossWriter(enc, lambda t: bool(REQUIRED.match(t)))
+    stale = 0
     for h, entry in cache.items():
         r = rows.get(h)
         if not r:
@@ -295,11 +376,47 @@ def cmd_build(args):
             problems += 1
             continue
         table[int(h, 16)] = data[:data.index(0xFF) + 1]
+        g = gloss.get(h)
+        if g and g["zh"] == zh_gloss.zh_key(entry["zh"]):
+            writer.add(int(h, 16), r["context"], g["w"])
+        elif g:
+            stale += 1
     out = Path(args.out)
     write_table(table, out)
     print("%s: %d texts (%d skipped)" % (out, len(table), problems))
+    gloss_out = out.with_name("zh_gloss.bin")
+    gloss_out.write_bytes(writer.to_bytes())
+    print("%s: %d texts, %d words (%d out of date, run 'gloss')"
+          % (gloss_out, len(writer.texts), len(writer.words), stale))
     if missing_chars:
         print("characters without a glyph (left out):", "".join(sorted(missing_chars)))
+
+
+def cmd_review(args):
+    cache = load_cache()
+    gloss = load_gloss_cache()
+    cedict = zh_gloss.Cedict(args.cedict) if args.cedict else None
+    for r in load_rows(args.only):
+        entry, g = cache.get(r["hash"]), gloss.get(r["hash"])
+        print("== %s  %s" % (r["context"], r["id"]))
+        if not entry:
+            print("   (not translated)")
+            continue
+        print("   EN: " + " / ".join(split_paragraphs(r["en"])[0]))
+        print("   ZH: " + " / ".join(entry["zh"]))
+        if not g:
+            print("   (no words yet)")
+            continue
+        if g["zh"] != zh_gloss.zh_key(entry["zh"]):
+            print("   (words out of date, run 'gloss')")
+        for items in g["w"]:
+            for s_, p_, g_, h_ in items:
+                if p_:
+                    print("   %-8s %-18s %-28s %s" % (s_, p_, g_, "HSK %d" % h_ if h_ else "-"))
+            print("   --")
+        warn = zh_gloss.cedict_warnings(g["w"], cedict) if cedict else g.get("warn", [])
+        for w in warn:
+            print("   ! " + w)
 
 
 def cmd_status(args):
@@ -315,6 +432,9 @@ def cmd_status(args):
         if args.verbose or 0 < d < n:
             print("%-40s %4d / %d" % (ctx, d, n))
     print("total: %d / %d texts translated" % (done, len(rows)))
+    cache, gloss = load_cache(), load_gloss_cache()
+    current = sum(1 for h, g in gloss.items() if h in cache and g["zh"] == zh_gloss.zh_key(cache[h]["zh"]))
+    print("words: %d / %d translated texts annotated" % (current, done))
 
 
 def main():
@@ -330,12 +450,26 @@ def main():
     t.add_argument("--limit", type=int)
     t.add_argument("--batch", type=int, default=30)
     t.add_argument("--workers", type=int, default=4)
+    g = sub.add_parser("gloss", help="words, pinyin and meaning per translated text")
+    g.add_argument("--provider", choices=["anthropic", "openai"], default="anthropic")
+    g.add_argument("--model")
+    g.add_argument("--base-url")
+    g.add_argument("--key")
+    g.add_argument("--only")
+    g.add_argument("--limit", type=int)
+    g.add_argument("--batch", type=int, default=10)
+    g.add_argument("--workers", type=int, default=4)
+    g.add_argument("--cedict", help="path to cedict_ts.u8: warn about readings it does not know")
+    r = sub.add_parser("review", help="show the words of some texts to check them by hand")
+    r.add_argument("--only", required=True)
+    r.add_argument("--cedict")
     b = sub.add_parser("build")
     b.add_argument("--out", default=str(HERE / "zh_dialog.bin"))
     s = sub.add_parser("status")
     s.add_argument("--verbose", action="store_true")
     args = ap.parse_args()
-    {"translate": cmd_translate, "build": cmd_build, "status": cmd_status}[args.cmd](args)
+    {"translate": cmd_translate, "gloss": cmd_gloss, "review": cmd_review,
+     "build": cmd_build, "status": cmd_status}[args.cmd](args)
 
 
 if __name__ == "__main__":
