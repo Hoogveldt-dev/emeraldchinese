@@ -14,6 +14,10 @@
   Nooit naar een openbare repo of fork pushen. Moet de repo ooit openbaar,
   dan eerst `roms/`, `prebuilt/` en de kitdata uit de hele geschiedenis
   verwijderen (bijv. `git filter-repo`).
+* Vertalen via DeepSeek (`kit/llm.py`, standaard): sleutel in de omgeving als
+  `DEEPSEEK_API_KEY`, nooit in git of in bestanden in de repo. Tegoed is
+  beperkt: altijd eerst `--estimate`, alleen buiten de piekuren, en na elke
+  run `kit/api_usage.jsonl` en de caches committen.
 * Zonder API-sleutel kan Claude zelf vertalen en woorden bepalen: antwoord in
   hetzelfde JSON-formaat als de API en laat het door `cmd_translate` en
   `cmd_gloss` controleren (de controles zijn gelijk). Speltekst wel kort

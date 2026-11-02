@@ -1,16 +1,16 @@
 {
-"d31e4280795cc44c": {
-"id": "data/text/birch_speech.inc:gText_Birch_Welcome",
-"zh": [
+"d31e4280795cc44c":{
+"id":"data/text/birch_speech.inc:gText_Birch_Welcome",
+"zh":[
 "你好！让你久等了！",
 "欢迎来到宝可梦的世界！",
 "我叫小田卷。",
 "不过大家都叫我宝可梦博士。"
 ]
 },
-"b950738ab9547799": {
-"id": "data/text/birch_speech.inc:gText_Birch_MainSpeech",
-"zh": [
+"b950738ab9547799":{
+"id":"data/text/birch_speech.inc:gText_Birch_MainSpeech",
+"zh":[
 "这个世界上到处都生活着叫做宝可梦的生物。",
 "我们人类和宝可梦一起生活，有时是友好的玩伴，有时是互相合作的伙伴。",
 "有时候，我们也会联手和别人对战。",
@@ -19,49 +19,49 @@
 "为了解开宝可梦的谜团，我一直在做研究。这就是我的工作。"
 ]
 },
-"d09cb5c51ff9ba60": {
-"id": "data/text/birch_speech.inc:gText_Birch_AndYouAre",
-"zh": [
+"d09cb5c51ff9ba60":{
+"id":"data/text/birch_speech.inc:gText_Birch_AndYouAre",
+"zh":[
 "那么，你是？"
 ]
 },
-"65a71b4d52726c59": {
-"id": "data/text/birch_speech.inc:gText_Birch_BoyOrGirl",
-"zh": [
+"65a71b4d52726c59":{
+"id":"data/text/birch_speech.inc:gText_Birch_BoyOrGirl",
+"zh":[
 "你是男孩？还是女孩？"
 ]
 },
-"6552021895b35885": {
-"id": "data/text/birch_speech.inc:gText_Birch_WhatsYourName",
-"zh": [
+"6552021895b35885":{
+"id":"data/text/birch_speech.inc:gText_Birch_WhatsYourName",
+"zh":[
 "好的。你叫什么名字？"
 ]
 },
-"961dcec16373f778": {
-"id": "data/text/birch_speech.inc:gText_Birch_SoItsPlayer",
-"zh": [
+"961dcec16373f778":{
+"id":"data/text/birch_speech.inc:gText_Birch_SoItsPlayer",
+"zh":[
 "你是{PLAYER}{KUN}吗？"
 ]
 },
-"7ad440d62bd1d288": {
-"id": "data/text/birch_speech.inc:gText_Birch_YourePlayer",
-"zh": [
+"7ad440d62bd1d288":{
+"id":"data/text/birch_speech.inc:gText_Birch_YourePlayer",
+"zh":[
 "啊，原来如此！",
 "你就是要搬到我的家乡未白镇来的{PLAYER}{KUN}啊。我明白了！"
 ]
 },
-"62b369d456381884": {
-"id": "data/text/birch_speech.inc:gText_Birch_AreYouReady",
-"zh": [
+"62b369d456381884":{
+"id":"data/text/birch_speech.inc:gText_Birch_AreYouReady",
+"zh":[
 "好了，准备好了吗？",
 "属于你自己的冒险就要开始了。",
 "鼓起勇气，跳进充满梦想、冒险和友谊的宝可梦世界吧！",
 "那么，我等你过来。到我的宝可梦研究所来找我吧。"
 ]
 },
-"66296aa62e4020e6": {
-"id": "data/maps/LittlerootTown/scripts.inc:LittlerootTown_Text_OurNewHomeLetsGoInside",
-"zh": [
+"66296aa62e4020e6":{
+"id":"data/maps/LittlerootTown/scripts.inc:LittlerootTown_Text_OurNewHomeLetsGoInside",
+"zh":[
 "妈妈：{PLAYER}，亲爱的，我们到了！",
 "跟着行李坐搬家卡车，一定很累吧。",
 "这里就是未白镇。",
@@ -70,15 +70,15 @@
 "还有，{PLAYER}，你会有自己的房间哦！我们进去吧。"
 ]
 },
-"e37da507dc0870ad": {
-"id": "data/maps/LittlerootTown/scripts.inc:LittlerootTown_Text_WaitPlayer",
-"zh": [
+"e37da507dc0870ad":{
+"id":"data/maps/LittlerootTown/scripts.inc:LittlerootTown_Text_WaitPlayer",
+"zh":[
 "妈妈：等一下，{PLAYER}！"
 ]
 },
-"b1dc1a567a3eb014": {
-"id": "data/maps/LittlerootTown/scripts.inc:LittlerootTown_Text_WearTheseRunningShoes",
-"zh": [
+"b1dc1a567a3eb014":{
+"id":"data/maps/LittlerootTown/scripts.inc:LittlerootTown_Text_WearTheseRunningShoes",
+"zh":[
 "妈妈：{PLAYER}！{PLAYER}！你跟小田卷博士打过招呼了吗？",
 "哎呀！好可爱的宝可梦！是小田卷博士给你的吧。真好！",
 "你果然是你爸爸的孩子。你和宝可梦在一起真合适！",
@@ -86,69 +86,229 @@
 "穿上它，你的脚步会变得很轻快！"
 ]
 },
-"5894ae909fc49936": {
-"id": "data/maps/LittlerootTown/scripts.inc:LittlerootTown_Text_SwitchShoesWithRunningShoes",
-"zh": [
+"5894ae909fc49936":{
+"id":"data/maps/LittlerootTown/scripts.inc:LittlerootTown_Text_SwitchShoesWithRunningShoes",
+"zh":[
 "{PLAYER}换上了跑步鞋。"
 ]
 },
-"4efab51d54855ad4": {
-"id": "data/maps/LittlerootTown/scripts.inc:LittlerootTown_Text_CanUsePCToStoreItems",
-"zh": [
+"4efab51d54855ad4":{
+"id":"data/maps/LittlerootTown/scripts.inc:LittlerootTown_Text_CanUsePCToStoreItems",
+"zh":[
 "用电脑的话，可以存放道具和宝可梦。",
 "科学的力量真是太厉害了！"
 ]
 },
-"a1fdb18a7e9e17bc": {
-"id": "data/maps/LittlerootTown/scripts.inc:LittlerootTown_Text_IfYouGoInGrassPokemonWillJumpOut",
-"zh": [
+"a1fdb18a7e9e17bc":{
+"id":"data/maps/LittlerootTown/scripts.inc:LittlerootTown_Text_IfYouGoInGrassPokemonWillJumpOut",
+"zh":[
 "嗯，嗯，嗯！",
 "如果走到外面的草丛里，野生的宝可梦就会跳出来！"
 ]
 },
-"e920f2b8fb469690": {
-"id": "data/maps/LittlerootTown/scripts.inc:LittlerootTown_Text_DangerousIfYouDontHavePokemon",
-"zh": [
+"e920f2b8fb469690":{
+"id":"data/maps/LittlerootTown/scripts.inc:LittlerootTown_Text_DangerousIfYouDontHavePokemon",
+"zh":[
 "如果你没有自己的宝可梦，那是很危险的。"
 ]
 },
-"99298b1ebf2e3d9e": {
-"id": "data/maps/LittlerootTown/scripts.inc:LittlerootTown_Text_YouSavedBirch",
-"zh": [
+"99298b1ebf2e3d9e":{
+"id":"data/maps/LittlerootTown/scripts.inc:LittlerootTown_Text_YouSavedBirch",
+"zh":[
 "你救了小田卷博士！我太高兴了！"
 ]
 },
-"44f15c7c559431c9": {
-"id": "data/maps/LittlerootTown/scripts.inc:LittlerootTown_Text_GoodLuckCatchingPokemon",
-"zh": [
+"44f15c7c559431c9":{
+"id":"data/maps/LittlerootTown/scripts.inc:LittlerootTown_Text_GoodLuckCatchingPokemon",
+"zh":[
 "你要去抓宝可梦吗？加油！"
 ]
 },
-"e2f7106a6cde6ff1": {
-"id": "data/maps/LittlerootTown/scripts.inc:LittlerootTown_Text_ProfBirchsLab",
-"zh": [
+"e2f7106a6cde6ff1":{
+"id":"data/maps/LittlerootTown/scripts.inc:LittlerootTown_Text_ProfBirchsLab",
+"zh":[
 "小田卷博士的宝可梦研究所"
 ]
 },
-"599ce2ed7863b269": {
-"id": "data/maps/LittlerootTown/scripts.inc:LittlerootTown_Text_PlayersHouse",
-"zh": [
+"599ce2ed7863b269":{
+"id":"data/maps/LittlerootTown/scripts.inc:LittlerootTown_Text_PlayersHouse",
+"zh":[
 "{PLAYER}的家"
 ]
 },
-"4c82d85299eec749": {
-"id": "data/maps/LittlerootTown/scripts.inc:LittlerootTown_Text_ProfBirchsHouse",
-"zh": [
+"4c82d85299eec749":{
+"id":"data/maps/LittlerootTown/scripts.inc:LittlerootTown_Text_ProfBirchsHouse",
+"zh":[
 "小田卷博士的家"
 ]
 },
-"08da08b4fa7c78ae": {
-"id": "data/maps/LittlerootTown/scripts.inc:LittlerootTown_Text_BirchSomethingToShowYouAtLab",
-"zh": [
+"08da08b4fa7c78ae":{
+"id":"data/maps/LittlerootTown/scripts.inc:LittlerootTown_Text_BirchSomethingToShowYouAtLab",
+"zh":[
 "小田卷博士：哎呀哎呀，{PLAYER}{KUN}！你在外面干得很好！",
 "我第一次见到你的时候，就觉得你有点特别，不过真没想到会这样。",
 "对了，我给你的宝可梦图鉴还在吗？",
 "我有东西要给你看。我们去我的研究所吧。"
+]
+},
+"14928ad6d264aa98":{
+"id":"data/maps/OldaleTown/scripts.inc:OldaleTown_Text_SavingMyProgress",
+"zh":[
+"我想休息一下，所以先保存进度。"
+]
+},
+"656e418237deaf72":{
+"id":"data/maps/OldaleTown/scripts.inc:OldaleTown_Text_IWorkAtPokemonMart",
+"zh":[
+"你好！我在宝可梦商店工作。",
+"能请你跟我来一下吗？"
+]
+},
+"36405ed6e9c64e0d":{
+"id":"data/maps/OldaleTown/scripts.inc:OldaleTown_Text_ThisIsAPokemonMart",
+"zh":[
+"这里是宝可梦商店。认准我们的蓝色屋顶就行。",
+"我们出售各种商品，包括用来捕捉宝可梦的精灵球。",
+"来，这个送给你，算是促销赠品。"
+]
+},
+"7eab686664bd9c3f":{
+"id":"data/maps/OldaleTown/scripts.inc:OldaleTown_Text_PotionExplanation",
+"zh":[
+"伤药随时都能用，所以在某些情况下，它比宝可梦中心还方便呢。"
+]
+},
+"53e3299c3d502044":{
+"id":"data/maps/OldaleTown/scripts.inc:OldaleTown_Text_WaitDontComeInHere",
+"zh":[
+"啊啊啊！等等！请不要进来。",
+"我刚刚发现了稀有宝可梦的脚印！",
+"等我写完生再进来，好吗？"
+]
+},
+"a16a6680b507a004":{
+"id":"data/maps/OldaleTown/scripts.inc:OldaleTown_Text_DiscoveredFootprints",
+"zh":[
+"我刚刚发现了稀有宝可梦的脚印！",
+"等我写完生再进来，好吗？"
+]
+},
+"ff9ea4ef858485bd":{
+"id":"data/maps/OldaleTown/scripts.inc:OldaleTown_Text_MayLetsGoBack",
+"zh":[
+"小遥：{PLAYER}{KUN}！这边！我们快回家吧！"
+]
+},
+"f579a6d2aa9b97af":{
+"id":"data/maps/OldaleTown/scripts.inc:OldaleTown_Text_BrendanLetsGoBack",
+"zh":[
+"小悠：我现在要回爸爸的研究所了。{PLAYER}，你也快点回去吧。"
+]
+},
+"0cbd7a23498af925":{
+"id":"data/maps/OldaleTown_House1/scripts.inc:OldaleTown_House1_Text_LeftPokemonGoesOutFirst",
+"zh":[
+"宝可梦对战时，列表中靠左的那只会先出场。",
+"所以，等你的队伍里宝可梦多了，试着调整一下它们的顺序吧。",
+"说不定能给你带来优势。"
+]
+},
+"6d2878cd8e0342ec":{
+"id":"data/maps/OldaleTown_House2/scripts.inc:OldaleTown_House2_Text_PokemonLevelUp",
+"zh":[
+"宝可梦在对战中会逐渐升级，变得越来越强。"
+]
+},
+"a347ddc365bf40af":{
+"id":"data/maps/OldaleTown_House2/scripts.inc:OldaleTown_House2_Text_YoullGoFurtherWithStrongPokemon",
+"zh":[
+"如果身边的宝可梦变强了，你就能去离这里更远的地方了。"
+]
+},
+"c0396b100b8eed4c":{
+"id":"data/maps/OldaleTown_Mart/scripts.inc:OldaleTown_Mart_Text_PokeBallsAreSoldOut",
+"zh":[
+"店员说全都卖光了。我买不到精灵球了。"
+]
+},
+"8f7c5ae2161830ca":{
+"id":"data/maps/OldaleTown_Mart/scripts.inc:OldaleTown_Mart_Text_ImGoingToBuyPokeBalls",
+"zh":[
+"我要买一大堆精灵球，抓一大堆宝可梦！"
+]
+},
+"efca080f754fbcff":{
+"id":"data/maps/OldaleTown_Mart/scripts.inc:OldaleTown_Mart_Text_RestoreHPWithPotion",
+"zh":[
+"宝可梦受伤后HP减少，如果倒下了，就不能再战斗了。",
+"为了防止宝可梦倒下，用伤药帮它回复HP吧。"
+]
+},
+"8b562c601d791ab3":{
+"id":"data/maps/OldaleTown_PokemonCenter_1F/scripts.inc:OldaleTown_PokemonCenter_1F_Text_TrainersCanUsePC",
+"zh":[
+"角落里那台电脑，任何宝可梦训练家都可以使用。",
+"当然，也就是说你也可以随便用。"
+]
+},
+"0b7525bf7eccc60b":{
+"id":"data/maps/OldaleTown_PokemonCenter_1F/scripts.inc:OldaleTown_PokemonCenter_1F_Text_PokemonCentersAreGreat",
+"zh":[
+"宝可梦中心真棒！",
+"这里的服务可以随便使用，而且全都免费。完全不用操心！"
+]
+},
+"ed93507e2dfcfd84":{
+"id":"data/maps/OldaleTown_PokemonCenter_1F/scripts.inc:OldaleTown_PokemonCenter_1F_Text_WirelessClubNotAvailable",
+"zh":[
+"二楼新开了宝可梦无线俱乐部。",
+"不过听说他们还在做调整。"
+]
+},
+"644653959759f1ec":{
+"id":"data/maps/OldaleTown_PokemonCenter_1F/scripts.inc:OldaleTown_PokemonCenter_1F_Text_TradedInWirelessClub",
+"zh":[
+"二楼新开了宝可梦无线俱乐部。",
+"我马上就交换了宝可梦。"
+]
+},
+"cb3711b8fd27bb62":{
+"id":"data/maps/Route101/scripts.inc:Route101_Text_HelpMe",
+"zh":[
+"救、救救我！"
+]
+},
+"467609f199dbf41a":{
+"id":"data/maps/Route101/scripts.inc:Route101_Text_PleaseHelp",
+"zh":[
+"喂！那边那位！拜托！帮帮我！",
+"我的背包里！有精灵球！"
+]
+},
+"331c3f023e8689f0":{
+"id":"data/maps/Route101/scripts.inc:Route101_Text_DontLeaveMe",
+"zh":[
+"你、你要去哪儿？！别把我丢在这儿啊！"
+]
+},
+"82ff7e4e9bd9ec05":{
+"id":"data/maps/Route101/scripts.inc:Route101_Text_TakeTiredPokemonToPokeCenter",
+"zh":[
+"如果宝可梦累了，就带它们去宝可梦中心吧。",
+"古辰镇就有一家宝可梦中心，离这儿很近。"
+]
+},
+"ea49f5b12d55331e":{
+"id":"data/maps/Route101/scripts.inc:Route101_Text_WildPokemonInTallGrass",
+"zh":[
+"野生的宝可梦会从高高的草丛里跳出来。",
+"如果你想捕捉宝可梦，就得走进高高的草丛里找。"
+]
+},
+"157dcdcf9a6ef4ba":{
+"id":"data/maps/Route101/scripts.inc:Route101_Text_RouteSign",
+"zh":[
+"101号道路 {UP_ARROW} 古辰镇"
 ]
 }
 }

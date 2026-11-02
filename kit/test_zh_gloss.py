@@ -36,13 +36,14 @@ def fixture(test):
 class PinyinTest(unittest.TestCase):
     def test_good(self):
         for word, p in [("银行", "yínháng"), ("行走", "xíngzǒu"), ("一点儿", "yìdiǎnr"),
-                        ("你好", "nǐ hǎo"), ("东西", "dōngxi"), ("西安", "xī'ān"), ("女儿", "nǚ'ér")]:
+                        ("你好", "nǐ hǎo"), ("东西", "dōngxi"), ("西安", "xī'ān"), ("女儿", "nǚ'ér"),
+                        ("这儿", "zhèr"), ("啊啊啊", "āāā"), ("101号道路", "Yāolíngyāo Hào Dàolù")]:
             units, why = split_reading(word, p)
             self.assertIsNone(why, (word, p))
             self.assertTrue(units)
 
     def test_bad(self):
-        for word, p in [("你好", "nǐ"), ("好", "hǎǒ"), ("西安", "xīān"), ("你", "ni3"), ("你", "")]:
+        for word, p in [("你好", "nǐ"), ("好", "hǎǒ"), ("你", "ni3x"), ("你", ""), ("这", "zhèr")]:
             self.assertIsNotNone(split_reading(word, p)[1], (word, p))
 
 
@@ -67,6 +68,22 @@ class CheckTest(unittest.TestCase):
         for words in cases:
             self.assertNotEqual(zh_gloss.check_paragraph(PARA, words)[1], [], words)
 
+    def test_words_only(self):
+        """The model may list only the words; punctuation and tokens are filled in."""
+        only = [w for w in WORDS if len(w) > 1]
+        items, errors = zh_gloss.check_paragraph(PARA, only)
+        self.assertEqual(errors, [])
+        self.assertEqual([i[0] for i in items], [w[0] for w in WORDS])
+        _, errors = zh_gloss.check_paragraph(PARA, [w for w in only if w[0] != "去"])
+        self.assertTrue(any("without a word" in e for e in errors))
+        _, errors = zh_gloss.check_paragraph(PARA, list(reversed(only)))
+        self.assertTrue(errors)
+
+    def test_tone_numbers(self):
+        items, errors = zh_gloss.check_paragraph("银行。", [["银行", "yin2hang2", "bank", 3]])
+        self.assertEqual(errors, [])
+        self.assertEqual(items[0][1], "yínháng")
+
     def test_paragraph_count(self):
         self.assertIsNone(zh_gloss.check_answer([PARA, PARA], [WORDS])[0])
         self.assertEqual(zh_gloss.check_answer([PARA], [WORDS])[1], [])
@@ -84,6 +101,18 @@ class CheckTest(unittest.TestCase):
         self.assertIsNotNone(c.warn("银行", "yínxíng"))
         self.assertIsNone(c.warn("一点儿", "yìdiǎnr"))   # tone change of 一
         self.assertIsNone(c.warn("你", "nǐ"))              # unknown word: no warning
+
+    def test_cedict_fixes_first_tone(self):
+        d = fixture(self)
+        (d / "cedict.u8").write_text("背包 背包 [bei1 bao1] /backpack/\n一点儿 一点儿 [yi1 dian3 r5] /a bit/\n",
+                                     encoding="utf-8")
+        c = zh_gloss.Cedict(d / "cedict.u8")
+        self.assertEqual(zh_gloss.fix_first_tone(c, "背包", "beibāo"), "bēibāo")
+        self.assertIsNone(zh_gloss.fix_first_tone(c, "背包", "bēibāo"))     # nothing to fix
+        self.assertIsNone(zh_gloss.fix_first_tone(c, "一点儿", "yidiǎnr"))  # tone change of 一
+        paras = [[["背包", "beibāo", "backpack", 3], ["。", "", "", 0]]]
+        self.assertEqual(zh_gloss.apply_cedict(paras, c), [])
+        self.assertEqual(paras[0][0][1], "bēibāo")
 
     def test_cedict_neutral_tone(self):
         d = fixture(self)
@@ -155,7 +184,8 @@ class GlossCommandTest(unittest.TestCase):
         cache = {rows[0]["hash"]: {"id": "a", "zh": [PARA]}, rows[1]["hash"]: {"id": "b", "zh": ["我们去。"]}}
         (d / "zh_cache.json").write_text(json.dumps(cache, ensure_ascii=False), encoding="utf-8")
         (d / "glossary.json").write_text("{}", encoding="utf-8")
-        answer = {rows[0]["hash"]: [WORDS], rows[1]["hash"]: [[["我们", "wǒ", "we", 1], ["去", "qù", "go", 1], ["。"]]]}
+        # short ids per request; the second text has a wrong reading
+        answer = {"1": [WORDS], "2": [[["我们", "wǒ", "we", 1], ["去", "qù", "go", 1]]]}
         calls = []
 
         def fake_api(args, system, user):
@@ -168,13 +198,54 @@ class GlossCommandTest(unittest.TestCase):
             old = getattr(td, name)
             setattr(td, name, value)
             self.addCleanup(setattr, td, name, old)
-        args = SimpleNamespace(only=None, limit=None, batch=10, workers=1, cedict=None)
+        args = SimpleNamespace(only=None, limit=None, batch=10, workers=1, cedict=None, estimate=False,
+                               provider="deepseek", model=None, base_url=None, key="test", allow_peak=True)
+        old_load = zh_gloss.load_cedict
+        zh_gloss.load_cedict = lambda path: None          # no download in tests
+        self.addCleanup(setattr, zh_gloss, "load_cedict", old_load)
+        old_log = td.USAGE_LOG
+        td.USAGE_LOG = d / "api_usage.jsonl"
+        self.addCleanup(setattr, td, "USAGE_LOG", old_log)
         td.cmd_gloss(args)
         gloss = json.loads((d / "zh_gloss_cache.json").read_text(encoding="utf-8"))
         self.assertEqual(list(gloss), [rows[0]["hash"]])          # b was rejected (pinyin)
         td.cmd_gloss(args)                                         # only b is asked again
         self.assertEqual(len(calls), 2)
         self.assertNotIn(rows[0]["hash"], calls[1])
+
+
+
+class ApiUseTest(unittest.TestCase):
+    """No needless requests: a cut-off answer splits the batch, peak hours are known."""
+
+    def test_split_on_truncation(self):
+        import llm
+        sizes = []
+
+        def fake(args, system, user):
+            n = user.count('"id"')
+            sizes.append(n)
+            if n > 1:
+                raise llm.Truncated()
+            return '{"1":"ok"}'
+
+        old = td.call_api
+        td.call_api = fake
+        self.addCleanup(setattr, td, "call_api", old)
+        group = [{"id": str(i)} for i in range(4)]
+        done = td.ask(None, "", group, lambda g: json.dumps([{"id": r["id"]} for r in g]),
+                      lambda g, answer: len(g), [])
+        self.assertEqual(done, 4)
+        self.assertEqual(sizes, [4, 2, 1, 1, 2, 1, 1])     # never the same batch twice
+
+    def test_peak_hours(self):
+        import datetime
+        import llm
+        utc = datetime.timezone.utc
+        self.assertTrue(llm.is_peak(datetime.datetime(2026, 11, 2, 7, 0, tzinfo=utc)))    # Monday
+        self.assertFalse(llm.is_peak(datetime.datetime(2026, 11, 2, 20, 0, tzinfo=utc)))
+        self.assertFalse(llm.is_peak(datetime.datetime(2026, 11, 7, 7, 0, tzinfo=utc)))   # Saturday
+        self.assertEqual(llm.minutes_to_off_peak(datetime.datetime(2026, 11, 2, 9, 30, tzinfo=utc)), 30)
 
 
 if __name__ == "__main__":

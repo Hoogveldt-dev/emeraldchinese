@@ -10,23 +10,24 @@ Item format in the cache and in the model answer: [s, p, g, h]
   g  short English meaning ("" when p is "")
   h  HSK level: 1-6, 7 for levels 7-9, 0 for none
 """
+import gzip
 import hashlib
 import json
 import re
+import urllib.request
 
-from zh_pinyin import han_count, numbered, split_reading
+from zh_pinyin import han_count, numbered, split_reading, to_marks
 
 TOKEN = re.compile(r"\{[^}]*\}")
 
 SYSTEM = """You annotate Simplified Chinese game text for a learner of Mandarin.
 Split every paragraph into words as a learner's dictionary would: a single character only when it is a word on its own. Names from the list of official names stay one word.
-For every item give [s, p, g, h]:
-- s: the exact text of the item. The items of a paragraph, joined in order, must give back that paragraph exactly (spaces may be left out).
+List only the words that contain Chinese characters, in order, each as [s,p,g,h]. Leave out punctuation, spaces and {...} tokens: the program fills those in.
+- s: the word exactly as written in the paragraph.
 - p: Hanyu Pinyin with tone marks as spoken in this sentence, syllables written together as in a dictionary (yínháng, xī'ān), neutral tone without a mark, 一 and 不 with their tone change applied. Take care with characters that have several readings.
-- g: a short English meaning that fits this sentence, 1 to 4 words. For a name, say what it is, e.g. "(name of a town)".
+- g: a short English meaning that fits this sentence, 1 to 3 words. For a name, say what it is, e.g. "(name of a town)".
 - h: HSK 3.0 level 1-6, 7 for levels 7-9, 0 when the word is not in HSK (names, game terms).
-Punctuation and every {...} token are separate items written as [s] only.
-Answer with one JSON object only: {"<id>": [[item, ...], ...]} with one list of items per paragraph, for every id you were given."""
+Answer with one compact JSON object only, no spaces or line breaks: {"<id>":[[[s,p,g,h],...],...]} with one list of words per paragraph, for every id you were given."""
 
 
 def zh_key(paras) -> str:
@@ -37,10 +38,6 @@ def zh_key(paras) -> str:
 def clean_para(para: str) -> str:
     """The paragraph as build uses it: no line breaks."""
     return re.sub(r"\\[nlp]|\n", "", para)
-
-
-def _squash(text: str) -> str:
-    return re.sub(r"\s+", "", text)
 
 
 def parse_item(raw):
@@ -61,33 +58,58 @@ def parse_item(raw):
         h = 0
     if not han_count(s):
         p, g, h = "", "", 0     # punctuation, tokens, digits: not a word to look up
-    return [s, p.strip(), g.strip(), h]
+    return [s, to_marks(p.strip()), g.strip(), h]
+
+
+GAP = re.compile(r"\{[^}]*\}|[^{\s]+")
+
+
+def _gap_items(gap: str):
+    """Punctuation and {...} tokens between two words, as items without pinyin."""
+    return [[piece, "", "", 0] for piece in GAP.findall(gap)]
 
 
 def check_paragraph(para: str, raw_items):
-    """Return (items, errors) for one paragraph."""
+    """Return (items, errors) for one paragraph.
+
+    The answer may list only the words with Chinese characters; they are
+    matched in order against the paragraph, and what lies between them
+    (punctuation, {...} tokens) is filled in here. Items without Chinese
+    characters in the answer are ignored, so a full answer works too."""
     if not isinstance(raw_items, list):
         return [], ["paragraph is not a list"]
-    items, errors = [], []
+    text = clean_para(para)
+    items, errors, pos = [], [], 0
     for raw in raw_items:
         item = parse_item(raw)
         if item is None:
             errors.append("bad item %r" % (raw,))
             continue
         s, p, g, _ = item
+        if not han_count(s):
+            continue
         if "{" in s or "}" in s:
-            if not TOKEN.fullmatch(s):
-                errors.append("token not on its own: %r" % s)
-        elif han_count(s):
-            if not g:
-                errors.append("%s: no meaning" % s)
-            _, why = split_reading(s, p)
-            if why:
-                errors.append("%s: %s" % (s, why))
+            errors.append("token not on its own: %r" % s)
+            continue
+        at = text.find(s, pos)
+        if at < 0:
+            errors.append("%s: not found in order in the paragraph" % s)
+            continue
+        gap = text[pos:at]
+        if han_count(gap):
+            errors.append("characters without a word: %r" % gap.strip())
+        items += _gap_items(gap)
+        if not g:
+            errors.append("%s: no meaning" % s)
+        _, why = split_reading(s, p)
+        if why:
+            errors.append("%s: %s" % (s, why))
         items.append(item)
-    joined = "".join(i[0] for i in items)
-    if _squash(joined) != _squash(clean_para(para)):
-        errors.append("words do not form the paragraph: %r" % joined)
+        pos = at + len(s)
+    rest = text[pos:]
+    if han_count(rest):
+        errors.append("characters without a word: %r" % rest.strip())
+    items += _gap_items(rest)
     return items, errors
 
 
@@ -108,14 +130,15 @@ def check_answer(zh_paras, answer):
 # --------------------------------------------------------------------------
 
 def _same_reading(ours, theirs, ignore_tones=False) -> bool:
-    """Same syllables; a neutral tone (5) on either side matches any tone,
-    since CC-CEDICT often gives the citation tone where speech has none."""
+    """Same syllables. After the first syllable a neutral tone (5) on either
+    side matches any tone: CC-CEDICT often gives the citation tone where speech
+    has none (wài mian). The first syllable is almost never neutral."""
     if len(ours) != len(theirs):
         return False
-    for a, b in zip(ours, theirs):
+    for n, (a, b) in enumerate(zip(ours, theirs)):
         if a[:-1] != b[:-1]:
             return False
-        if not ignore_tones and a[-1] != b[-1] and "5" not in (a[-1], b[-1]):
+        if not ignore_tones and a[-1] != b[-1] and not (n > 0 and "5" in (a[-1], b[-1])):
             return False
     return True
 
@@ -145,6 +168,75 @@ class Cedict:
         if any(_same_reading(ours, r.split(), sandhi) for r in known):
             return None
         return "%s %s: CC-CEDICT has %s" % (word, pinyin, " / ".join(sorted(known)))
+
+
+def _join_numbered(units) -> str:
+    out = ""
+    for n, (syl, tone) in enumerate(units):
+        if n and syl[0] in "aoe":
+            out += "'"
+        out += syl + (str(tone) if tone else "")
+    return out
+
+
+def fix_tones(cedict, word: str, pinyin: str):
+    """Tones repaired from CC-CEDICT, for free: only when CC-CEDICT has exactly
+    one reading with the same syllables. A neutral tone after the first
+    syllable is kept (spoken), and words with 一 or 不 (tone change) are left
+    alone. Returns the new pinyin or None."""
+    if word[:1] in "一不" or "一" in word or "不" in word:
+        return None
+    units, why = split_reading(word, pinyin)
+    known = cedict.readings.get(word)
+    if not known or why or any(syl == "r" for syl, _ in units):
+        return None
+    same = [r.split() for r in known
+            if len(r.split()) == len(units) and all(a[:-1] == b for a, (b, _) in zip(r.split(), units))]
+    if len(same) != 1:
+        return None
+    fixed = []
+    for n, ((syl, tone), theirs) in enumerate(zip(units, same[0])):
+        t = int(theirs[-1])
+        fixed.append((syl, tone if (n > 0 and tone == 0) or t == 5 else t))
+    if fixed == list(units):
+        return None
+    marked = to_marks(_join_numbered(fixed))
+    return marked[0].upper() + marked[1:] if pinyin[:1].isupper() else marked
+
+
+fix_first_tone = fix_tones     # older name
+
+
+def apply_cedict(paras, cedict):
+    """Fix what CC-CEDICT can fix for free, return warnings for the rest."""
+    out = []
+    for items in paras:
+        for item in items:
+            if item[1]:
+                fixed = fix_tones(cedict, item[0], item[1])
+                if fixed:
+                    item[1] = fixed
+                w = cedict.warn(item[0], item[1])
+                if w:
+                    out.append(w)
+    return out
+
+
+CEDICT_URL = "https://www.mdbg.net/chinese/export/cedict/cedict_1_0_ts_utf-8_mdbg.txt.gz"
+
+
+def load_cedict(path):
+    """CC-CEDICT from path; downloaded once when missing (free, no tokens).
+    Returns None when it cannot be had."""
+    if not path.exists():
+        try:
+            with urllib.request.urlopen(CEDICT_URL, timeout=60) as resp:
+                path.write_bytes(gzip.decompress(resp.read()))
+            print("downloaded CC-CEDICT to %s" % path)
+        except OSError as e:
+            print("no CC-CEDICT (%s); continuing without" % e)
+            return None
+    return Cedict(path)
 
 
 def cedict_warnings(paras, cedict):

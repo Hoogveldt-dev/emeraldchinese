@@ -12,17 +12,30 @@ git; commit ze na elke vertaalronde. Verder staan in git: het script,
 
 ```bash
 cd kit
-export ANTHROPIC_API_KEY=...
+export DEEPSEEK_API_KEY=...          # als secret in de omgeving, nooit in git
+python3 translate_dialogue.py translate --estimate                           # kosten vooraf
 python3 translate_dialogue.py translate --only birch_speech,LittlerootTown   # korte test
 python3 translate_dialogue.py translate                                      # alles
 python3 translate_dialogue.py status
 python3 translate_dialogue.py build                                          # -> zh_dialog.bin
 ```
 
-* OpenAI-compatibel, sleutel in `OPENAI_API_KEY`:
-  * DeepSeek: `--provider openai --base-url https://api.deepseek.com --model deepseek-chat`
-  * SiliconFlow: `--provider openai --base-url https://api.siliconflow.cn/v1 --model <model-id>`
-    (bijv. `deepseek-ai/DeepSeek-V3` of een Qwen-model uit hun lijst)
+Standaard: DeepSeek (`deepseek-flash`, zonder nadenken), zo zuinig mogelijk:
+
+* aanvragen alleen buiten de piekuren van DeepSeek (half tarief); de kit
+  wacht anders tot het daluur is (`--allow-peak` om niet te wachten);
+* de vaste instructie staat vooraan, zodat DeepSeek die uit de cache haalt;
+* korte id's per aanvraag, compacte JSON, teksten van meerdere plekken per
+  aanvraag;
+* een afgekapt of onleesbaar antwoord wordt niet opnieuw gevraagd zoals het
+  was: de portie wordt gehalveerd, wat dan nog mislukt komt bij de volgende run;
+* elk run schrijft het verbruik naar `api_usage.jsonl` (in git).
+
+Andere aanbieders:
+
+* `--provider openai --base-url ... --model ...` met `OPENAI_API_KEY`, bijv.
+  SiliconFlow: `--base-url https://api.siliconflow.cn/v1 --model deepseek-ai/DeepSeek-V3`
+* `--provider anthropic` met `ANTHROPIC_API_KEY`.
 * `--level simple` geeft eenvoudiger Chinees (rond HSK 3-4).
 * Voortgang staat in `zh_cache.json` (in git); stoppen en hervatten kan.
 
@@ -45,8 +58,10 @@ python3 translate_dialogue.py build            # -> zh_dialog.bin en zh_gloss.bi
   het aantal pinyin-lettergrepen past bij het aantal tekens (erhua met 儿 mag),
   elk Chinees woord heeft een betekenis, en `{...}`-tokens staan los. Een
   afgekeurde tekst wordt bij de volgende run opnieuw gevraagd.
-* `--cedict cedict_ts.u8` (bij `gloss` en `review`) vergelijkt de lezingen met
-  CC-CEDICT. Dat geeft alleen waarschuwingen.
+* Het model geeft alleen de woorden; leestekens en `{...}` vult de kit in.
+* CC-CEDICT (`kit/cedict_ts.u8`, wordt de eerste keer gedownload, niet in
+  git) herstelt gratis tonen als het woordenboek precies één uitspraak kent,
+  en geeft waarschuwingen voor de rest (`review` toont ze).
 * Voortgang staat in `zh_gloss_cache.json` (in git). Verandert een
   vertaling, dan wordt die tekst opnieuw verwerkt.
 * Het formaat van `zh_gloss.bin` staat bovenin `zh_gloss_bin.py`. Kopieer het

@@ -9,6 +9,8 @@ out/
 *.sav
 kit/zh_dialog.bin
 kit/zh_gloss.bin
+kit/cedict_ts.u8
+kit/*.tmp
 
 __pycache__/
 *.pyc
