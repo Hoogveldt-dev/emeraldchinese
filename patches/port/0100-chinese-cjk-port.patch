@@ -1,0 +1,117 @@
+--- a/3ds_port/Makefile
++++ b/3ds_port/Makefile
+@@ -60,6 +60,7 @@
+ SOURCES += src/3ds_encounters.c
+ # The part of the overworld on screen, for the map objects.
+ SOURCES += src/3ds_field_view.c
++SOURCES += src/3ds_cjk.c src/3ds_cjk_font.c
+ LIBS := -lcitro2d -lcitro3d $(LIBS)
+ OBJECTS := $(patsubst src/%.c,build/%.o,$(SOURCES))
+ GAMEFLAGS := -DPORTABLE -DPLATFORM_3DS -D__3DS__ -DMODERN=1 -DUBFIX -D__INTELLISENSE__
+--- a/3ds_port/src/3ds_script_loader.c
++++ b/3ds_port/src/3ds_script_loader.c
+@@ -235,5 +235,7 @@
+  * call sites untouched is what lets the same sources build for both ports.
+  */
+ const u8 *Port_ResolveScriptPointer(const u8 *ptr) { return ptr; }
+-const u8 *Port_ResolveTextPointer(const u8 *ptr) { return ptr; }
++// Chinese build: a text may be replaced by the dialogue table (3ds_cjk.c).
++const u8 *Cjk_TextOverride(const u8 *ptr);
++const u8 *Port_ResolveTextPointer(const u8 *ptr) { return Cjk_TextOverride(ptr); }
+ const void *Port_ResolveEventPointer(const void *ptr) { return ptr; }
+--- a/3ds_port/src/main_3ds.c
++++ b/3ds_port/src/main_3ds.c
+@@ -86,6 +86,11 @@
+     RestoreLumaHbldrTitle();
+     if (!CtrPlatform_Init())
+         CtrPlatform_Fatal("platform initialization failed");
++    {
++        /* Chinese build: the dialogue table, if there is one (3ds_cjk.c). */
++        extern void Cjk_Init(void);
++        Cjk_Init();
++    }
+     CtrPlatformHooks hooks = {0};
+     hooks.vblank = CtrGame_VBlank;
+     hooks.videoPresent = CtrVideo_Present;
+--- a/3ds_port/src/3ds_bottom_ui.c
++++ b/3ds_port/src/3ds_bottom_ui.c
+@@ -1224,8 +1224,17 @@
+  * tiles (top-left, top-right, bottom-left, bottom-right); a Japanese one is a
+  * single 8-pixel column of a sheet of 16 glyphs a row, its lower tile 0x80
+  * further on (text.c's DecompressGlyph_*). */
++/* Chinese build: CJK pairs drawn from the port's 12-px font (3ds_cjk.c), as
++ * glyph 0x8000 | index. */
++int Cjk_IsLead(unsigned char c);
++int Cjk_Index(unsigned char lead, unsigned char trail);
++unsigned short Cjk_GlyphBits(unsigned index, int row, int half);
++#define CJK_GLYPH 0x8000
++
+ static inline u16 GlyphBits(const Font *font, u16 glyph, int row, int half)
+ {
++    if (glyph & CJK_GLYPH)
++        return Cjk_GlyphBits(glyph & 0x7FFF, row, half);
+     if (font->japanese)
+         return half ? 0 : font->glyphs[0x100 * (glyph >> 4) + 8 * (glyph & 0xF) + (row >= 8 ? 0x80 : 0) + (row & 7)];
+     return font->glyphs[glyph * 0x20 + (row >= 8 ? 0x10 : 0) + half * 8 + (row & 7)];
+@@ -1234,6 +1243,8 @@
+ /* Japanese glyphs are all 8 pixels wide, as the game draws them. */
+ static inline int GlyphWidth(const Font *font, u16 glyph)
+ {
++    if (glyph & CJK_GLYPH)
++        return 12;
+     return font->japanese ? 8 : font->widths[glyph];
+ }
+ 
+@@ -1315,6 +1326,11 @@
+                 return 0xFFFF;
+             return 0x100 | *(*str)++;
+         default:
++            if (Cjk_IsLead(c) && **str != EOS)
++            {
++                int index = Cjk_Index(c, *(*str)++);
++                return index >= 0 ? (u16)(CJK_GLYPH | index) : CHAR_QUESTION_MARK;
++            }
+             return c;
+         }
+     }
+--- a/3ds_port/src/3ds_battle_hud.c
++++ b/3ds_port/src/3ds_battle_hud.c
+@@ -631,8 +631,17 @@
+     return resolved;
+ }
+ 
++/* Chinese build: CJK pairs drawn from the port's 12-px font (3ds_cjk.c), as
++ * glyph 0x8000 | index. */
++int Cjk_IsLead(unsigned char c);
++int Cjk_Index(unsigned char lead, unsigned char trail);
++unsigned short Cjk_GlyphBits(unsigned index, int row, int half);
++#define CJK_GLYPH 0x8000
++
+ static int GlyphWidth(unsigned glyph)
+ {
++    if (glyph & CJK_GLYPH)
++        return 12;
+ #if GAME_LANGUAGE == LANGUAGE_JAPANESE
+     (void)glyph;
+     return 8;
+@@ -644,6 +653,8 @@
+ /* The 2bpp bits of one 8-pixel half of a glyph's row. */
+ static u16 GlyphRow(const u16 *glyphs, unsigned glyph, int row, int half)
+ {
++    if (glyph & CJK_GLYPH)
++        return Cjk_GlyphBits(glyph & 0x7FFF, row, half);
+ #if GAME_LANGUAGE == LANGUAGE_JAPANESE
+     return half ? 0 : glyphs[0x100 * (glyph >> 4) + 8 * (glyph & 0xF) + (row >= 8 ? 0x80 : 0) + (row & 7)];
+ #else
+@@ -684,6 +695,11 @@
+         case CHAR_PROMPT_CLEAR:
+             break;
+         default:
++            if (Cjk_IsLead(c) && **str != EOS)
++            {
++                int index = Cjk_Index(c, *(*str)++);
++                return index >= 0 ? (int)(CJK_GLYPH | index) : CHAR_QUESTION_MARK;
++            }
+             return c;
+         }
+     }

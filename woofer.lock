@@ -1,0 +1,16 @@
+# Alles waar de build van PokemonWoofer op vastligt. Wijzig hier, niet in de scripts.
+
+[port]
+repository = "https://github.com/ZallaxDev/emerald-3ds.git"
+# v0.5.0
+commit = "bcae4b70dac61419fc933084084469f6cfbe344b"
+
+[rom]
+name = "Pokemon - Emerald Version (USA, Europe).gba"
+sha1 = "f3ae088181bf583e55daf962a92bb46f4f1d07b7"
+
+[font]
+# WenQuanYi Bitmap Song (GPL-2 met font-uitzondering); wenquanyi_9pt.bdf = 12 px
+url = "https://downloads.sourceforge.net/project/wqy/wqy-bitmapfont/1.0.0-RC1/wqy-bitmapsong-bdf-1.0.0-RC1.tar.gz"
+sha256 = "af655fedfb490aabbb8ce73602a08a6a847fafc78dc363ff3901aa6c3384ca5d"
+bdf = "wqy-bitmapsong/wenquanyi_9pt.bdf"

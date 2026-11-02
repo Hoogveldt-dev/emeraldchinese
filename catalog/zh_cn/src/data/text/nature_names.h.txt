@@ -1,0 +1,76 @@
+# Naturen, PokeAPI nature_names.csv
+
+[sHardyNatureName] 993daed1ef
+勤奋
+
+[sLonelyNatureName] b7eb61e1fa
+怕寂寞
+
+[sBraveNatureName] 693cb59a5c
+勇敢
+
+[sAdamantNatureName] 6c511451f8
+固执
+
+[sNaughtyNatureName] 38371d79e5
+顽皮
+
+[sBoldNatureName] 7f5468283f
+大胆
+
+[sDocileNatureName] 226a1c1202
+坦率
+
+[sRelaxedNatureName] f5edffa209
+悠闲
+
+[sImpishNatureName] 641e3cdc2c
+淘气
+
+[sLaxNatureName] 1c78add8d6
+乐天
+
+[sTimidNatureName] 2ad7f80cde
+胆小
+
+[sHastyNatureName] da6cfa9990
+急躁
+
+[sSeriousNatureName] 41e4df808c
+认真
+
+[sJollyNatureName] de216f5b17
+爽朗
+
+[sNaiveNatureName] b0306dc551
+天真
+
+[sModestNatureName] 12a270ad59
+内敛
+
+[sMildNatureName] c503df249d
+慢吞吞
+
+[sQuietNatureName] 3917a4bff5
+冷静
+
+[sBashfulNatureName] 339e0d3ccb
+害羞
+
+[sRashNatureName] 626c79e3a6
+马虎
+
+[sCalmNatureName] 703eaed2de
+温和
+
+[sGentleNatureName] bb1bed8321
+温顺
+
+[sSassyNatureName] d1dea07311
+自大
+
+[sCarefulNatureName] 3f7647f8a7
+慎重
+
+[sQuirkyNatureName] 0f913ac272
+浮躁

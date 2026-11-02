@@ -1,0 +1,55 @@
+# Types, PokeAPI type_names.csv
+
+[TYPE_NORMAL] 21b3708ac8
+一般
+
+[TYPE_FIGHTING] bc62a1966b
+格斗
+
+[TYPE_FLYING] d317505812
+飞行
+
+[TYPE_POISON] b8eaf34112
+毒
+
+[TYPE_GROUND] cb9cfdf235
+地面
+
+[TYPE_ROCK] 8f97f5a81b
+岩石
+
+[TYPE_BUG] 80c6687f13
+虫
+
+[TYPE_GHOST] a7628d6b02
+幽灵
+
+[TYPE_STEEL] f4321597bb
+钢
+
+[TYPE_FIRE] f4a67a4052
+火
+
+[TYPE_WATER] f4a1a28697
+水
+
+[TYPE_GRASS] edcea1abfc
+草
+
+[TYPE_ELECTRIC] a1ac309391
+电
+
+[TYPE_PSYCHIC] dcda14a651
+超能力
+
+[TYPE_ICE] 97e6907b70
+冰
+
+[TYPE_DRAGON] 2d91366868
+龙
+
+[TYPE_DARK] 2924c75b87
+恶
+
+[TYPE_MYSTERY] 2d86c2a659
+？？？

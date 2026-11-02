@@ -1,0 +1,235 @@
+# Hoenn-plaatsnamen (officiële zh-Hans namen)
+
+[sMapName_LITTLEROOT_TOWN] 0d0be40159
+未白镇
+
+[sMapName_OLDALE_TOWN] a3f78a9a97
+古辰镇
+
+[sMapName_DEWFORD_TOWN] 4cbe97e48a
+武斗镇
+
+[sMapName_LAVARIDGE_TOWN] e7c637b187
+釜炎镇
+
+[sMapName_FALLARBOR_TOWN] 680f6e8595
+秋叶镇
+
+[sMapName_VERDANTURF_TOWN] a17dc62c57
+绿荫镇
+
+[sMapName_PACIFIDLOG_TOWN] 7cbf6e80fe
+暮水镇
+
+[sMapName_PETALBURG_CITY] 6a9ef23e22
+橙华市
+
+[sMapName_SLATEPORT_CITY] 071676fc3b
+凯那市
+
+[sMapName_MAUVILLE_CITY] 8b1c0b129f
+紫堇市
+
+[sMapName_RUSTBORO_CITY] 43baa8a0a8
+卡那兹市
+
+[sMapName_FORTREE_CITY] ee8b73d5a3
+茵郁市
+
+[sMapName_LILYCOVE_CITY] fb61d4cde1
+水静市
+
+[sMapName_MOSSDEEP_CITY] bfb7ab18d9
+绿岭市
+
+[sMapName_SOOTOPOLIS_CITY] 02dc584e92
+琉璃市
+
+[sMapName_EVER_GRANDE_CITY] 04484d2f28
+彩幽市
+
+[sMapName_UNDERWATER] 9763336fe2
+海底
+
+[sMapName_GRANITE_CAVE] e348becb34
+石之洞窟
+
+[sMapName_MT__CHIMNEY] 07e5adf726
+烟囱山
+
+[sMapName_SAFARI_ZONE] 67ef112027
+狩猎地带
+
+[sMapName_BATTLE_FRONTIER] 50cfeb960e
+对战开拓区
+
+[sMapName_PETALBURG_WOODS] 637c1852dc
+橙华森林
+
+[sMapName_RUSTURF_TUNNEL] f1f54b3082
+卡绿隧道
+
+[sMapName_ABANDONED_SHIP] 3d6407afad
+弃船
+
+[sMapName_NEW_MAUVILLE] 6ef562a2f4
+新紫堇
+
+[sMapName_METEOR_FALLS] b2b9b65f79
+流星瀑布
+
+[sMapName_MT__PYRE] a7894f88c0
+送神山
+
+[sMapName_SHOAL_CAVE] 792dccf2fd
+浅滩洞穴
+
+[sMapName_SEAFLOOR_CAVERN] 467c314328
+海底洞窟
+
+[sMapName_VICTORY_ROAD] 9144369a52
+冠军之路
+
+[sMapName_MIRAGE_ISLAND] 586deee96f
+幻影岛
+
+[sMapName_CAVE_OF_ORIGIN] e8bcd346b2
+觉醒祠堂
+
+[sMapName_SOUTHERN_ISLAND] 900820999a
+南方小岛
+
+[sMapName_FIERY_PATH] 39df5f55b7
+火焰小径
+
+[sMapName_JAGGED_PASS] 99413136e3
+凹凸山道
+
+[sMapName_SEALED_CHAMBER] 18e2fd5a4f
+封印之间
+
+[sMapName_SCORCHED_SLAB] def5b7f768
+炙热岩洞
+
+[sMapName_ISLAND_CAVE] 5b97b40355
+小岛横穴
+
+[sMapName_DESERT_RUINS] 7bff2fc873
+沙漠遗迹
+
+[sMapName_ANCIENT_TOMB] 82be77fc48
+古代墓穴
+
+[sMapName_INSIDE_OF_TRUCK] 108d245b52
+卡车里
+
+[sMapName_SKY_PILLAR] 23b9e5dd45
+天空柱
+
+[sMapName_SECRET_BASE] ff13338a1b
+秘密基地
+
+[sMapName__AQUA__HIDEOUT_Clone] 4c529ba4c2
+{AQUA}基地
+
+[sMapName_ROUTE_101] 3885e8af5f
+101号道路
+
+[sMapName_ROUTE_102] de3424ea1c
+102号道路
+
+[sMapName_ROUTE_103] 3a99f13514
+103号道路
+
+[sMapName_ROUTE_104] 281e5656bc
+104号道路
+
+[sMapName_ROUTE_105] 89243e5713
+105号道路
+
+[sMapName_ROUTE_106] d5f4c03e74
+106号道路
+
+[sMapName_ROUTE_107] 7a8c5e73b3
+107号道路
+
+[sMapName_ROUTE_108] cba446a52b
+108号道路
+
+[sMapName_ROUTE_109] cf1b9f36b9
+109号道路
+
+[sMapName_ROUTE_110] c980828252
+110号道路
+
+[sMapName_ROUTE_111] 2f40cee298
+111号道路
+
+[sMapName_ROUTE_112] 966b18ceb6
+112号道路
+
+[sMapName_ROUTE_113] 8dc1a1afaa
+113号道路
+
+[sMapName_ROUTE_114] 043fb684da
+114号道路
+
+[sMapName_ROUTE_115] fda8e82832
+115号道路
+
+[sMapName_ROUTE_116] feec33efd0
+116号道路
+
+[sMapName_ROUTE_117] d2d26f6317
+117号道路
+
+[sMapName_ROUTE_118] f43a61e0c1
+118号道路
+
+[sMapName_ROUTE_119] 1a238e8f47
+119号道路
+
+[sMapName_ROUTE_120] 2db7f9d080
+120号道路
+
+[sMapName_ROUTE_121] f131788474
+121号道路
+
+[sMapName_ROUTE_122] 8cae2734dc
+122号道路
+
+[sMapName_ROUTE_123] 7dbe75617b
+123号道路
+
+[sMapName_ROUTE_124] b01a7fd4a1
+124号道路
+
+[sMapName_ROUTE_125] 75df1e002f
+125号道路
+
+[sMapName_ROUTE_126] 299f227bde
+126号道路
+
+[sMapName_ROUTE_127] 02462445a5
+127号道路
+
+[sMapName_ROUTE_128] a6acd2dcbe
+128号道路
+
+[sMapName_ROUTE_129] 2c25a1813a
+129号道路
+
+[sMapName_ROUTE_130] 38c7684466
+130号道路
+
+[sMapName_ROUTE_131] 1135ebb7f8
+131号道路
+
+[sMapName_ROUTE_132] 6635a47307
+132号道路
+
+[sMapName_ROUTE_133] b6f8bd0ab8
+133号道路
+
+[sMapName_ROUTE_134] d40a02ca00
+134号道路

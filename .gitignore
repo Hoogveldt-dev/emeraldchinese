@@ -1,0 +1,21 @@
+# Speldata en builds: nooit committen
+roms/*
+!roms/README.md
+*.gba
+*.3dsx
+*.cia
+*.sav
+build/
+dist/
+out/
+
+# Gegenereerde of persoonlijke kitbestanden
+kit/charmap.txt
+kit/cjk_table.json
+kit/dialogue_en.jsonl
+kit/zh_cache.json
+kit/zh_dialog.bin
+
+__pycache__/
+*.pyc
+.env

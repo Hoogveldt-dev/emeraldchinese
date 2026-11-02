@@ -1,0 +1,745 @@
+# Chinese (zh-Hans) for src/strings.c
+
+[gText_ExpandedPlaceholder_Sapphire] addbc6ca2a
+蓝宝石
+
+[gText_ExpandedPlaceholder_Ruby] a09b4dd641
+红宝石
+
+[gText_ExpandedPlaceholder_Emerald] 55973449f3
+绿宝石
+
+[gText_ExpandedPlaceholder_Aqua] 1eff4dcb23
+海洋
+
+[gText_ExpandedPlaceholder_Magma] f857e4e195
+熔岩
+
+[gText_ExpandedPlaceholder_Archie] d55cf8dde8
+水梧桐
+
+[gText_ExpandedPlaceholder_Maxie] 9101e2ba50
+赤焰松
+
+[gText_ExpandedPlaceholder_Kyogre] 771ebbd9d4
+盖欧卡
+
+[gText_ExpandedPlaceholder_Groudon] 6fa0e710bb
+固拉多
+
+[gText_ExpandedPlaceholder_Brendan] 175d79e21e
+小悠
+
+[gText_ExpandedPlaceholder_May] 18ae5317d4
+小遥
+
+[gText_EggNickname] 715a2d4c2e
+蛋
+
+[gText_Pokemon] 79892c9525
+宝可梦
+
+[gText_ProfBirchMatchCallName] 757f680dc9
+小田卷博士
+
+[gText_MainMenuNewGame] f6f0416884
+新游戏
+
+[gText_MainMenuContinue] ff3dbb4248
+继续游戏
+
+[gText_MainMenuOption] 5b8ec92558
+设置
+
+[gText_MainMenuMysteryGift] 38d1678325
+神秘礼物
+
+[gText_MainMenuMysteryGift2] 38d1678325
+神秘礼物
+
+[gText_MainMenuMysteryEvents] 14e5d0d0bf
+神秘事件
+
+[gText_Player] 5055efde51
+主人公
+
+[gText_Pokedex] f1c591588f
+图鉴
+
+[gText_Time] 64269f9bd2
+时间
+
+[gText_Badges] 0a93c8513e
+徽章
+
+[gText_BirchBoy] 0858b75d3b
+男孩
+
+[gText_BirchGirl] 333d234676
+女孩
+
+[gText_SaveFileUpdated] 7d81f9b9d6
+存档已更新。
+
+[gText_SaveFileCorrupted] 511a4aa0cf
+存档已损坏。\n将读取上一次的存档。
+
+[gText_SaveFileErased] 03d1a727fa
+存档因损坏而\n被删除了。
+
+[gText_PokedexRegistration] c315ab8879
+宝可梦图鉴登录完成。
+
+[gText_NoMatchingPkmnWereFound] 85438f3721
+没有找到符合条件的宝可梦。
+
+[gText_ConfirmStarterChoice] f9f15b3147
+要选择这只宝可梦吗？
+
+[gText_SearchCompleted] 1c0cbd1bf8
+搜索完成。
+
+[gText_ReturnToPokedex] a0d861db54
+返回宝可梦图鉴。
+
+[gText_DexHoennTitle] 189f13db4c
+丰缘图鉴
+
+[gText_DexNatTitle] eeb6969c19
+全国图鉴
+
+[gText_CryOf] 62eb07e0ce
+叫声：
+
+[gText_HTHeight] 64c38cf29a
+身高
+
+[gText_WTWeight] 404e0bbdbc
+体重
+
+[gText_FlyToWhere] 34929c4d1f
+要飞到哪里？
+
+[gMenuText_Use] 7dcf46a0ef
+使用
+
+[gMenuText_Toss] 4e8ae1245c
+丢掉
+
+[gMenuText_Register] 0391d22030
+登录
+
+[gMenuText_Give] a5fae5b4e2
+携带
+
+[gMenuText_CheckTag] 4c73dcd0f2
+查看标签
+
+[gMenuText_Confirm] f6fda10d33
+确定
+
+[gMenuText_Walk] abe59e364f
+行走
+
+[gText_Cancel] 1507c40f04
+取消
+
+[gText_Cancel2] 1507c40f04
+取消
+
+[gMenuText_Show] 40ae6fd23e
+展示
+
+[gText_Cancel7] 1507c40f04
+取消
+
+[gText_Item] e849c5f964
+道具
+
+[gText_Mail] 0d8e8b084c
+邮件
+
+[gText_Take] 06614e39f2
+拿取
+
+[gText_Store] a022ae64c8
+存放
+
+[gMenuText_Check] d37267cb29
+查看
+
+[gText_None] 0654a028e5
+无
+
+[gMenuText_Deselect] 9bb2544d0b
+取消选择
+
+[gMenuText_Give2] a5fae5b4e2
+携带
+
+[gText_Berry2] a49b15a8bf
+果
+
+[gText_Coins] 39fff1288b
+{STR_VAR_1}枚代币
+
+[gText_CloseBag] 7886114b0d
+关闭背包
+
+[gText_NoPokemon] 90d03d1516
+没有\n宝可梦。
+
+[gText_BootedUpTM] 15a777148f
+启动了招式学习器。
+
+[gText_BootedUpHM] 5855cfee5f
+启动了秘传学习器。
+
+[gText_ItemsPocket] a5ef8f60cf
+道具
+
+[gText_PokeBallsPocket] 45a1d46176
+精灵球
+
+[gText_TMHMPocket] a23cbc63df
+招式机
+
+[gText_BerriesPocket] fba348a585
+树果
+
+[gText_KeyItemsPocket] 0a6c54eddf
+重要物品
+
+[gText_Var1IsSelected] e810a4f468
+已选择\n{STR_VAR_1}。
+
+[gText_MoveVar1Where] 7f2c22bc42
+要把\n{STR_VAR_1}\n移到哪里？
+
+[gText_Var1CantBeHeld] 075f274964
+{STR_VAR_1}无法携带。
+
+[gText_Var1CantBeHeldHere] 046232650d
+这里无法携带\n{STR_VAR_1}。
+
+[gText_DepositHowManyVar1] ff48c8aa84
+要存放几个\n{STR_VAR_1}？
+
+[gText_DepositedVar2Var1s] 4e82d89da0
+存放了{STR_VAR_2}个\n{STR_VAR_1}。
+
+[gText_NoRoomForItems] c13fb2d4b2
+没有存放道具的\n空间了。
+
+[gText_TossHowManyVar1s] c738796829
+要丢掉几个\n{STR_VAR_1}？
+
+[gText_ConfirmTossItems] be1650eb0e
+真的要丢掉\n{STR_VAR_2}个\n{STR_VAR_1}吗？
+
+[gText_ThrowAwayVar1] 01986e3d9d
+要丢掉这个\n{STR_VAR_1}吗？
+
+[gText_Var1ThrownAway] 30747094c2
+{STR_VAR_1}\n被丢掉了。
+
+[gText_BoxFull] 3ec32cddf9
+盒子已经满了。{PAUSE_UNTIL_PRESS}
+
+[gText_PlayerUsedVar2] aa983bd643
+{PLAYER}使用了\n{STR_VAR_2}。{PAUSE_UNTIL_PRESS}
+
+[gText_UsedVar2WildLured] 322a9f6905
+{PLAYER}使用了\n{STR_VAR_2}。\p会吸引野生宝可梦。{PAUSE_UNTIL_PRESS}
+
+[gText_UsedVar2WildRepelled] b17a76b96c
+{PLAYER}使用了\n{STR_VAR_2}。\p野生宝可梦不会出现了。{PAUSE_UNTIL_PRESS}
+
+[gText_ShopBuy] 6bb45f3794
+购买
+
+[gText_ShopSell] 264137beb1
+出售
+
+[gText_ShopQuit] 5860c84587
+离开
+
+[gText_InBagVar1] 90ab92d791
+背包内：{STR_VAR_1}
+
+[gText_QuitShopping] c42d94b637
+结束购物。
+
+[gText_Var1CertainlyHowMany] 7f17a11bad
+{STR_VAR_1}吗？好的。\n要买几个呢？
+
+[gText_Var1CertainlyHowMany2] 7f17a11bad
+{STR_VAR_1}吗？好的。\n要买几个呢？
+
+[gText_Var1AndYouWantedVar2] 3efd0147d5
+{STR_VAR_1}，要{STR_VAR_2}个吗？\n一共是¥{STR_VAR_3}。
+
+[gText_Var1IsItThatllBeVar2] e1157d9620
+{STR_VAR_1}吗？\n价格是¥{STR_VAR_2}。要买吗？
+
+[gText_NoMoreRoomForThis] 438fb28ae9
+这个道具已经\n放不下了。{PAUSE_UNTIL_PRESS}
+
+[gText_ThrowInPremierBall] 73f851cd43
+再送你一个纪念球吧。{PAUSE_UNTIL_PRESS}
+
+[gText_Shift] 149b8de2b0
+替换
+
+[gText_SendOut] 64d10dc53e
+派出
+
+[gText_Switch2] b02cbd93fe
+替换
+
+[gText_Summary5] 1450844d24
+查看能力
+
+[gText_Moves] 0790bd2602
+招式
+
+[gText_Enter] 54febf3139
+参加
+
+[gText_NoEntry] b95a32a286
+不参加
+
+[gText_Take2] 06614e39f2
+拿取
+
+[gText_Read2] 0a3768425d
+阅读
+
+[gText_Trade4] 91e044d0ff
+交换
+
+[gText_SpAtk3] 4881ee79a1
+特攻
+
+[gText_SpDef3] 3b0727a5ad
+特防
+
+[gText_TeachWhichPokemon2] f398afea9f
+要教给哪只宝可梦？
+
+[gText_ChoosePokemon] ba9981c402
+请选择宝可梦。
+
+[gText_MoveToWhere] cf1c7b7156
+要移到哪里？
+
+[gText_TeachWhichPokemon] f398afea9f
+要教给哪只宝可梦？
+
+[gText_UseOnWhichPokemon] 8018485ca3
+要对哪只宝可梦使用？
+
+[gText_GiveToWhichPokemon] c8a226d0b1
+要让哪只宝可梦携带？
+
+[gText_NothingToCut] 97df7496e9
+这里没有可以居合斩的东西。
+
+[gText_CantSurfHere] 40b2da38f5
+这里无法冲浪。
+
+[gText_AlreadySurfing] c1ce5660ac
+已经在冲浪了。
+
+[gText_CantUseHere] 0046ae2d89
+这里无法使用。
+
+[gText_RestoreWhichMove] e428a8083d
+要回复哪个招式？
+
+[gText_BoostPp] 453300917f
+要提高哪个招式的PP？
+
+[gText_DoWhatWithItem] f0b2ef22da
+要对道具做什么？
+
+[gText_NoPokemonForBattle] c192d9c14e
+没有能战斗的宝可梦！
+
+[gText_ChoosePokemon2] ba9981c402
+请选择宝可梦。
+
+[gText_NotEnoughHp] 2667a0f571
+HP不足……
+
+[gText_NoIdenticalHoldItems] 6bd8ccc50c
+不能携带相同的道具。
+
+[gText_DoWhatWithMail] a62ffe766f
+要对邮件做什么？
+
+[gText_EnjoyCycling] d2edde0840
+享受骑自行车吧！
+
+[gText_NoUse] ed27f728fe
+无法使用。
+
+[gText_Able] fee3999bd9
+可以
+
+[gText_NotAble] 454e3f875d
+不可以
+
+[gText_Able2] fee3999bd9
+可以
+
+[gText_Able3] 06e0dbc687
+可以！
+
+[gText_NotAble2] 97c7186b88
+不可以！
+
+[gText_Learned] 18745fb931
+已学会
+
+[gText_DoWhatWithPokemon] a4b41457dc
+要对这只{PKMN}做什么？
+
+[gText_PkmnCantSwitchOut] 84ea1ac027
+{STR_VAR_1}无法\n替换下场！{PAUSE_UNTIL_PRESS}
+
+[gText_PkmnAlreadyInBattle] 061f72f81d
+{STR_VAR_1}已经\n在战斗中了！{PAUSE_UNTIL_PRESS}
+
+[gText_PkmnAlreadySelected] 76f841aba2
+{STR_VAR_1}已经\n被选择了。{PAUSE_UNTIL_PRESS}
+
+[gText_PkmnHasNoEnergy] 3b348db66c
+{STR_VAR_1}已经\n没有力气战斗了！{PAUSE_UNTIL_PRESS}
+
+[gText_PkmnWasGivenItem] c33660f849
+让{STR_VAR_1}携带了\n{STR_VAR_2}。{PAUSE_UNTIL_PRESS}
+
+[gText_PkmnNotHolding] 217e3ec02b
+{STR_VAR_1}没有\n携带任何东西。{PAUSE_UNTIL_PRESS}
+
+[gText_ReceivedItemFromPkmn] 39a4d1ac70
+从{STR_VAR_1}那里\n拿到了{STR_VAR_2}。{PAUSE_UNTIL_PRESS}
+
+[gText_MailTakenFromPkmn] de228a34f3
+从宝可梦那里\n拿走了邮件。{PAUSE_UNTIL_PRESS}
+
+[gText_SwitchedPkmnItem] df3c238d3e
+拿走了{STR_VAR_2}，\n换成了{STR_VAR_1}。{PAUSE_UNTIL_PRESS}
+
+[gText_PkmnLearnedMove3] d7bee1210f
+{STR_VAR_1}学会了\n{STR_VAR_2}！
+
+[gText_MoveNotLearned] f58fababaf
+{STR_VAR_1}没有学会\n{STR_VAR_2}。{PAUSE_UNTIL_PRESS}
+
+[gText_PkmnAlreadyKnows] 4a874a3971
+{STR_VAR_1}已经学会了\n{STR_VAR_2}。{PAUSE_UNTIL_PRESS}
+
+[gText_PkmnHPRestoredByVar2] 60a18f269c
+{STR_VAR_1}的HP\n回复了{STR_VAR_2}。{PAUSE_UNTIL_PRESS}
+
+[gText_PkmnCuredOfPoison] 00c48e97ea
+{STR_VAR_1}的\n中毒治愈了。{PAUSE_UNTIL_PRESS}
+
+[gText_PkmnCuredOfParalysis] 8a2803b17c
+{STR_VAR_1}的\n麻痹治愈了。{PAUSE_UNTIL_PRESS}
+
+[gText_PkmnWokeUp2] ac94e8efef
+{STR_VAR_1}醒过来了。{PAUSE_UNTIL_PRESS}
+
+[gText_PkmnBurnHealed] aa5f2d5d85
+{STR_VAR_1}的灼伤治愈了。{PAUSE_UNTIL_PRESS}
+
+[gText_PkmnThawedOut] 7b76cac62d
+{STR_VAR_1}的冰冻解除了。{PAUSE_UNTIL_PRESS}
+
+[gText_PkmnRegainhedHealth] c0fd54fda0
+{STR_VAR_1}回复了体力。{PAUSE_UNTIL_PRESS}
+
+[gText_PkmnBecameHealthy] 61b25bd16a
+{STR_VAR_1}恢复了健康。{PAUSE_UNTIL_PRESS}
+
+[gText_MovesPPIncreased] 93310c246e
+{STR_VAR_1}的PP提高了。{PAUSE_UNTIL_PRESS}
+
+[gText_PkmnElevatedToLvVar2] 3aacd23ec8
+{STR_VAR_1}的等级\n提升到了{STR_VAR_2}。
+
+[gText_PkmnSnappedOutOfConfusion] ee33e1399a
+{STR_VAR_1}的\n混乱解除了。{PAUSE_UNTIL_PRESS}
+
+[gText_PkmnGotOverInfatuation] 7f42d22b40
+{STR_VAR_1}不再\n着迷了。{PAUSE_UNTIL_PRESS}
+
+[gText_ThrowAwayItem] 01986e3d9d
+要丢掉这个\n{STR_VAR_1}吗？
+
+[gText_ItemThrownAway] ead1e79fd2
+{STR_VAR_1}\n被丢掉了。{PAUSE_UNTIL_PRESS}
+
+[gText_OnlyPkmnForBattle] eaea70fe85
+这是你唯一一只\n能战斗的宝可梦。
+
+[gText_Attack3] df86d4b6db
+攻击
+
+[gText_Defense3] d4f6d85456
+防御
+
+[gText_SpAtk4] 4881ee79a1
+特攻
+
+[gText_SpDef4] 3b0727a5ad
+特防
+
+[gText_Speed2] 265ffc5673
+速度
+
+[gText_TypeSlash] 23b582f48e
+属性/
+
+[gText_Power] c2b6b521a7
+威力
+
+[gText_Accuracy2] 3d61db27cf
+命中
+
+[gText_Appeal] e1a476f66b
+表演
+
+[gText_Jam] 18951a64f6
+妨碍
+
+[gText_Status] 7168833cc8
+状态
+
+[gText_ExpPoints] 49b6e97d3e
+经验值
+
+[gText_NextLv] df8e4370df
+下一级
+
+[gText_RibbonsVar1] 3a312b4a83
+奖章：{STR_VAR_1}
+
+[gText_Switch] b02cbd93fe
+替换
+
+[gText_PkmnInfo] d62b3b3e52
+宝可梦信息
+
+[gText_PkmnSkills] bfbdcfea89
+宝可梦能力
+
+[gText_BattleMoves] 0e54668249
+战斗招式
+
+[gText_ContestMoves] 5e3f529e72
+华丽大赛招式
+
+[gText_Info] 9c9cf99982
+信息
+
+[gText_Desk] a780d2f83d
+桌子
+
+[gText_Chair] 442793e2d0
+椅子
+
+[gText_Plant] 61728f6dd4
+植物
+
+[gText_Ornament] 65753a5fda
+装饰品
+
+[gText_Mat] 0a9e7cdadc
+垫子
+
+[gText_Poster] 4406244e30
+海报
+
+[gText_Doll] 8fb1d9815e
+玩偶
+
+[gText_Cushion] 0b716742ca
+靠垫
+
+[gText_Decoration] 9cb976dd2f
+装饰
+
+[gText_ItemStorage] 2014bad8d9
+道具存放
+
+[gText_Mailbox] 172e168c47
+邮箱
+
+[gText_DepositItem] 080dd293fd
+存放道具
+
+[gText_WithdrawItem] 98e2f00f86
+取出道具
+
+[gText_TossItem] f29aa74d1f
+丢掉道具
+
+[gText_StoreItemsInPC] ae53063a5c
+把道具存放在电脑里。
+
+[gText_TakeOutItemsFromPC] e297ff9caf
+从电脑里取出道具。
+
+[gText_ThrowAwayItemsInPC] 99a1ff08a3
+丢掉存放在电脑里的道具。
+
+[gText_NoItems] 80253959c3
+没有道具。{PAUSE_UNTIL_PRESS}
+
+[gText_NoRoomInBag] 8bc775f840
+背包里已经\n放不下了。
+
+[gText_WithdrawHowManyItems] 06bd828766
+要取出几个\n{STR_VAR_1}？
+
+[gText_WithdrawXItems] c05bf1f84d
+取出了{STR_VAR_2}个\n{STR_VAR_1}。
+
+[gText_Read] 0a3768425d
+阅读
+
+[gText_MoveToBag] 05d7de447b
+放入背包
+
+[gText_Give2] a5fae5b4e2
+携带
+
+[gText_BagIsFull] 7e594d8a29
+背包已经满了。{PAUSE_UNTIL_PRESS}
+
+[gText_Dad] 22338f0423
+爸爸
+
+[gText_Mom] 3c93964ebb
+妈妈
+
+[gText_Wallace] 4349cc5238
+米可利
+
+[gText_Steven] 07d5ba1a18
+大吾
+
+[gText_Psn] 6facc3332c
+毒
+
+[gText_Par] e7df76d7a9
+麻
+
+[gText_Slp] d66ea66b50
+眠
+
+[gText_Brn] 7ee447790d
+伤
+
+[gText_Frz] d8e9996159
+冻
+
+[gText_Ok3] 9ce3bd4224
+好
+
+[gText_Quit] 5860c84587
+离开
+
+[gText_Yes] 8fff039853
+是
+
+[gText_No] a0509b7780
+否
+
+[gText_NotYet] 8de95fd5b4
+还没有
+
+[gText_SingleBattle] a851771634
+单打对战
+
+[gText_DoubleBattle] 6e4774eec6
+双打对战
+
+[gText_MultiBattle] acbae79ba5
+多人对战
+
+[gText_MrBriney] 41939c625f
+哈奇老爹
+
+[gText_Challenge] e9166b5b8a
+挑战
+
+[gText_MenuPokedex] f1c591588f
+图鉴
+
+[gText_MenuPokemon] 79892c9525
+宝可梦
+
+[gText_MenuBag] 332c000cf7
+背包
+
+[gText_MenuPokenav] 099ac0c66b
+宝可导航
+
+[gText_MenuSave] 508156a39b
+记录
+
+[gText_MenuOption] 5b8ec92558
+设置
+
+[gText_MenuExit] bb1b38004d
+关闭
+
+[gText_MenuRetire] 0e25d55e0a
+放弃
+
+[gText_MenuRest] cbaaa18133
+休息
+
+[gText_MenuOptionPokedex] f1c591588f
+图鉴
+
+[gText_MenuOptionPokemon] 79892c9525
+宝可梦
+
+[gText_MenuOptionBag] 332c000cf7
+背包
+
+[gText_MenuOptionPokenav] 099ac0c66b
+宝可导航
+
+[gText_MenuOptionSave] 508156a39b
+记录
+
+[gText_MenuOptionOption] 5b8ec92558
+设置
+
+[gText_MenuOptionExit] bb1b38004d
+关闭
+
+[gText_SavingDontTurnOff2] 30607f964d
+正在记录……\n请不要关闭电源。
+
+[gText_HOFDexSaving] 30607f964d
+正在记录……\n请不要关闭电源。
+
+[gText_SavingPlayer] 5055efde51
+主人公
+
+[gText_SavingBadges] 0a93c8513e
+徽章
+
+[gText_SavingPokedex] f1c591588f
+图鉴
+
+[gText_SavingTime] 64269f9bd2
+时间

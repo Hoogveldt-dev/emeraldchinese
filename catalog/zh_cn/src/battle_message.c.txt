@@ -1,0 +1,1561 @@
+# Chinese (zh-Hans) for src/battle_message.c
+
+[sText_PkmnGainedEXP] 7eebc21503
+{B_BUFF1}获得了{B_BUFF2}\n{B_BUFF3}点经验值！\p
+
+[sText_PkmnTeamGainedEXP] 46886c0b27
+其他宝可梦也获得了\n经验值！\p
+
+[sText_ABoosted] 9017f978d4
+大量的
+
+[sText_PkmnGrewToLv] ffe48fccd8
+{B_BUFF1}的等级\n提升到了{B_BUFF2}！{WAIT_SE}\p
+
+[sText_PkmnLearnedMove] f852978d19
+{B_BUFF1}学会了\n{B_BUFF2}！{WAIT_SE}\p
+
+[sText_TryToLearnMove1] 92d731fa64
+{B_BUFF1}想要学习\n{B_BUFF2}。\p
+
+[sText_TryToLearnMove2] 9c296eb5e1
+但是，{B_BUFF1}无法学会\n四个以上的招式。\p
+
+[sText_TryToLearnMove3] 7cca053df5
+要忘记一个招式，\n来学习{B_BUFF2}吗？
+
+[sText_PkmnForgotMove] 8e321f5ed5
+{B_BUFF1}忘记了\n{B_BUFF2}。\p
+
+[sText_StopLearningMove] b746747bee
+{PAUSE 32}要放弃学习\n{B_BUFF2}吗？
+
+[sText_DidNotLearnMove] 4dcbbb13e2
+{B_BUFF1}没有学会\n{B_BUFF2}。\p
+
+[sText_UseNextPkmn] a44f6946ef
+要派出下一只宝可梦吗？
+
+[sText_AttackMissed] 10a8ad6dc8
+{B_ATK_NAME_WITH_PREFIX}的\n攻击没有命中！
+
+[sText_PkmnProtectedItself] d5450e64e2
+{B_DEF_NAME_WITH_PREFIX}\n守住了自己！
+
+[sText_AvoidedDamage] 7f2f7e823d
+{B_DEF_NAME_WITH_PREFIX}凭借\n{B_DEF_ABILITY}避免了伤害！
+
+[sText_PkmnMakesGroundMiss] 30800e5c2b
+{B_DEF_NAME_WITH_PREFIX}凭借{B_DEF_ABILITY}\n让地面招式落空了！
+
+[sText_PkmnAvoidedAttack] ddf5c18211
+{B_DEF_NAME_WITH_PREFIX}\n躲开了攻击！
+
+[sText_ItDoesntAffect] f5c3a1cda5
+对{B_DEF_NAME_WITH_PREFIX}\n好像没有效果……
+
+[sText_AttackerFainted] 54de4b06fb
+{B_ATK_NAME_WITH_PREFIX}\n倒下了！\p
+
+[sText_TargetFainted] 07b694d881
+{B_DEF_NAME_WITH_PREFIX}\n倒下了！\p
+
+[sText_PlayerGotMoney] 295816950e
+{B_PLAYER_NAME}获胜，\n得到了¥{B_BUFF1}！\p
+
+[sText_PlayerWhiteout] a297fd343f
+{B_PLAYER_NAME}已经没有\n能战斗的宝可梦了！\p
+
+[sText_PlayerWhiteout2] 5e2113b8d5
+{B_PLAYER_NAME}眼前一片漆黑！{PAUSE_UNTIL_PRESS}
+
+[sText_PreventsEscape] 06ff8f6512
+{B_SCR_ACTIVE_NAME_WITH_PREFIX}凭借\n{B_SCR_ACTIVE_ABILITY}阻止了逃走！\p
+
+[sText_CantEscape2] 0f43e469e7
+无法逃走！\p
+
+[sText_AttackerCantEscape] 0e86f59c58
+{B_ATK_NAME_WITH_PREFIX}无法逃走！
+
+[sText_HitXTimes] a3b375c109
+击中了{B_BUFF1}次！
+
+[sText_PkmnFellAsleep] 9541235a99
+{B_EFF_NAME_WITH_PREFIX}\n睡着了！
+
+[sText_PkmnMadeSleep] 2cdc9a5dfd
+{B_SCR_ACTIVE_NAME_WITH_PREFIX}的{B_SCR_ACTIVE_ABILITY}\n让{B_EFF_NAME_WITH_PREFIX}睡着了！
+
+[sText_PkmnAlreadyAsleep] ef91f0ea34
+{B_DEF_NAME_WITH_PREFIX}\n已经睡着了！
+
+[sText_PkmnAlreadyAsleep2] 754b65dded
+{B_ATK_NAME_WITH_PREFIX}\n已经睡着了！
+
+[sText_PkmnWasntAffected] 0d242267d1
+{B_DEF_NAME_WITH_PREFIX}\n没有受到影响！
+
+[sText_PkmnWasPoisoned] 8d1fe83656
+{B_EFF_NAME_WITH_PREFIX}\n中毒了！
+
+[sText_PkmnPoisonedBy] b303104a90
+{B_SCR_ACTIVE_NAME_WITH_PREFIX}的{B_SCR_ACTIVE_ABILITY}\n让{B_EFF_NAME_WITH_PREFIX}中毒了！
+
+[sText_PkmnHurtByPoison] c64be8a79a
+{B_ATK_NAME_WITH_PREFIX}\n受到了毒的伤害！
+
+[sText_PkmnAlreadyPoisoned] 1f4dc3595e
+{B_DEF_NAME_WITH_PREFIX}\n已经中毒了。
+
+[sText_PkmnBadlyPoisoned] 6dbff5c5e4
+{B_EFF_NAME_WITH_PREFIX}\n中了剧毒！
+
+[sText_PkmnEnergyDrained] 124eb45357
+{B_DEF_NAME_WITH_PREFIX}的\n体力被吸取了！
+
+[sText_PkmnWasBurned] b87a4ab1e7
+{B_EFF_NAME_WITH_PREFIX}被灼伤了！
+
+[sText_PkmnBurnedBy] 96fe5fdaaa
+{B_SCR_ACTIVE_NAME_WITH_PREFIX}的{B_SCR_ACTIVE_ABILITY}\n让{B_EFF_NAME_WITH_PREFIX}灼伤了！
+
+[sText_PkmnHurtByBurn] 06d1d9ba79
+{B_ATK_NAME_WITH_PREFIX}\n受到了灼伤的伤害！
+
+[sText_PkmnAlreadyHasBurn] c67236a960
+{B_DEF_NAME_WITH_PREFIX}\n已经被灼伤了。
+
+[sText_PkmnWasFrozen] 8ba18c0a5b
+{B_EFF_NAME_WITH_PREFIX}\n被冻住了！
+
+[sText_PkmnFrozenBy] 23195eb9ba
+{B_SCR_ACTIVE_NAME_WITH_PREFIX}的{B_SCR_ACTIVE_ABILITY}\n把{B_EFF_NAME_WITH_PREFIX}冻住了！
+
+[sText_PkmnIsFrozen] 739dbc77dc
+{B_ATK_NAME_WITH_PREFIX}\n因冻住而无法行动！
+
+[sText_PkmnWasDefrosted] 01922566d3
+{B_DEF_NAME_WITH_PREFIX}的\n冰冻解除了！
+
+[sText_PkmnWasDefrosted2] dbf4a70719
+{B_ATK_NAME_WITH_PREFIX}的\n冰冻解除了！
+
+[sText_PkmnWasDefrostedBy] 8d3e0a9844
+{B_ATK_NAME_WITH_PREFIX}凭借\n{B_CURRENT_MOVE}解除了冰冻！
+
+[sText_PkmnWasParalyzed] bfca82a390
+{B_EFF_NAME_WITH_PREFIX}麻痹了！\n可能会无法行动！
+
+[sText_PkmnWasParalyzedBy] 6762fa1172
+{B_SCR_ACTIVE_NAME_WITH_PREFIX}的{B_SCR_ACTIVE_ABILITY}\n让{B_EFF_NAME_WITH_PREFIX}麻痹了！\l可能会无法行动！
+
+[sText_PkmnIsParalyzed] 6965887baf
+{B_ATK_NAME_WITH_PREFIX}麻痹了！\n无法行动！
+
+[sText_PkmnIsAlreadyParalyzed] dc557d33ea
+{B_DEF_NAME_WITH_PREFIX}\n已经麻痹了！
+
+[sText_PkmnHealedParalysis] d316702e6d
+{B_DEF_NAME_WITH_PREFIX}的\n麻痹治愈了！
+
+[sText_PkmnDreamEaten] 44f0f29a72
+{B_DEF_NAME_WITH_PREFIX}的\n梦被吃掉了！
+
+[sText_StatsWontIncrease] de2e0ce405
+{B_ATK_NAME_WITH_PREFIX}的{B_BUFF1}\n已经无法再提高了！
+
+[sText_StatsWontDecrease] 817cfff3ea
+{B_DEF_NAME_WITH_PREFIX}的{B_BUFF1}\n已经无法再降低了！
+
+[sText_TeamStoppedWorking] a22bc5098c
+我方的{B_BUFF1}\n失去了效果！
+
+[sText_FoeStoppedWorking] d295ed3b20
+对手的{B_BUFF1}\n失去了效果！
+
+[sText_PkmnIsConfused] a873eef10f
+{B_ATK_NAME_WITH_PREFIX}\n混乱了！
+
+[sText_PkmnHealedConfusion] 2bb0739560
+{B_ATK_NAME_WITH_PREFIX}的\n混乱解除了！
+
+[sText_PkmnWasConfused] 626837c55a
+{B_EFF_NAME_WITH_PREFIX}\n陷入了混乱！
+
+[sText_PkmnAlreadyConfused] ced4c9fb88
+{B_DEF_NAME_WITH_PREFIX}\n已经混乱了！
+
+[sText_PkmnFellInLove] 9697812e0c
+{B_DEF_NAME_WITH_PREFIX}\n着迷了！
+
+[sText_PkmnInLove] 230f72919b
+{B_ATK_NAME_WITH_PREFIX}对\n{B_SCR_ACTIVE_NAME_WITH_PREFIX}着迷了！
+
+[sText_PkmnImmobilizedByLove] 1de8527323
+{B_ATK_NAME_WITH_PREFIX}\n因着迷而无法行动！
+
+[sText_PkmnBlownAway] aa12d63d5b
+{B_DEF_NAME_WITH_PREFIX}\n被吹飞了！
+
+[sText_PkmnChangedType] 8c037c080f
+{B_ATK_NAME_WITH_PREFIX}变成了\n{B_BUFF1}属性！
+
+[sText_PkmnFlinched] a9ee5c16f9
+{B_ATK_NAME_WITH_PREFIX}畏缩了！
+
+[sText_PkmnRegainedHealth] 9bd71d28ca
+{B_DEF_NAME_WITH_PREFIX}\n回复了体力！
+
+[sText_PkmnHPFull] e1a8d1a4dd
+{B_DEF_NAME_WITH_PREFIX}的\nHP已经满了！
+
+[sText_PkmnRaisedSpDef] 63439616e0
+{B_ATK_PREFIX2}的{B_CURRENT_MOVE}\n提高了特防！
+
+[sText_PkmnRaisedSpDefALittle] 8cc9310a14
+{B_ATK_PREFIX2}的{B_CURRENT_MOVE}\n稍微提高了特防！
+
+[sText_PkmnRaisedDef] 9577a95048
+{B_ATK_PREFIX2}的{B_CURRENT_MOVE}\n提高了防御！
+
+[sText_PkmnRaisedDefALittle] bd4de9d6ec
+{B_ATK_PREFIX2}的{B_CURRENT_MOVE}\n稍微提高了防御！
+
+[sText_PkmnCoveredByVeil] b1d4223826
+{B_ATK_PREFIX2}的队伍\n被神秘的帷幕包围了！
+
+[sText_PkmnUsedSafeguard] c5cf6a35bf
+{B_DEF_NAME_WITH_PREFIX}的队伍\n受到了神秘守护的保护！
+
+[sText_PkmnSafeguardExpired] 8cb0a2c3e0
+{B_ATK_PREFIX3}的队伍\n不再受神秘守护保护了！
+
+[sText_PkmnWentToSleep] 0782b48b11
+{B_ATK_NAME_WITH_PREFIX}\n睡着了！
+
+[sText_PkmnSleptHealthy] 2979a21dd7
+{B_ATK_NAME_WITH_PREFIX}睡了一觉，\n变得健康了！
+
+[sText_PkmnWhippedWhirlwind] 19a570f0c0
+{B_ATK_NAME_WITH_PREFIX}\n卷起了旋风！
+
+[sText_PkmnTookSunlight] 14452297c6
+{B_ATK_NAME_WITH_PREFIX}\n吸收了阳光！
+
+[sText_PkmnLoweredHead] 7be25a5250
+{B_ATK_NAME_WITH_PREFIX}\n把头缩了进去！
+
+[sText_PkmnIsGlowing] 8b238d780d
+{B_ATK_NAME_WITH_PREFIX}的身体\n发出了光芒！
+
+[sText_PkmnFlewHigh] 21fcce79fc
+{B_ATK_NAME_WITH_PREFIX}\n飞向了高空！
+
+[sText_PkmnDugHole] f5748fefff
+{B_ATK_NAME_WITH_PREFIX}\n钻入了地下！
+
+[sText_PkmnHidUnderwater] 64acee28d8
+{B_ATK_NAME_WITH_PREFIX}\n潜入了水中！
+
+[sText_PkmnSprangUp] c9317a44b1
+{B_ATK_NAME_WITH_PREFIX}\n高高跳起！
+
+[sText_PkmnSqueezedByBind] 4dcd62d489
+{B_DEF_NAME_WITH_PREFIX}被\n{B_ATK_NAME_WITH_PREFIX}紧紧绑住了！
+
+[sText_PkmnTrappedInVortex] a19e2b0b95
+{B_DEF_NAME_WITH_PREFIX}\n被困在了漩涡里！
+
+[sText_PkmnTrappedBySandTomb] 5c72709001
+{B_DEF_NAME_WITH_PREFIX}\n被流沙地狱困住了！
+
+[sText_PkmnWrappedBy] 6ff71ee67a
+{B_DEF_NAME_WITH_PREFIX}被\n{B_ATK_NAME_WITH_PREFIX}紧紧缠住了！
+
+[sText_PkmnClamped] db422dd54a
+{B_ATK_NAME_WITH_PREFIX}夹住了\n{B_DEF_NAME_WITH_PREFIX}！
+
+[sText_PkmnHurtBy] 875ca6b815
+{B_ATK_NAME_WITH_PREFIX}\n受到了{B_BUFF1}的伤害！
+
+[sText_PkmnFreedFrom] 148c986e10
+{B_ATK_NAME_WITH_PREFIX}\n摆脱了{B_BUFF1}！
+
+[sText_PkmnCrashed] ac879a94ab
+{B_ATK_NAME_WITH_PREFIX}\n用力过猛摔倒了！
+
+[gText_PkmnShroudedInMist] 6461a13eaf
+{B_ATK_PREFIX2}被\n白雾包围了！
+
+[sText_PkmnProtectedByMist] a3397e20a4
+{B_SCR_ACTIVE_NAME_WITH_PREFIX}\n受到了白雾的保护！
+
+[gText_PkmnGettingPumped] a2b3f58cf3
+{B_ATK_NAME_WITH_PREFIX}\n干劲十足！
+
+[sText_PkmnHitWithRecoil] 30d0d287fc
+{B_ATK_NAME_WITH_PREFIX}\n受到了反作用力的伤害！
+
+[sText_PkmnProtectedItself2] b2f846d14a
+{B_ATK_NAME_WITH_PREFIX}\n守住了自己！
+
+[sText_PkmnBuffetedBySandstorm] adddc31883
+{B_ATK_NAME_WITH_PREFIX}\n受到了沙暴的伤害！
+
+[sText_PkmnPeltedByHail] 4b17496623
+{B_ATK_NAME_WITH_PREFIX}\n受到了冰雹的伤害！
+
+[sText_PkmnsXWoreOff] 8a6b28ba24
+{B_ATK_PREFIX1}的{B_BUFF1}\n失效了！
+
+[sText_PkmnSeeded] bbe337afef
+{B_DEF_NAME_WITH_PREFIX}\n被种下了种子！
+
+[sText_PkmnEvadedAttack] 53c7ba1dbb
+{B_DEF_NAME_WITH_PREFIX}\n躲开了攻击！
+
+[sText_PkmnSappedByLeechSeed] 2135ce99c5
+{B_ATK_NAME_WITH_PREFIX}的体力\n被寄生种子吸取了！
+
+[sText_PkmnFastAsleep] 5a409269a9
+{B_ATK_NAME_WITH_PREFIX}\n正在呼呼大睡。
+
+[sText_PkmnWokeUp] fadd2873eb
+{B_ATK_NAME_WITH_PREFIX}醒过来了！
+
+[sText_PkmnUproarKeptAwake] da02d9e79f
+但是{B_SCR_ACTIVE_NAME_WITH_PREFIX}的吵闹\n让它保持清醒！
+
+[sText_PkmnWokeUpInUproar] ab506b1d97
+{B_ATK_NAME_WITH_PREFIX}\n被吵醒了！
+
+[sText_PkmnCausedUproar] f30765172b
+{B_ATK_NAME_WITH_PREFIX}\n吵闹了起来！
+
+[sText_PkmnMakingUproar] e111b53468
+{B_ATK_NAME_WITH_PREFIX}\n正在吵闹！
+
+[sText_PkmnCalmedDown] 6209d05bd5
+{B_ATK_NAME_WITH_PREFIX}安静下来了。
+
+[sText_PkmnCantSleepInUproar] c5876e0185
+但是{B_DEF_NAME_WITH_PREFIX}\n在吵闹声中无法入睡！
+
+[sText_PkmnStockpiled] 966662f1b5
+{B_ATK_NAME_WITH_PREFIX}\n蓄力了{B_BUFF1}！
+
+[sText_PkmnCantStockpile] 0bfb3b376a
+{B_ATK_NAME_WITH_PREFIX}\n无法再蓄力了！
+
+[sText_PkmnCantSleepInUproar2] c5876e0185
+但是{B_DEF_NAME_WITH_PREFIX}\n在吵闹声中无法入睡！
+
+[sText_UproarKeptPkmnAwake] ab359cf6cd
+但是吵闹声让\n{B_DEF_NAME_WITH_PREFIX}保持清醒！
+
+[sText_PkmnStayedAwakeUsing] 970f4ac0d8
+{B_DEF_NAME_WITH_PREFIX}凭借\n{B_DEF_ABILITY}保持清醒！
+
+[sText_PkmnStoringEnergy] f3e060e23c
+{B_ATK_NAME_WITH_PREFIX}\n正在积蓄力量！
+
+[sText_PkmnUnleashedEnergy] cdc64819cc
+{B_ATK_NAME_WITH_PREFIX}\n释放了力量！
+
+[sText_PkmnFatigueConfusion] 58248a77a1
+{B_ATK_NAME_WITH_PREFIX}\n因疲劳而混乱了！
+
+[sText_PlayerPickedUpMoney] bb8a0b12a4
+{B_PLAYER_NAME}捡到了\n¥{B_BUFF1}！\p
+
+[sText_PkmnUnaffected] 05680e236c
+{B_DEF_NAME_WITH_PREFIX}\n没有受到影响！
+
+[sText_PkmnTransformedInto] b6ddcf6bca
+{B_ATK_NAME_WITH_PREFIX}\n变身成了{B_BUFF1}！
+
+[sText_PkmnMadeSubstitute] c6f04d7fb5
+{B_ATK_NAME_WITH_PREFIX}\n制造出了替身！
+
+[sText_PkmnHasSubstitute] 0118f25a72
+{B_ATK_NAME_WITH_PREFIX}\n已经有替身了！
+
+[sText_SubstituteDamaged] 5022e4e849
+替身代替\n{B_DEF_NAME_WITH_PREFIX}承受了攻击！\p
+
+[sText_PkmnSubstituteFaded] 82e2ca2d88
+{B_DEF_NAME_WITH_PREFIX}的\n替身消失了！\p
+
+[sText_PkmnMustRecharge] ff6fa027ca
+{B_ATK_NAME_WITH_PREFIX}\n需要休息一下！
+
+[sText_PkmnRageBuilding] 632f6f83ad
+{B_DEF_NAME_WITH_PREFIX}的\n愤怒正在积累！
+
+[sText_PkmnMoveWasDisabled] 5d37f87ce5
+{B_DEF_NAME_WITH_PREFIX}的{B_BUFF1}\n被封住了！
+
+[sText_PkmnMoveDisabledNoMore] b64e79b3bf
+{B_ATK_NAME_WITH_PREFIX}的\n定身法解除了！
+
+[sText_PkmnGotEncore] c75ad75d51
+{B_DEF_NAME_WITH_PREFIX}\n接受了再来一次！
+
+[sText_PkmnEncoreEnded] 071ecbec2f
+{B_ATK_NAME_WITH_PREFIX}的\n再来一次结束了！
+
+[sText_PkmnTookAim] 27e54c60c7
+{B_ATK_NAME_WITH_PREFIX}\n瞄准了{B_DEF_NAME_WITH_PREFIX}！
+
+[sText_PkmnSketchedMove] 7002e0700e
+{B_ATK_NAME_WITH_PREFIX}\n写生了{B_BUFF1}！
+
+[sText_PkmnTryingToTakeFoe] a231b3be26
+{B_ATK_NAME_WITH_PREFIX}\n想和对手同归于尽！
+
+[sText_PkmnTookFoe] 2065860201
+{B_DEF_NAME_WITH_PREFIX}和\n{B_ATK_NAME_WITH_PREFIX}同归于尽了！
+
+[sText_PkmnReducedPP] 3d4a9d677c
+{B_DEF_NAME_WITH_PREFIX}的\n{B_BUFF1}减少了{B_BUFF2}！
+
+[sText_PkmnStoleItem] 0a10607ef0
+{B_ATK_NAME_WITH_PREFIX}夺走了\n{B_DEF_NAME_WITH_PREFIX}的{B_LAST_ITEM}！
+
+[sText_TargetCantEscapeNow] 8f27151bc1
+{B_DEF_NAME_WITH_PREFIX}\n无法逃走了！
+
+[sText_PkmnFellIntoNightmare] 9b0b1c699c
+{B_DEF_NAME_WITH_PREFIX}\n开始做恶梦了！
+
+[sText_PkmnLockedInNightmare] fff7b53031
+{B_ATK_NAME_WITH_PREFIX}\n正被恶梦缠身！
+
+[sText_PkmnLaidCurse] 70b45c605f
+{B_ATK_NAME_WITH_PREFIX}削减了自己的HP，\n诅咒了{B_DEF_NAME_WITH_PREFIX}！
+
+[sText_PkmnAfflictedByCurse] 4918e44e50
+{B_ATK_NAME_WITH_PREFIX}\n正受到诅咒！
+
+[sText_SpikesScattered] 8f50cf0675
+对手的周围\n散落着撒菱！
+
+[sText_PkmnHurtBySpikes] ce1390c286
+{B_SCR_ACTIVE_NAME_WITH_PREFIX}\n受到了撒菱的伤害！
+
+[sText_PkmnIdentified] fcfffc4c4f
+{B_ATK_NAME_WITH_PREFIX}\n识破了{B_DEF_NAME_WITH_PREFIX}！
+
+[sText_PkmnPerishCountFell] 9e6c2b0814
+{B_ATK_NAME_WITH_PREFIX}的\n灭亡计数变成了{B_BUFF1}！
+
+[sText_PkmnBracedItself] f640a8731b
+{B_ATK_NAME_WITH_PREFIX}\n摆好了挺住的架势！
+
+[sText_PkmnEnduredHit] a80b8d2e86
+{B_DEF_NAME_WITH_PREFIX}\n挺住了攻击！
+
+[sText_MagnitudeStrength] 1830c579f9
+震级{B_BUFF1}！
+
+[sText_PkmnCutHPMaxedAttack] b3dd8b3a3d
+{B_ATK_NAME_WITH_PREFIX}削减了HP，\n把攻击提升到了最大！
+
+[sText_PkmnCopiedStatChanges] bb1afa5300
+{B_ATK_NAME_WITH_PREFIX}复制了\n{B_DEF_NAME_WITH_PREFIX}的能力变化！
+
+[sText_PkmnGotFree] 521d2c8181
+{B_ATK_NAME_WITH_PREFIX}摆脱了\n{B_DEF_NAME_WITH_PREFIX}的{B_BUFF1}！
+
+[sText_PkmnShedLeechSeed] a3d3d2603b
+{B_ATK_NAME_WITH_PREFIX}\n甩掉了寄生种子！
+
+[sText_PkmnBlewAwaySpikes] c42237ea2b
+{B_ATK_NAME_WITH_PREFIX}\n吹走了撒菱！
+
+[sText_PkmnFledFromBattle] de43d2a232
+{B_ATK_NAME_WITH_PREFIX}\n从战斗中逃走了！
+
+[sText_PkmnForesawAttack] 630cc1ee32
+{B_ATK_NAME_WITH_PREFIX}\n预知了攻击！
+
+[sText_PkmnTookAttack] d51fce7712
+{B_DEF_NAME_WITH_PREFIX}\n受到了{B_BUFF1}的攻击！
+
+[sText_PkmnChoseXAsDestiny] 8690e774c6
+{B_ATK_NAME_WITH_PREFIX}把\n{B_CURRENT_MOVE}当成了命运！
+
+[sText_PkmnAttack] 63b30c2667
+{B_BUFF1}的攻击！
+
+[sText_PkmnCenterAttention] 5d2f5e7b0f
+{B_ATK_NAME_WITH_PREFIX}\n成为了注目的焦点！
+
+[sText_PkmnChargingPower] 1f9c59ee92
+{B_ATK_NAME_WITH_PREFIX}\n开始充电了！
+
+[sText_NaturePowerTurnedInto] 45adba240d
+自然之力变成了\n{B_CURRENT_MOVE}！
+
+[sText_PkmnStatusNormal] 58d64e76b4
+{B_ATK_NAME_WITH_PREFIX}的\n状态恢复正常了！
+
+[sText_PkmnSubjectedToTorment] 83a3105937
+{B_DEF_NAME_WITH_PREFIX}\n受到了无理取闹！
+
+[sText_PkmnTighteningFocus] 119ce4f835
+{B_ATK_NAME_WITH_PREFIX}\n正在集中精神！
+
+[sText_PkmnFellForTaunt] d25a0817d7
+{B_DEF_NAME_WITH_PREFIX}\n中了挑衅！
+
+[sText_PkmnReadyToHelp] a3ad27ad5e
+{B_ATK_NAME_WITH_PREFIX}准备好\n帮助{B_DEF_NAME_WITH_PREFIX}了！
+
+[sText_PkmnSwitchedItems] a5131f1356
+{B_ATK_NAME_WITH_PREFIX}和对手\n交换了道具！
+
+[sText_PkmnObtainedX] 25328c2dcf
+{B_ATK_NAME_WITH_PREFIX}\n得到了{B_BUFF1}。
+
+[sText_PkmnObtainedX2] 2182dc15fe
+{B_DEF_NAME_WITH_PREFIX}\n得到了{B_BUFF2}。
+
+[sText_PkmnObtainedXYObtainedZ] 62dfd38709
+{B_ATK_NAME_WITH_PREFIX}\n得到了{B_BUFF1}。\p{B_DEF_NAME_WITH_PREFIX}\n得到了{B_BUFF2}。
+
+[sText_PkmnCopiedFoe] dd65165b97
+{B_ATK_NAME_WITH_PREFIX}复制了\n{B_DEF_NAME_WITH_PREFIX}的{B_DEF_ABILITY}！
+
+[sText_PkmnMadeWish] 1dad732ca7
+{B_ATK_NAME_WITH_PREFIX}许下了愿望！
+
+[sText_PkmnWishCameTrue] 42c89f5893
+{B_BUFF1}的愿望\n实现了！
+
+[sText_PkmnPlantedRoots] 7a08dc8835
+{B_ATK_NAME_WITH_PREFIX}扎下了根！
+
+[sText_PkmnAbsorbedNutrients] 3063e116fb
+{B_ATK_NAME_WITH_PREFIX}\n用根吸收了养分！
+
+[sText_PkmnAnchoredItself] 206437405b
+{B_DEF_NAME_WITH_PREFIX}\n用根牢牢扎住了地面！
+
+[sText_PkmnWasMadeDrowsy] 5a57e8724e
+{B_ATK_NAME_WITH_PREFIX}让\n{B_DEF_NAME_WITH_PREFIX}变得昏昏欲睡！
+
+[sText_PkmnKnockedOff] 7be8b8e569
+{B_ATK_NAME_WITH_PREFIX}拍落了\n{B_DEF_NAME_WITH_PREFIX}的{B_LAST_ITEM}！
+
+[sText_PkmnSwappedAbilities] 0d2f5f3b63
+{B_ATK_NAME_WITH_PREFIX}和对手\n交换了特性！
+
+[sText_PkmnSealedOpponentMove] 53e1214340
+{B_ATK_NAME_WITH_PREFIX}\n封印了对手的招式！
+
+[sText_PkmnWantsGrudge] ade6c77671
+{B_ATK_NAME_WITH_PREFIX}\n想让对手怀恨在心！
+
+[sText_PkmnLostPPGrudge] ad58c7b757
+{B_ATK_NAME_WITH_PREFIX}的{B_BUFF1}\n因怨念失去了所有PP！
+
+[sText_PkmnShroudedItself] 25bbfc5447
+{B_ATK_NAME_WITH_PREFIX}\n用{B_CURRENT_MOVE}包住了自己！
+
+[sText_PkmnMoveBounced] c2912e1fea
+{B_ATK_NAME_WITH_PREFIX}的{B_CURRENT_MOVE}\n被魔法反射弹了回去！
+
+[sText_PkmnWaitsForTarget] 0378c78f9a
+{B_ATK_NAME_WITH_PREFIX}\n在等待对手出招！
+
+[sText_PkmnSnatchedMove] 7101f145c9
+{B_DEF_NAME_WITH_PREFIX}抢夺了\n{B_SCR_ACTIVE_NAME_WITH_PREFIX}的招式！
+
+[sText_ElectricityWeakened] 2f7d14446a
+电的威力\n减弱了！
+
+[sText_FireWeakened] 7560950e97
+火的威力\n减弱了！
+
+[sText_XFoundOneY] 2f29b90637
+{B_ATK_NAME_WITH_PREFIX}\n找到了一个{B_LAST_ITEM}！
+
+[sText_SoothingAroma] ec3abeefcf
+舒心的香气\n扩散开来了！
+
+[sText_ItemsCantBeUsedNow] 39ee009792
+现在不能使用道具。{PAUSE 64}
+
+[sText_ForXCommaYZ] 5382cb2701
+对于{B_SCR_ACTIVE_NAME_WITH_PREFIX}，\n{B_LAST_ITEM}{B_BUFF1}
+
+[sText_PkmnUsedXToGetPumped] 2d646cb70a
+{B_SCR_ACTIVE_NAME_WITH_PREFIX}使用\n{B_LAST_ITEM}后干劲十足！
+
+[sText_PkmnLostFocus] 48972cd377
+{B_ATK_NAME_WITH_PREFIX}\n失去集中力，无法行动！
+
+[sText_PkmnWasDraggedOut] ceec3835c7
+{B_DEF_NAME_WITH_PREFIX}\n被拖进了战斗！\p
+
+[sText_TheWallShattered] e20c547d12
+墙壁被打碎了！
+
+[sText_ButNoEffect] 231b5b5328
+但是没有效果！
+
+[sText_PkmnHasNoMovesLeft] 864df63d75
+{B_ACTIVE_NAME_WITH_PREFIX}\n已经没有可用的招式了！\p
+
+[sText_PkmnMoveIsDisabled] 9f0a5c9f6f
+{B_ACTIVE_NAME_WITH_PREFIX}的{B_CURRENT_MOVE}\n被封住了！\p
+
+[sText_PkmnCantUseMoveTorment] 47368564f7
+因为无理取闹，{B_ACTIVE_NAME_WITH_PREFIX}\n不能连续使用同一招式！\p
+
+[sText_PkmnCantUseMoveTaunt] ca4c54cb1a
+{B_ACTIVE_NAME_WITH_PREFIX}中了挑衅，\n不能使用{B_CURRENT_MOVE}！\p
+
+[sText_PkmnCantUseMoveSealed] 2ab17746a2
+{B_ACTIVE_NAME_WITH_PREFIX}不能使用\n被封印的{B_CURRENT_MOVE}！\p
+
+[sText_PkmnMadeItRain] 22cd9635be
+{B_SCR_ACTIVE_NAME_WITH_PREFIX}的{B_SCR_ACTIVE_ABILITY}\n让天空下起了雨！
+
+[sText_PkmnRaisedSpeed] d816a8f65c
+{B_SCR_ACTIVE_NAME_WITH_PREFIX}的{B_SCR_ACTIVE_ABILITY}\n提高了它的速度！
+
+[sText_PkmnProtectedBy] 4c8f69102f
+{B_DEF_NAME_WITH_PREFIX}受到了\n{B_DEF_ABILITY}的保护！
+
+[sText_PkmnPreventsUsage] 10be4a9721
+{B_DEF_NAME_WITH_PREFIX}的{B_DEF_ABILITY}\n让{B_ATK_NAME_WITH_PREFIX}\l无法使用{B_CURRENT_MOVE}！
+
+[sText_PkmnRestoredHPUsing] 22cb2701dc
+{B_DEF_NAME_WITH_PREFIX}凭借\n{B_DEF_ABILITY}回复了HP！
+
+[sText_PkmnsXMadeYUseless] a5d4861ccd
+{B_DEF_NAME_WITH_PREFIX}的{B_DEF_ABILITY}\n让{B_CURRENT_MOVE}失去了作用！
+
+[sText_PkmnChangedTypeWith] 7230d62981
+{B_DEF_NAME_WITH_PREFIX}的{B_DEF_ABILITY}\n让它变成了{B_BUFF1}属性！
+
+[sText_PkmnPreventsParalysisWith] ebf6337229
+{B_EFF_NAME_WITH_PREFIX}的{B_DEF_ABILITY}\n防止了麻痹！
+
+[sText_PkmnPreventsRomanceWith] 82aaedb49a
+{B_DEF_NAME_WITH_PREFIX}的{B_DEF_ABILITY}\n防止了着迷！
+
+[sText_PkmnPreventsPoisoningWith] 4b4ef7f0e5
+{B_EFF_NAME_WITH_PREFIX}的{B_DEF_ABILITY}\n防止了中毒！
+
+[sText_PkmnPreventsConfusionWith] 98d5703967
+{B_DEF_NAME_WITH_PREFIX}的{B_DEF_ABILITY}\n防止了混乱！
+
+[sText_PkmnRaisedFirePowerWith] ffbad7280a
+{B_DEF_NAME_WITH_PREFIX}的{B_DEF_ABILITY}\n提高了火的威力！
+
+[sText_PkmnAnchorsItselfWith] e8271db8f5
+{B_DEF_NAME_WITH_PREFIX}凭借\n{B_DEF_ABILITY}牢牢站稳！
+
+[sText_PkmnCutsAttackWith] 604327676a
+{B_SCR_ACTIVE_NAME_WITH_PREFIX}的{B_SCR_ACTIVE_ABILITY}\n降低了{B_DEF_NAME_WITH_PREFIX}的攻击！
+
+[sText_PkmnPreventsStatLossWith] 7124b41d01
+{B_SCR_ACTIVE_NAME_WITH_PREFIX}的{B_SCR_ACTIVE_ABILITY}\n防止了能力降低！
+
+[sText_PkmnHurtsWith] 2047b500a7
+{B_DEF_NAME_WITH_PREFIX}的{B_DEF_ABILITY}\n伤害了{B_ATK_NAME_WITH_PREFIX}！
+
+[sText_PkmnTraced] 463e6087d7
+{B_SCR_ACTIVE_NAME_WITH_PREFIX}复制了\n{B_BUFF1}的{B_BUFF2}！
+
+[sText_PkmnsXPreventsBurns] a2b470569f
+{B_EFF_NAME_WITH_PREFIX}的{B_EFF_ABILITY}\n防止了灼伤！
+
+[sText_PkmnsXBlocksY] 49f9fe4a99
+{B_DEF_NAME_WITH_PREFIX}的{B_DEF_ABILITY}\n挡住了{B_CURRENT_MOVE}！
+
+[sText_PkmnsXBlocksY2] b13659cd27
+{B_SCR_ACTIVE_NAME_WITH_PREFIX}的{B_SCR_ACTIVE_ABILITY}\n挡住了{B_CURRENT_MOVE}！
+
+[sText_PkmnsXRestoredHPALittle2] 825054243d
+{B_ATK_NAME_WITH_PREFIX}的{B_ATK_ABILITY}\n让HP回复了一点！
+
+[sText_PkmnsXWhippedUpSandstorm] 6f525c1d7b
+{B_SCR_ACTIVE_NAME_WITH_PREFIX}的{B_SCR_ACTIVE_ABILITY}\n掀起了沙暴！
+
+[sText_PkmnsXIntensifiedSun] f24c61f155
+{B_SCR_ACTIVE_NAME_WITH_PREFIX}的{B_SCR_ACTIVE_ABILITY}\n让日照变强了！
+
+[sText_PkmnsXPreventsYLoss] 56151b50a0
+{B_SCR_ACTIVE_NAME_WITH_PREFIX}的{B_SCR_ACTIVE_ABILITY}\n防止了{B_BUFF1}降低！
+
+[sText_PkmnsXInfatuatedY] a20a55ce08
+{B_DEF_NAME_WITH_PREFIX}的{B_DEF_ABILITY}\n让{B_ATK_NAME_WITH_PREFIX}着迷了！
+
+[sText_PkmnsXMadeYIneffective] d1ef16b9be
+{B_DEF_NAME_WITH_PREFIX}的{B_DEF_ABILITY}\n让{B_CURRENT_MOVE}无效了！
+
+[sText_PkmnsXCuredYProblem] c360659fee
+{B_SCR_ACTIVE_NAME_WITH_PREFIX}的{B_SCR_ACTIVE_ABILITY}\n治好了{B_BUFF1}！
+
+[sText_ItSuckedLiquidOoze] 39a9e71a71
+吸到了\n污泥浆！
+
+[sText_PkmnTransformed] 63460b92e8
+{B_SCR_ACTIVE_NAME_WITH_PREFIX}变身了！
+
+[sText_PkmnsXTookAttack] f9fa7aa693
+{B_DEF_NAME_WITH_PREFIX}的{B_DEF_ABILITY}\n吸引了攻击！
+
+[gText_PkmnsXPreventsSwitching] bf13c69775
+{B_BUFF1}的{B_LAST_ABILITY}\n让宝可梦无法替换！\p
+
+[sText_PreventedFromWorking] 6e437cde20
+{B_DEF_NAME_WITH_PREFIX}的{B_DEF_ABILITY}\n让{B_SCR_ACTIVE_NAME_WITH_PREFIX}的\l{B_BUFF1}失去了作用！
+
+[sText_PkmnsXMadeItIneffective] 71a62c5ccd
+{B_SCR_ACTIVE_NAME_WITH_PREFIX}的{B_SCR_ACTIVE_ABILITY}\n让它无效了！
+
+[sText_PkmnsXPreventsFlinching] e989a661a4
+{B_EFF_NAME_WITH_PREFIX}的{B_EFF_ABILITY}\n防止了畏缩！
+
+[sText_PkmnsXPreventsYsZ] 17bd77a87c
+{B_ATK_NAME_WITH_PREFIX}的{B_ATK_ABILITY}\n让{B_DEF_NAME_WITH_PREFIX}的\l{B_DEF_ABILITY}失去了作用！
+
+[sText_PkmnsXCuredItsYProblem] c360659fee
+{B_SCR_ACTIVE_NAME_WITH_PREFIX}的{B_SCR_ACTIVE_ABILITY}\n治好了{B_BUFF1}！
+
+[sText_PkmnsXHadNoEffectOnY] aaf9992a5c
+{B_SCR_ACTIVE_NAME_WITH_PREFIX}的{B_SCR_ACTIVE_ABILITY}\n对{B_EFF_NAME_WITH_PREFIX}没有效果！
+
+[sText_StatSharply] 9656b5d37d
+大幅
+
+[gText_StatRose] c6bb746eee
+提高了！
+
+[sText_StatHarshly] abd2e5bb71
+大幅
+
+[sText_StatFell] 6678a1d6bc
+降低了！
+
+[sText_StatSharplyRose] 00ce86ade4
+大幅提高了！
+
+[sText_StatHarshlyFell] f8fa5372aa
+大幅降低了！
+
+[sText_UsingItemTheStatOfPkmnRose] b5da465e90
+使用{B_LAST_ITEM}后，{B_SCR_ACTIVE_NAME_WITH_PREFIX}\n的{B_BUFF1}{B_BUFF2}
+
+[sText_StatsWontIncrease2] 60f0a26e4a
+{B_ATK_NAME_WITH_PREFIX}的能力\n已经无法再提高了！
+
+[sText_StatsWontDecrease2] 8d681f6cae
+{B_DEF_NAME_WITH_PREFIX}的能力\n已经无法再降低了！
+
+[sText_CriticalHit] d609cad97d
+击中了要害！
+
+[sText_OneHitKO] b0780131a3
+一击必杀！
+
+[sText_123Poof] 4fb2f4cea3
+{PAUSE 32}1，{PAUSE 15}2，{PAUSE 15}…… {PAUSE 15}…… {PAUSE 15}…… {PAUSE 15}{PLAY_SE SE_BALL_BOUNCE_1}嘭！\p
+
+[sText_AndEllipsis] ea8021758c
+然后……\p
+
+[sText_HMMovesCantBeForgotten] 146dcebe39
+现在不能忘记\n秘传招式。\p
+
+[sText_NotVeryEffective] bdc5b098a8
+效果不好……
+
+[sText_SuperEffective] c5e970af61
+效果绝佳！
+
+[sText_GotAwaySafely] e2a218a26e
+{PLAY_SE SE_FLEE}成功逃走了！\p
+
+[sText_PkmnFledUsingIts] d335e2a07a
+{PLAY_SE SE_FLEE}{B_ATK_NAME_WITH_PREFIX}\n使用{B_LAST_ITEM}逃走了！\p
+
+[sText_PkmnFledUsing] 18c208b746
+{PLAY_SE SE_FLEE}{B_ATK_NAME_WITH_PREFIX}\n凭借{B_ATK_ABILITY}逃走了！\p
+
+[sText_WildPkmnFled] ef8d4d9db5
+{PLAY_SE SE_FLEE}野生的{B_BUFF1}逃走了！
+
+[sText_PlayerDefeatedLinkTrainer] 64a91ff853
+打败了\n{B_LINK_OPPONENT1_NAME}！
+
+[sText_TwoLinkTrainersDefeated] bfe7072e9d
+打败了{B_LINK_OPPONENT1_NAME}\n和{B_LINK_OPPONENT2_NAME}！
+
+[sText_PlayerLostAgainstLinkTrainer] 7ceec729e5
+输给了\n{B_LINK_OPPONENT1_NAME}！
+
+[sText_PlayerLostToTwo] 7223f5473e
+输给了{B_LINK_OPPONENT1_NAME}\n和{B_LINK_OPPONENT2_NAME}！
+
+[sText_PlayerBattledToDrawLinkTrainer] bf8aee3ffe
+和{B_LINK_OPPONENT1_NAME}\n打成了平手！
+
+[sText_PlayerBattledToDrawVsTwo] 58b5b8884c
+和{B_LINK_OPPONENT1_NAME}与\n{B_LINK_OPPONENT2_NAME}打成了平手！
+
+[sText_WildFled] 05c785115d
+{PLAY_SE SE_FLEE}{B_LINK_OPPONENT1_NAME}逃走了！
+
+[sText_TwoWildFled] 4607e8c685
+{PLAY_SE SE_FLEE}{B_LINK_OPPONENT1_NAME}和\n{B_LINK_OPPONENT2_NAME}逃走了！
+
+[sText_NoRunningFromTrainers] ed2de8b344
+不行！不能从\n和训练家的对战中逃走！\p
+
+[sText_CantEscape] 0f43e469e7
+无法逃走！\p
+
+[sText_DontLeaveBirch] cc31a6ad6d
+小田卷博士：别丢下我不管啊！\p
+
+[sText_ButNothingHappened] 8b5d051a0d
+但是什么也没有发生！
+
+[sText_ButItFailed] b8956614ab
+但是，失败了！
+
+[sText_ItHurtConfusion] fec0d70817
+它在混乱中\n攻击了自己！
+
+[sText_MirrorMoveFailed] 1b2caf4f88
+鹦鹉学舌失败了！
+
+[sText_StartedToRain] d16a89ddc1
+开始下雨了！
+
+[sText_DownpourStarted] 949cc2c012
+下起了倾盆大雨！
+
+[sText_RainContinues] fcdb36e86a
+雨一直在下。
+
+[sText_DownpourContinues] 854ca879f4
+大雨一直在下。
+
+[sText_RainStopped] 52ea9a69be
+雨停了。
+
+[sText_SandstormBrewed] 098655b5a6
+开始刮沙暴了！
+
+[sText_SandstormRages] 1c66643d10
+沙暴正在肆虐。
+
+[sText_SandstormSubsided] c9881214cf
+沙暴停止了。
+
+[sText_SunlightGotBright] 2ad50f95e7
+日照变强了！
+
+[sText_SunlightStrong] 1f4d355df1
+日照很强。
+
+[sText_SunlightFaded] 446428c044
+日照变回原样了。
+
+[sText_StartedHail] 23577a1179
+开始下冰雹了！
+
+[sText_HailContinues] eae52a0ff7
+冰雹一直在下。
+
+[sText_HailStopped] 728cc70b5a
+冰雹停了。
+
+[sText_FailedToSpitUp] 147637da6f
+但是什么也\n没能喷出来！
+
+[sText_FailedToSwallow] a29cab6165
+但是什么也\n没能吞下去！
+
+[sText_WindBecameHeatWave] 846a83bbfd
+风变成了\n热风！
+
+[sText_StatChangesGone] 6dd6d4aaa5
+所有的能力变化\n都消失了！
+
+[sText_CoinsScattered] b667b79290
+金币撒得到处都是！
+
+[sText_TooWeakForSubstitute] ae9273c1e2
+体力太弱，\n无法制造替身！
+
+[sText_SharedPain] cc15b8d3b2
+双方分担了\n痛苦！
+
+[sText_BellChimed] 0799c19e70
+铃声响起了！
+
+[sText_FaintInThree] c172e51a96
+听到歌声的宝可梦\n将在3回合后倒下！
+
+[sText_NoPPLeft] 4660e07ba4
+这个招式的PP\n已经没有了！\p
+
+[sText_ButNoPPLeft] 7d3969fe62
+但是这个招式的PP\n已经没有了！
+
+[sText_PkmnIgnoresAsleep] fcee8853fa
+{B_ATK_NAME_WITH_PREFIX}\n睡着了，不听指挥！
+
+[sText_PkmnIgnoredOrders] aac101db7b
+{B_ATK_NAME_WITH_PREFIX}\n不听指挥！
+
+[sText_PkmnBeganToNap] bc85e83eaf
+{B_ATK_NAME_WITH_PREFIX}打起了瞌睡！
+
+[sText_PkmnLoafing] a2c782d5ac
+{B_ATK_NAME_WITH_PREFIX}\n在偷懒！
+
+[sText_PkmnWontObey] d3b9949d7c
+{B_ATK_NAME_WITH_PREFIX}\n不听话！
+
+[sText_PkmnTurnedAway] dd9de52062
+{B_ATK_NAME_WITH_PREFIX}把头扭开了！
+
+[sText_PkmnPretendNotNotice] 34026456e5
+{B_ATK_NAME_WITH_PREFIX}\n装作没听见！
+
+[sText_EnemyAboutToSwitchPkmn] 4b3f68ba17
+{B_TRAINER1_CLASS}{B_TRAINER1_NAME}\n要派出{B_BUFF2}。\p{B_PLAYER_NAME}要替换\n宝可梦吗？
+
+[sText_PkmnLearnedMove2] e8dcf9ea42
+{B_ATK_NAME_WITH_PREFIX}学会了\n{B_BUFF1}！
+
+[sText_PlayerDefeatedLinkTrainerTrainer1] 5ddb5fd5d5
+打败了\n{B_TRAINER1_CLASS}{B_TRAINER1_NAME}！\p
+
+[sText_CreptCloser] 79ad24eb60
+{B_PLAYER_NAME}悄悄靠近了\n{B_OPPONENT_MON1_NAME}！
+
+[sText_CantGetCloser] 2cba13bd89
+{B_PLAYER_NAME}无法再靠近了！
+
+[sText_PkmnWatchingCarefully] b6ae9a5246
+{B_OPPONENT_MON1_NAME}正在\n仔细观察！
+
+[sText_PkmnCuriousAboutX] 28738fd49b
+{B_OPPONENT_MON1_NAME}对\n{B_BUFF1}很好奇！
+
+[sText_PkmnEnthralledByX] d31fb43f02
+{B_OPPONENT_MON1_NAME}被\n{B_BUFF1}迷住了！
+
+[sText_PkmnIgnoredX] ee94bfa716
+{B_OPPONENT_MON1_NAME}完全无视了\n{B_BUFF1}！
+
+[sText_ThrewPokeblockAtPkmn] 5e8b870583
+{B_PLAYER_NAME}向{B_OPPONENT_MON1_NAME}\n扔出了{POKEBLOCK}！
+
+[sText_OutOfSafariBalls] 61468eec2a
+{PLAY_SE SE_DING_DONG}广播：你的狩猎球\n已经用完了！游戏结束！\p
+
+[sText_OpponentMon1Appeared] 3998dbf73d
+{B_OPPONENT_MON1_NAME}出现了！\p
+
+[sText_WildPkmnAppeared] dc2e984522
+野生的{B_OPPONENT_MON1_NAME}出现了！\p
+
+[sText_LegendaryPkmnAppeared] dc2e984522
+野生的{B_OPPONENT_MON1_NAME}出现了！\p
+
+[sText_WildPkmnAppearedPause] b98a308b26
+野生的{B_OPPONENT_MON1_NAME}出现了！{PAUSE 127}
+
+[sText_TwoWildPkmnAppeared] 5b41575958
+野生的{B_OPPONENT_MON1_NAME}和\n{B_OPPONENT_MON2_NAME}出现了！\p
+
+[sText_Trainer1WantsToBattle] b89456c08b
+{B_TRAINER1_CLASS}{B_TRAINER1_NAME}\n向你发起了对战！\p
+
+[sText_LinkTrainerWantsToBattle] e40b32a820
+{B_LINK_OPPONENT1_NAME}\n向你发起了对战！
+
+[sText_TwoLinkTrainersWantToBattle] 96b555f7be
+{B_LINK_OPPONENT1_NAME}和{B_LINK_OPPONENT2_NAME}\n向你发起了对战！
+
+[sText_Trainer1SentOutPkmn] 9449da08a1
+{B_TRAINER1_CLASS}{B_TRAINER1_NAME}\n派出了{B_OPPONENT_MON1_NAME}！
+
+[sText_Trainer1SentOutTwoPkmn] a5ff311bd1
+{B_TRAINER1_CLASS}{B_TRAINER1_NAME}派出了\n{B_OPPONENT_MON1_NAME}和{B_OPPONENT_MON2_NAME}！
+
+[sText_Trainer1SentOutPkmn2] 9bdc6c67a2
+{B_TRAINER1_CLASS}{B_TRAINER1_NAME}\n派出了{B_BUFF1}！
+
+[sText_LinkTrainerSentOutPkmn] 1f384f54c7
+{B_LINK_OPPONENT1_NAME}派出了\n{B_OPPONENT_MON1_NAME}！
+
+[sText_LinkTrainerSentOutTwoPkmn] 8620445079
+{B_LINK_OPPONENT1_NAME}派出了\n{B_OPPONENT_MON1_NAME}和{B_OPPONENT_MON2_NAME}！
+
+[sText_TwoLinkTrainersSentOutPkmn] 7a725059e0
+{B_LINK_OPPONENT1_NAME}派出了{B_LINK_OPPONENT_MON1_NAME}！\n{B_LINK_OPPONENT2_NAME}派出了{B_LINK_OPPONENT_MON2_NAME}！
+
+[sText_LinkTrainerSentOutPkmn2] d3b737088b
+{B_LINK_OPPONENT1_NAME}派出了\n{B_BUFF1}！
+
+[sText_LinkTrainerMultiSentOutPkmn] 07739c6a80
+{B_LINK_SCR_TRAINER_NAME}派出了\n{B_BUFF1}！
+
+[sText_GoPkmn] eaeccc9f4c
+去吧！{B_PLAYER_MON1_NAME}！
+
+[sText_GoTwoPkmn] db80bf4f2d
+去吧！{B_PLAYER_MON1_NAME}和\n{B_PLAYER_MON2_NAME}！
+
+[sText_GoPkmn2] 74ad0cb1cf
+去吧！{B_BUFF1}！
+
+[sText_DoItPkmn] 5f66da6625
+上吧！{B_BUFF1}！
+
+[sText_GoForItPkmn] aa87cf848e
+加油，{B_BUFF1}！
+
+[sText_YourFoesWeakGetEmPkmn] 1f6026b16e
+对手已经很虚弱了！\n上吧，{B_BUFF1}！
+
+[sText_LinkPartnerSentOutPkmnGoPkmn] 89b2dce9bf
+{B_LINK_PARTNER_NAME}派出了{B_LINK_PLAYER_MON2_NAME}！\n去吧！{B_LINK_PLAYER_MON1_NAME}！
+
+[sText_PkmnThatsEnough] f5928afbe5
+{B_BUFF1}，够了！\n回来吧！
+
+[sText_PkmnComeBack] 73e78c7996
+{B_BUFF1}，回来吧！
+
+[sText_PkmnOkComeBack] f355df9b80
+{B_BUFF1}，好了！\n回来吧！
+
+[sText_PkmnGoodComeBack] 9de938f1dd
+{B_BUFF1}，干得好！\n回来吧！
+
+[sText_Trainer1WithdrewPkmn] ebd063e155
+{B_TRAINER1_CLASS}{B_TRAINER1_NAME}\n收回了{B_BUFF1}！
+
+[sText_LinkTrainer1WithdrewPkmn] da0b05ef09
+{B_LINK_OPPONENT1_NAME}收回了\n{B_BUFF1}！
+
+[sText_LinkTrainer2WithdrewPkmn] 3406795b27
+{B_LINK_SCR_TRAINER_NAME}收回了\n{B_BUFF1}！
+
+[sText_WildPkmnPrefix] d17dfa7cc7
+野生的
+
+[sText_FoePkmnPrefix] 85c7d7a736
+对手的
+
+[sText_FoePkmnPrefix2] 81ffe989e5
+对手
+
+[sText_AllyPkmnPrefix] c4c29e7aed
+我方
+
+[sText_FoePkmnPrefix3] 81ffe989e5
+对手
+
+[sText_AllyPkmnPrefix2] c4c29e7aed
+我方
+
+[sText_FoePkmnPrefix4] 81ffe989e5
+对手
+
+[sText_AllyPkmnPrefix3] c4c29e7aed
+我方
+
+[sText_AttackerUsedX] 1443e8e99a
+{B_ATK_NAME_WITH_PREFIX}使出了\n{B_BUFF2}
+
+[sText_ExclamationMark] 0ab8318aca
+！
+
+[sText_ExclamationMark2] 0ab8318aca
+！
+
+[sText_ExclamationMark3] 0ab8318aca
+！
+
+[sText_ExclamationMark4] 0ab8318aca
+！
+
+[sText_ExclamationMark5] 0ab8318aca
+！
+
+[sText_Attack2] df86d4b6db
+攻击
+
+[sText_Defense2] d4f6d85456
+防御
+
+[sText_Speed] 265ffc5673
+速度
+
+[sText_SpAtk2] 4881ee79a1
+特攻
+
+[sText_SpDef2] 3b0727a5ad
+特防
+
+[sText_Accuracy] 26de05a44d
+命中率
+
+[sText_Evasiveness] f2185a1d3f
+闪避率
+
+[sText_PokeblockWasTooSpicy] beeab99051
+太辣了！
+
+[sText_PokeblockWasTooDry] cf1cceab48
+太涩了！
+
+[sText_PokeblockWasTooSweet] a53ee5fbd1
+太甜了！
+
+[sText_PokeblockWasTooBitter] 3fdd7a4b97
+太苦了！
+
+[sText_PokeblockWasTooSour] 38105460b9
+太酸了！
+
+[sText_PlayerUsedItem] 3793493cf9
+{B_PLAYER_NAME}使用了\n{B_LAST_ITEM}！
+
+[sText_WallyUsedItem] 2872131b76
+满充使用了\n{B_LAST_ITEM}！
+
+[sText_Trainer1UsedItem] 436e47f6ca
+{B_TRAINER1_CLASS}{B_TRAINER1_NAME}\n使用了{B_LAST_ITEM}！
+
+[sText_TrainerBlockedBall] 92bc4924cb
+训练家把精灵球挡开了！
+
+[sText_DontBeAThief] 3a71e71c62
+不可以当小偷！
+
+[sText_ItDodgedBall] c6e43cf9a7
+它躲开了扔出的精灵球！\n这只宝可梦无法捕捉！
+
+[sText_YouMissedPkmn] 9a64b82fd9
+没有扔中宝可梦！
+
+[sText_PkmnBrokeFree] 98ee51c6ee
+糟糕！\n宝可梦从球里出来了！
+
+[sText_ItAppearedCaught] 8150a1064b
+啊！\n明明好像已经抓到了！
+
+[sText_AarghAlmostHadIt] d407020216
+可恶！\n差一点就抓到了！
+
+[sText_ShootSoClose] 5258c61fd4
+可惜！\n只差一点点了！
+
+[sText_GotchaPkmnCaughtPlayer] 73e371cd8b
+太好了！\n抓到了{B_OPPONENT_MON1_NAME}！{WAIT_SE}{PLAY_BGM MUS_CAUGHT}\p
+
+[sText_GotchaPkmnCaughtWally] 3853575ec8
+太好了！\n抓到了{B_OPPONENT_MON1_NAME}！{WAIT_SE}{PLAY_BGM MUS_CAUGHT}{PAUSE 127}
+
+[sText_GiveNicknameCaptured] fd0d1aa9a9
+要给抓到的\n{B_OPPONENT_MON1_NAME}取昵称吗？
+
+[sText_PkmnSentToPC] ea5913d092
+{B_OPPONENT_MON1_NAME}被传送到了\n{B_PC_CREATOR_NAME}电脑。
+
+[sText_Someones] 0a9d6f9185
+某人的
+
+[sText_Lanettes] abc77eae00
+真由美的
+
+[sText_PkmnDataAddedToDex] c485db84d8
+{B_OPPONENT_MON1_NAME}的数据\n已登录到宝可梦图鉴。\p
+
+[sText_ItIsRaining] d518425808
+正在下雨。
+
+[sText_SandstormIsRaging] 415b203085
+沙暴正在肆虐。
+
+[sText_BoxIsFull] 4ea07be4e0
+盒子已经满了！\n无法再捕捉宝可梦了！\p
+
+[sText_EnigmaBerry] b5401132af
+谜芝果
+
+[sText_BerrySuffix] a49b15a8bf
+果
+
+[sText_PkmnsItemCuredParalysis] 38e7de425e
+{B_SCR_ACTIVE_NAME_WITH_PREFIX}的{B_LAST_ITEM}\n治好了麻痹！
+
+[sText_PkmnsItemCuredPoison] 53c0e8f394
+{B_SCR_ACTIVE_NAME_WITH_PREFIX}的{B_LAST_ITEM}\n治好了中毒！
+
+[sText_PkmnsItemHealedBurn] 493b4f8f27
+{B_SCR_ACTIVE_NAME_WITH_PREFIX}的{B_LAST_ITEM}\n治好了灼伤！
+
+[sText_PkmnsItemDefrostedIt] 48dcb31517
+{B_SCR_ACTIVE_NAME_WITH_PREFIX}的{B_LAST_ITEM}\n解除了冰冻！
+
+[sText_PkmnsItemWokeIt] 920b1a4f7f
+{B_SCR_ACTIVE_NAME_WITH_PREFIX}的{B_LAST_ITEM}\n让它醒了过来！
+
+[sText_PkmnsItemSnappedOut] 603276f707
+{B_SCR_ACTIVE_NAME_WITH_PREFIX}的{B_LAST_ITEM}\n解除了混乱！
+
+[sText_PkmnsItemCuredProblem] f90a79e9a8
+{B_SCR_ACTIVE_NAME_WITH_PREFIX}的{B_LAST_ITEM}\n治好了{B_BUFF1}！
+
+[sText_PkmnsItemNormalizedStatus] cebc23ac17
+{B_SCR_ACTIVE_NAME_WITH_PREFIX}的{B_LAST_ITEM}\n让状态恢复了正常！
+
+[sText_PkmnsItemRestoredHealth] 5d27b86e6f
+{B_SCR_ACTIVE_NAME_WITH_PREFIX}的{B_LAST_ITEM}\n回复了体力！
+
+[sText_PkmnsItemRestoredPP] 44306013a8
+{B_SCR_ACTIVE_NAME_WITH_PREFIX}的{B_LAST_ITEM}\n回复了{B_BUFF1}的PP！
+
+[sText_PkmnsItemRestoredStatus] 30d6ffad40
+{B_SCR_ACTIVE_NAME_WITH_PREFIX}的{B_LAST_ITEM}\n让能力恢复了原样！
+
+[sText_PkmnsItemRestoredHPALittle] 5d8569b76d
+{B_SCR_ACTIVE_NAME_WITH_PREFIX}的{B_LAST_ITEM}\n让HP回复了一点！
+
+[sText_ItemAllowsOnlyYMove] c90d570594
+因为{B_LAST_ITEM}，\n只能使用{B_CURRENT_MOVE}！\p
+
+[sText_PkmnHungOnWithX] 7277e50676
+{B_DEF_NAME_WITH_PREFIX}用\n{B_LAST_ITEM}撑住了！
+
+[sText_YouThrowABallNowRight] f47e7d6e86
+现在要扔精灵球了，对吧？\n我……我会努力的！
+
+[gText_PkmnIsEvolving] a56eaa116c
+咦？\n{STR_VAR_1}的样子……
+
+[gText_CongratsPkmnEvolved] 2192e39474
+恭喜！你的{STR_VAR_1}\n进化成了{STR_VAR_2}！{WAIT_SE}\p
+
+[gText_PkmnStoppedEvolving] 07c7c48704
+咦？{STR_VAR_1}\n停止了进化！\p
+
+[gText_WhatWillPkmnDo] 249d9ec285
+{B_ACTIVE_NAME_WITH_PREFIX}\n要做什么？
+
+[gText_WhatWillPkmnDo2] d68c3ac181
+{B_PLAYER_NAME}\n要做什么？
+
+[gText_WhatWillWallyDo] d7f6f490d9
+满充\n要做什么？
+
+[gText_LinkStandby] 2dd76b6229
+{PAUSE 16}通信待机中……
+
+[gText_BattleMenu] f4c1ddc159
+战斗{CLEAR_TO 56}背包\n宝可梦{CLEAR_TO 56}逃走
+
+[gText_SafariZoneMenu] 841ec73650
+球{CLEAR_TO 56}{POKEBLOCK}\n靠近{CLEAR_TO 56}逃走
+
+[gText_MoveInterfaceType] 23b582f48e
+属性/
+
+[gText_MoveInterfacePpType] 2fb76952e2
+{PALETTE 5}{COLOR_HIGHLIGHT_SHADOW DYNAMIC_COLOR4 DYNAMIC_COLOR5 DYNAMIC_COLOR6}PP\n属性/
+
+[gText_WhichMoveToForget4] c3b50cfc06
+{PALETTE 5}{COLOR_HIGHLIGHT_SHADOW DYNAMIC_COLOR4 DYNAMIC_COLOR5 DYNAMIC_COLOR6}要忘记\n哪个招式？
+
+[gText_BattleYesNoChoice] 05f6787e5c
+{PALETTE 5}{COLOR_HIGHLIGHT_SHADOW DYNAMIC_COLOR4 DYNAMIC_COLOR5 DYNAMIC_COLOR6}是\n否
+
+[gText_BattleSwitchWhich] 5af71228bc
+{PALETTE 5}{COLOR_HIGHLIGHT_SHADOW DYNAMIC_COLOR4 DYNAMIC_COLOR5 DYNAMIC_COLOR6}和哪个\n替换？
+
+[sText_Attack] df86d4b6db
+攻击
+
+[sText_Defense] d4f6d85456
+防御
+
+[sText_SpAtk] 4881ee79a1
+特攻
+
+[sText_SpDef] 3b0727a5ad
+特防
+
+[gText_SafariBalls] b8d442f537
+{HIGHLIGHT DARK_GRAY}狩猎球
+
+[gText_SafariBallLeft] 4b4b4a5114
+{HIGHLIGHT DARK_GRAY}剩余：${HIGHLIGHT DARK_GRAY}
+
+[gText_Sleep] c3ca5f7873
+睡眠
+
+[gText_Poison] e6aa09fd40
+中毒
+
+[gText_Burn] 03b5db720e
+灼伤
+
+[gText_Paralysis] 67ef38a8a1
+麻痹
+
+[gText_Ice] d53b257ba8
+冰冻
+
+[gText_Confusion] cfc8b23ab1
+混乱
+
+[gText_Love] 9f2feb0f1e
+着迷
+
+[gText_SpaceAndSpace] 4f413364b4
+和
+
+[gText_CommaSpace] d3bc9a378d
+、
+
+[gText_BadEgg] 048d4bbc1b
+坏蛋
+
+[gText_BattleWallyName] 21d0090a84
+满充
+
+[gText_Win] f665be0a7a
+{HIGHLIGHT TRANSPARENT}胜
+
+[gText_Loss] 558333f616
+{HIGHLIGHT TRANSPARENT}负
+
+[gText_Draw] 0b1bbfe66b
+{HIGHLIGHT TRANSPARENT}平
+
+[sText_SpaceIs] c24d775265
+是
+
+[sText_ApostropheS] 003e8ecdac
+的
+
+[TYPE_NORMAL] 925aa86942
+一般属性的招式
+
+[TYPE_FIGHTING] 374a949727
+格斗属性的招式
+
+[TYPE_FLYING] 0087b488d4
+飞行属性的招式
+
+[TYPE_POISON] c392e1d62c
+毒属性的招式
+
+[TYPE_GROUND] 9e394e4c01
+地面属性的招式
+
+[TYPE_ROCK] 879da38f40
+岩石属性的招式
+
+[TYPE_BUG] ccb11ef143
+虫属性的招式
+
+[TYPE_GHOST] 1e0dc56361
+幽灵属性的招式
+
+[TYPE_STEEL] d5019d7f03
+钢属性的招式
+
+[TYPE_MYSTERY] d0353346d1
+？？？属性的招式
+
+[TYPE_FIRE] 118631db0b
+火属性的招式
+
+[TYPE_WATER] 9efaa0576c
+水属性的招式
+
+[TYPE_GRASS] b996e8f185
+草属性的招式
+
+[TYPE_ELECTRIC] 06bfcaeacc
+电属性的招式
+
+[TYPE_PSYCHIC] 1f2b2958fb
+超能力属性的招式
+
+[TYPE_ICE] ffbdce3b1a
+冰属性的招式
+
+[TYPE_DRAGON] ab7595149b
+龙属性的招式
+
+[TYPE_DARK] ac53cd5136
+恶属性的招式
+
+[gText_BattleTourney] b4cc60a52f
+对战锦标赛
+
+[sText_Round1] f7648d3834
+第1回合
+
+[sText_Round2] fa2b87ffe2
+第2回合
+
+[sText_Semifinal] 7d79eec396
+半决赛
+
+[sText_Final] 672b22cc51
+决赛
+
+[gText_TheGreatNewHope] 1a97dae0f7
+备受期待的新星！\p
+
+[gText_WillChampionshipDreamComeTrue] 52b77b8bbe
+冠军之梦能否实现？！\p
+
+[gText_AFormerChampion] 9f3a4211d5
+前任冠军！\p
+
+[gText_ThePreviousChampion] 6d36b6987b
+上届冠军！\p
+
+[gText_TheUnbeatenChampion] 110f481d2a
+不败的冠军！\p
+
+[gText_Mind] 59e63f7eaa
+精神
+
+[gText_Skill] ec9f630c86
+技巧
+
+[gText_Body] 718a7e8a58
+身体
+
+[gText_Judgment] 82e4f13c5c
+{B_BUFF1}{CLEAR 13}判定{CLEAR 13}{B_BUFF2}
+
+[sText_TwoTrainersSentPkmn] 118927257b
+{B_TRAINER1_CLASS}{B_TRAINER1_NAME}\n派出了{B_OPPONENT_MON1_NAME}！\p{B_TRAINER2_CLASS}{B_TRAINER2_NAME}\n派出了{B_OPPONENT_MON2_NAME}！
+
+[sText_Trainer2SentOutPkmn] 3678f86691
+{B_TRAINER2_CLASS}{B_TRAINER2_NAME}\n派出了{B_BUFF1}！
+
+[sText_TwoTrainersWantToBattle] 901e3aa844
+{B_TRAINER1_CLASS}{B_TRAINER1_NAME}和\n{B_TRAINER2_CLASS}{B_TRAINER2_NAME}\l向你发起了对战！\p
+
+[sText_InGamePartnerSentOutZGoN] 0d90e95d79
+{B_PARTNER_CLASS}{B_PARTNER_NAME}\n派出了{B_PLAYER_MON2_NAME}！\l去吧，{B_PLAYER_MON1_NAME}！
+
+[sText_TwoInGameTrainersDefeated] 5932404bee
+打败了{B_TRAINER1_CLASS}{B_TRAINER1_NAME}\n和{B_TRAINER2_CLASS}{B_TRAINER2_NAME}！\p
+
+[sText_PkmnIncapableOfPower] f126799f9b
+{B_ATK_NAME_WITH_PREFIX}好像\n无法发挥它的力量！
+
+[sText_GlintAppearsInEye] f5fa3bcb11
+{B_SCR_ACTIVE_NAME_WITH_PREFIX}的\n眼中闪过了一道光！
+
+[sText_PkmnGettingIntoPosition] 6d992b1241
+{B_SCR_ACTIVE_NAME_WITH_PREFIX}\n摆好了架势！
+
+[sText_PkmnBeganGrowlingDeeply] 1a5be154dc
+{B_SCR_ACTIVE_NAME_WITH_PREFIX}发出了低吼！
+
+[sText_PkmnEagerForMore] fbb9149e1f
+{B_SCR_ACTIVE_NAME_WITH_PREFIX}跃跃欲试！
+
+[sText_RefIfNothingIsDecided] 7684ca5d75
+裁判：如果3回合内\n分不出胜负，就进行判定！
+
+[sText_RefThatsIt] 137be05ffc
+裁判：到此为止！\n现在进行判定决出胜者！
+
+[sText_RefJudgeMind] 837383d83d
+裁判：判定项目1，精神！\n最有斗志的宝可梦！\p
+
+[sText_RefJudgeSkill] 292b8733a6
+裁判：判定项目2，技巧！\n最会使用招式的宝可梦！\p
+
+[sText_RefJudgeBody] 4d2ef4c213
+裁判：判定项目3，身体！\n最有活力的宝可梦！\p
+
+[sText_RefPlayerWon] a4d408bac4
+裁判：判定结果{B_BUFF1}比{B_BUFF2}！\n胜者是{B_PLAYER_NAME}的{B_PLAYER_MON1_NAME}！\p
+
+[sText_RefOpponentWon] cd0f62b90f
+裁判：判定结果{B_BUFF1}比{B_BUFF2}！\n胜者是{B_TRAINER1_NAME}的{B_OPPONENT_MON1_NAME}！\p
+
+[sText_RefDraw] 91fc2854da
+裁判：判定结果3比3！\n平局！\p
+
+[sText_DefeatedOpponentByReferee] 4f2f783d12
+{B_PLAYER_MON1_NAME}通过裁判判定\n打败了对手的{B_OPPONENT_MON1_NAME}！
+
+[sText_LostToOpponentByReferee] 0132a4450d
+{B_PLAYER_MON1_NAME}通过裁判判定\n输给了对手的{B_OPPONENT_MON1_NAME}！
+
+[sText_TiedOpponentByReferee] ccc2ef873e
+{B_PLAYER_MON1_NAME}通过裁判判定\n和对手的{B_OPPONENT_MON1_NAME}打成平手！
+
+[sText_RefCommenceBattle] f3323a6d00
+裁判：{B_PLAYER_MON1_NAME}对{B_OPPONENT_MON1_NAME}！\n对战开始！
+
+[sText_QuestionForfeitMatch] e7e938e31d
+要认输并\n退出比赛吗？
+
+[sText_ForfeitedMatch] ade005bcd9
+{B_PLAYER_NAME}认输了！
+
+[sText_Trainer1Fled] 16f63959c3
+{PLAY_SE SE_FLEE}{B_TRAINER1_CLASS}{B_TRAINER1_NAME}逃走了！
+
+[sText_PlayerLostAgainstTrainer1] bd8ffeeaad
+输给了\n{B_TRAINER1_CLASS}{B_TRAINER1_NAME}！
+
+[sText_PlayerBattledToDrawTrainer1] 99f6cb2115
+和{B_TRAINER1_CLASS}{B_TRAINER1_NAME}\n打成了平手！
+
+[gText_RecordBattleToPass] f4561d9342
+要把对战记录\n保存到开拓通行证吗？
+
+[gText_BattleRecordedOnPass] 4a64cb8d2d
+{B_PLAYER_NAME}的对战结果\n已记录在开拓通行证上。
+
+[sText_LinkTrainerWantsToBattlePause] 4a78e0e11b
+{B_LINK_OPPONENT1_NAME}\n向你发起了对战！{PAUSE 49}
+
+[sText_TwoLinkTrainersWantToBattlePause] 6dfe46fc9b
+{B_LINK_OPPONENT1_NAME}和{B_LINK_OPPONENT2_NAME}\n向你发起了对战！{PAUSE 49}
+
+[sText_AttackersStatRose] 4327d2cb91
+{B_ATK_NAME_WITH_PREFIX}的{B_BUFF1}\n{B_BUFF2}
+
+[gText_DefendersStatRose] aa8979b818
+{B_DEF_NAME_WITH_PREFIX}的{B_BUFF1}\n{B_BUFF2}
+
+[sText_AttackersStatFell] 4327d2cb91
+{B_ATK_NAME_WITH_PREFIX}的{B_BUFF1}\n{B_BUFF2}
+
+[sText_DefendersStatFell] aa8979b818
+{B_DEF_NAME_WITH_PREFIX}的{B_BUFF1}\n{B_BUFF2}
+
+[gText_EllipsisQuestionMark] 9be38b13ac
+……？\p

@@ -1,0 +1,150 @@
+--- a/src/text.c
++++ b/src/text.c
+@@ -41,6 +41,20 @@
+ static const u8 *ResolveTextString(const u8 *str);
+ #endif
+ 
++
++#ifdef PORT_BRIDGE
++// Chinese build: two-byte CJK characters (lead byte, trail byte), drawn from
++// a 12-px bitmap font compiled into the port (3ds_cjk_font.c).
++extern const unsigned char gCjkLeadIndex[256];
++extern const unsigned short gCjkGlyphs[][12];
++extern const unsigned int gCjkGlyphCount;
++#define CJK_TRAIL_MIN 1
++#define CJK_TRAILS 246
++#define CJK_ADVANCE 12
++#define IS_CJK_LEAD(c) (gCjkLeadIndex[(u8)(c)] != 0xFF)
++static void DecompressGlyph_Cjk(u8 lead, u8 trail);
++#endif
++
+ static EWRAM_DATA struct TextPrinter sTempTextPrinter = {0};
+ static EWRAM_DATA struct TextPrinter sTextPrinters[WINDOWS_MAX] = {0};
+ 
+@@ -593,6 +607,52 @@
+ }
+ #endif
+ 
++
++#ifdef PORT_BRIDGE
++static inline u32 CjkPixel(const u16 *rows, s32 x, s32 y)
++{
++    if (x < 0 || x >= 12 || y < 0 || y >= 12)
++        return 0;
++    return (rows[y] >> (11 - x)) & 1;
++}
++
++static void DecompressGlyph_Cjk(u8 lead, u8 trail)
++{
++    static const u16 sBlankRows[12] = {0};
++    u32 index = gCjkLeadIndex[lead] * CJK_TRAILS + (u32)(trail - CJK_TRAIL_MIN);
++    const u16 *rows = (trail >= CJK_TRAIL_MIN && index < gCjkGlyphCount) ? gCjkGlyphs[index] : sBlankRows;
++    s32 x, y;
++
++    for (y = 0; y < 16; y++)
++    {
++        u32 words[2] = {0, 0};
++        for (x = 0; x < 16; x++)
++        {
++            u32 color;
++            if (CjkPixel(rows, x, y))
++                color = sLastTextFgColor;
++            else if (CjkPixel(rows, x - 1, y) || CjkPixel(rows, x, y - 1) || CjkPixel(rows, x - 1, y - 1))
++                color = sLastTextShadowColor;
++            else
++                color = sLastTextBgColor;
++            words[x / 8] |= (color & 0xF) << ((x % 8) * 4);
++        }
++        if (y < 8)
++        {
++            gCurGlyph.gfxBufferTop[y] = words[0];
++            gCurGlyph.gfxBufferTop[8 + y] = words[1];
++        }
++        else
++        {
++            gCurGlyph.gfxBufferBottom[y - 8] = words[0];
++            gCurGlyph.gfxBufferBottom[8 + y - 8] = words[1];
++        }
++    }
++    gCurGlyph.width = CJK_ADVANCE;
++    gCurGlyph.height = 15;
++}
++#endif
++
+ void DecompressGlyphTile(const void *src_, void *dest_)
+ {
+     const u16 *src = src_;
+@@ -1056,6 +1116,18 @@
+         currChar = *textPrinter->printerTemplate.currentChar;
+         textPrinter->printerTemplate.currentChar++;
+ 
++#ifdef PORT_BRIDGE
++        if (!textPrinter->japanese && IS_CJK_LEAD(currChar) && subStruct->fontId != FONT_BRAILLE
++         && *textPrinter->printerTemplate.currentChar != EOS)
++        {
++            u8 trail = *textPrinter->printerTemplate.currentChar++;
++            DecompressGlyph_Cjk(currChar, trail);
++            CopyGlyphToWindow(textPrinter);
++            textPrinter->printerTemplate.currentX += gCurGlyph.width;
++            return RENDER_PRINT;
++        }
++#endif
++
+         switch (currChar)
+         {
+         case CHAR_NEWLINE:
+@@ -1494,6 +1566,14 @@
+ #endif
+             while (*bufferPointer != EOS)
+             {
++#ifdef PORT_BRIDGE
++                if (!isJapanese && IS_CJK_LEAD(*bufferPointer) && bufferPointer[1] != EOS)
++                {
++                    bufferPointer += 2;
++                    lineWidth += CJK_ADVANCE;
++                    continue;
++                }
++#endif
+                 glyphWidth = func(*bufferPointer++, isJapanese);
+                 if (minGlyphWidth > 0)
+                 {
+@@ -1591,6 +1671,14 @@
+         case CHAR_PROMPT_CLEAR:
+             break;
+         default:
++#ifdef PORT_BRIDGE
++            if (!isJapanese && IS_CJK_LEAD(*str) && str[1] != EOS)
++            {
++                ++str;
++                lineWidth += minGlyphWidth > CJK_ADVANCE ? minGlyphWidth : CJK_ADVANCE;
++                break;
++            }
++#endif
+             glyphWidth = func(*str, isJapanese);
+             if (minGlyphWidth > 0)
+             {
+--- a/src/string_util.c
++++ b/src/string_util.c
+@@ -685,6 +685,10 @@
+ bool32 IsStringJapanese(u8 *str)
+ {
+ #ifdef PORT_BRIDGE
++    // Chinese build: CJK lead bytes overlap the Japanese codes.
++    return FALSE;
++#endif
++#ifdef PORT_BRIDGE
+     str = (u8 *)ResolveTextString(str);
+ #endif
+ 
+--- a/src/contest.c
++++ b/src/contest.c
+@@ -6037,6 +6037,9 @@
+ static u8 GetMonNicknameLanguage(u8 *nickname)
+ {
+     u8 ret = GAME_LANGUAGE;
++#ifdef PORT_BRIDGE
++    return ret;
++#endif
+ 
+     if (nickname[0] == EXT_CTRL_CODE_BEGIN && nickname[1] == EXT_CTRL_CODE_JPN)
+         return GAME_LANGUAGE;
