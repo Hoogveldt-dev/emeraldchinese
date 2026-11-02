@@ -3,3 +3,5 @@
 {"at": "2026-11-02T20:47:54Z", "cmd": "gloss", "model": "deepseek-flash", "requests": 2, "texts": 22, "input": 2252, "cached": 0, "output": 4429, "usd": 0.003}
 {"at": "2026-11-02T20:51:51Z", "cmd": "translate", "model": "deepseek-flash", "requests": 178, "texts": 6925, "input": 356400, "cached": 22784, "output": 163715, "usd": 0.1483}
 {"at": "2026-11-02T20:51:54Z", "cmd": "translate", "model": "deepseek-flash", "requests": 1, "texts": 12, "input": 989, "cached": 128, "output": 466, "usd": 0.0004}
+{"at": "2026-11-02T20:58:34Z", "cmd": "gloss", "model": "deepseek-flash", "requests": 530, "texts": 6403, "input": 628734, "cached": 69632, "output": 1296528, "usd": 0.862}
+{"at": "2026-11-02T20:59:34Z", "cmd": "gloss", "model": "deepseek-flash", "requests": 48, "texts": 345, "input": 61332, "cached": 7040, "output": 117496, "usd": 0.0787}
