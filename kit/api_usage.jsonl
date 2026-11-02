@@ -1,3 +1,5 @@
 {"at": "2026-11-02T20:46:12Z", "cmd": "translate", "model": "deepseek-flash", "requests": 1, "texts": 24, "input": 1492, "cached": 0, "output": 593, "usd": 0.0006}
 {"at": "2026-11-02T20:46:24Z", "cmd": "gloss", "model": "deepseek-flash", "requests": 2, "texts": 19, "input": 2244, "cached": 0, "output": 4444, "usd": 0.003}
 {"at": "2026-11-02T20:47:54Z", "cmd": "gloss", "model": "deepseek-flash", "requests": 2, "texts": 22, "input": 2252, "cached": 0, "output": 4429, "usd": 0.003}
+{"at": "2026-11-02T20:51:51Z", "cmd": "translate", "model": "deepseek-flash", "requests": 178, "texts": 6925, "input": 356400, "cached": 22784, "output": 163715, "usd": 0.1483}
+{"at": "2026-11-02T20:51:54Z", "cmd": "translate", "model": "deepseek-flash", "requests": 1, "texts": 12, "input": 989, "cached": 128, "output": 466, "usd": 0.0004}
