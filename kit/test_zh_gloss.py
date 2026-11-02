@@ -85,6 +85,13 @@ class CheckTest(unittest.TestCase):
         self.assertIsNone(c.warn("一点儿", "yìdiǎnr"))   # tone change of 一
         self.assertIsNone(c.warn("你", "nǐ"))              # unknown word: no warning
 
+    def test_cedict_neutral_tone(self):
+        d = fixture(self)
+        (d / "cedict.u8").write_text("外面 外面 [wai4 mian4] /outside/\n", encoding="utf-8")
+        c = zh_gloss.Cedict(d / "cedict.u8")
+        self.assertIsNone(c.warn("外面", "wàimian"))       # spoken neutral tone
+        self.assertIsNotNone(c.warn("外面", "wàimiàn".replace("à", "á", 1)))
+
 
 class BinaryTest(unittest.TestCase):
     def test_round_trip(self):

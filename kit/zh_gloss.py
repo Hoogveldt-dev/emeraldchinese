@@ -107,6 +107,19 @@ def check_answer(zh_paras, answer):
 # Optional check against CC-CEDICT (warnings only)
 # --------------------------------------------------------------------------
 
+def _same_reading(ours, theirs, ignore_tones=False) -> bool:
+    """Same syllables; a neutral tone (5) on either side matches any tone,
+    since CC-CEDICT often gives the citation tone where speech has none."""
+    if len(ours) != len(theirs):
+        return False
+    for a, b in zip(ours, theirs):
+        if a[:-1] != b[:-1]:
+            return False
+        if not ignore_tones and a[-1] != b[-1] and "5" not in (a[-1], b[-1]):
+            return False
+    return True
+
+
 class Cedict:
     """Readings per simplified word from a cedict_ts.u8 file."""
 
@@ -127,12 +140,9 @@ class Cedict:
         units, why = split_reading(word, pinyin)
         if not known or why:
             return None
-        ours = numbered(units)
-        if "一" in word or "不" in word:     # tone change: compare without tones
-            strip = lambda r: re.sub(r"\d", "", r)  # noqa: E731
-            if strip(ours) in {strip(r) for r in known}:
-                return None
-        elif ours in known:
+        ours = numbered(units).split()
+        sandhi = "一" in word or "不" in word    # tone change: compare without tones
+        if any(_same_reading(ours, r.split(), sandhi) for r in known):
             return None
         return "%s %s: CC-CEDICT has %s" % (word, pinyin, " / ".join(sorted(known)))
 
