@@ -17,3 +17,8 @@
   bron veranderde.
 * Testen: Azahar headless is niet aanwezig; minimaal moet de build slagen en
   `localize_chinese.py --check` zonder problemen draaien.
+  Zonder ROM: `scripts/test_port.sh` (eigen C-code in `port/`) en
+  `cd kit && python3 -m unittest test_zh_gloss`.
+* Brug naar WooferCitra: `port/woofer_bridge.c` is spelonafhankelijk; het
+  protocol staat in `docs/woofer-bridge/PROTOCOL.md` en is gelijk aan dat in
+  WooferCitra. Wijzig het altijd in beide repo's.

@@ -19,6 +19,7 @@ git -C "$PORT" clean -q -fd -- 3ds_port patches tools
 cp patches/pokeemerald/*.patch "$PORT/patches/pokeemerald/"
 for p in patches/port/*.patch; do git -C "$PORT" apply --whitespace=nowarn "$ROOT/$p"; done
 cp port/*.c "$PORT/3ds_port/src/"
+cp port/*.h "$PORT/3ds_port/src/"
 
 step "lettertype: 12-px CJK-glyphs en tekentabel"
 $PY tools/gen_font.py "build/font/$BDF" out

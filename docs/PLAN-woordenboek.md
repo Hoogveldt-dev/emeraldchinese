@@ -1,7 +1,10 @@
 # Woordenboekfunctie: bouwplan (WooferCitra + PokemonWoofer)
 
-Status: voorstel, versie 2 (2026-11-02). Vervangt versie 1, die uitging van
-screenshots en tekstherkenning (OCR).
+Status: versie 3 (2026-11-02). Versie 2 is goedgekeurd; versie 3 maakt de brug
+spelonafhankelijk, zodat volgende games hetzelfde principe volgen. Het
+protocol staat nu apart in `docs/woofer-bridge/PROTOCOL.md` (in beide repo's
+gelijk), met een handdruk van emulator naar game en één woordenlijst voor alle
+games: `sdmc:/woofer/vocab.jsonl`.
 
 ## 1. Doel
 
@@ -51,7 +54,7 @@ Qt-code van de eerste poging zijn daarmee niet meer nodig voor dit doel.
  | kit: vertalen + per tekst |  zh_dialog | huidige zin bijhouden             |
  | woorden, pinyin, betekenis| --------> | onderscherm: zin, woord aantikken,|
  | (zh_gloss.bin)            |  zh_gloss | pinyin + betekenis, Opslaan        |
- +---------------------------+           | -> sdmc:/3ds/emerald3ds/vocab.jsonl|
+ +---------------------------+           | -> sdmc:/woofer/vocab.jsonl       |
                                          +----------------+-----------------+
                                                           | "WOOF1 {...}" via
                                                           | svcOutputDebugString
@@ -127,7 +130,8 @@ Na deze fase is het doel bereikt.
 - [ ] Lettertype: de pinyin heeft klinkers met toontekens nodig (ā á ǎ à, ē é ě è,
       ī í ǐ ì, ō ó ǒ ò, ū ú ǔ ù, ǖ ǘ ǚ ǜ, ü). Die toevoegen via `tools/gen_font.py`
       uit hetzelfde WenQuanYi-lettertype.
-- [ ] Opslaan als `sdmc:/3ds/emerald3ds/vocab.jsonl`. Elk opgeslagen woord is
+- [ ] Opslaan in `sdmc:/woofer/vocab.jsonl` (gedeeld door alle Woofer-games),
+      met `Woofer_BeginVocab` en `Woofer_SaveVocab`. Elk opgeslagen woord is
       één nieuwe regel die achteraan wordt toegevoegd. Dat is veilig op een
       SD-kaart: bij stroomuitval gaat hooguit de laatste regel verloren, nooit
       de hele lijst.
@@ -137,28 +141,35 @@ Na deze fase is het doel bereikt.
 
 ### Fase 3: de brug naar WooferCitra (protocol v1)
 
-- [ ] Game: bij elke nieuwe pagina in het berichtvak één regel sturen via
-      `svcOutputDebugString`, met het voorvoegsel `WOOF1 ` en daarna JSON (zie
-      paragraaf 5). Dit staat los van `CtrLog_Write`, dat alleen werkt als
-      `debug.txt` bestaat.
-- [ ] Ook een regel sturen bij elk woord dat in de game wordt opgeslagen, zodat
-      WooferCitra direct bijwerkt.
-- [ ] WooferCitra (core): in `SVC::OutputDebugString` regels met `WOOF1 `
-      herkennen en doorgeven via een callback aan de frontend, op dezelfde
-      manier als `VideoCore::g_screenshot_complete_callback`. Andere regels gaan
-      zoals nu naar de log.
-- [ ] Het protocoldocument in beide repo's zetten.
+- [x] Protocol spelonafhankelijk vastgelegd in `docs/woofer-bridge/PROTOCOL.md`,
+      in beide repo's.
+- [x] Handdruk: de game vraagt `svcGetSystemInfo(0x574F4F46 'WOOF', 0)`.
+      WooferCitra antwoordt met versie 1; een echte 3DS en andere emulators
+      niet, en dan stuurt de game niets.
+- [x] Game: `port/woofer_bridge.c` (spelonafhankelijk) en patch
+      `0110-woofer-bridge.patch`: handdruk en `hello` bij het opstarten.
+      Let op: `CtrLog_Write` stuurt alle logregels van de port al via
+      `svcOutputDebugString`; de brug onderscheidt die door het voorvoegsel.
+- [x] WooferCitra (core): `src/core/woofer/` herkent `WOOF1 `-regels in
+      `SVC::OutputDebugString`, bewaart de laatste `hello` en `line`, geeft ze
+      via een callback aan de frontend en beantwoordt de handdruk.
+- [ ] Game: `line` bij elke nieuwe pagina, `clear` bij sluiten, `saved` bij
+      opslaan. Hangt af van fase 2 (bijhouden welke pagina in beeld is).
 
 ### Fase 4: Android-paneel in WooferCitra
 
-- [ ] JNI: de callback doorgeven aan Java (`NativeLibrary`).
+- [x] JNI: de callback doorgeven aan Java (`NativeLibrary.onWooferMessage`,
+      `org.citra.emu.woofer.WooferBridge`), met lezen en aanvullen van
+      `vocab.jsonl` via de core (werkt ook met Android-opslagrechten via SAF).
 - [ ] Een inklapbaar paneel naast of onder het beeld met de huidige zin, de
       aantikbare woorden, pinyin en betekenis. Op een telefoon in landschap is
       daar ruim plek voor.
 - [ ] Uitspraak met de Android-spraakfunctie (`TextToSpeech`, zh-CN), per woord
       en voor de hele zin. Dit is een duidelijke meerwaarde boven de 3DS.
-- [ ] "Opslaan" schrijft naar hetzelfde `vocab.jsonl` op de geëmuleerde SD-kaart,
-      zodat de game en de emulator één lijst delen.
+- [ ] "Opslaan" via `WooferBridge.saveWord`: hetzelfde `vocab.jsonl` op de
+      geëmuleerde SD-kaart, zodat de games en de emulator één lijst delen.
+- [ ] `WooferBridge.setPanelVisible` aanroepen als het paneel open of dicht
+      gaat, zodat de game zijn eigen paneel kan aanpassen.
 - [ ] Een woordenlijstscherm in het hoofdmenu: zoeken, verwijderen, en export
       naar Anki (TSV met hanzi, pinyin, betekenis, zin en plek in het spel).
 
@@ -170,37 +181,21 @@ Na deze fase is het doel bereikt.
 - [ ] HSK-niveau per woord, toe te voegen in de `gloss`-stap.
 - [ ] Herhalen volgens spaced repetition in WooferCitra (eenvoudig SM-2).
 
-## 5. Protocol v1 (game naar emulator)
+## 5. Protocol en volgende games
 
-Eén regel per bericht via `svcOutputDebugString`, UTF-8:
+Het protocol (handdruk, berichten `hello`, `line`, `clear`, `saved` en het
+formaat van `vocab.jsonl`) staat in `docs/woofer-bridge/PROTOCOL.md`. Dat
+bestand is in WooferCitra en in elke Woofer-game gelijk.
 
-```
-WOOF1 {"t":"line","h":"6b8a1f0c9e2d4a17","zh":"勇者啊，你终于来了。","en":"Ah, hero, you have finally come.","w":[{"s":"勇者","p":"yǒngzhě","g":"hero"},{"s":"啊","p":"a","g":"(particle)"},{"s":"，"},{"s":"你","p":"nǐ","g":"you"},{"s":"终于","p":"zhōngyú","g":"finally"},{"s":"来","p":"lái","g":"to come"},{"s":"了","p":"le","g":"(completed action)"},{"s":"。"}],"loc":"LittlerootTown"}
-WOOF1 {"t":"saved","s":"勇者","p":"yǒngzhě"}
-```
+Uitgangspunt voor volgende games: de emulator blijft spelonafhankelijk en
+krijgt alles van de game. Een nieuwe game neemt over:
 
-- `t`: soort bericht (`line` of `saved`). Onbekende soorten worden genegeerd.
-- `h`: de hash van de tekst, zoals in `zh_dialog.bin`.
-- `w`: woorden op volgorde. Stukken zonder `p` (leestekens, namen) zijn niet
-  aantikbaar.
-- `loc`: de groep uit `dialogue_en.jsonl`, als plek in het spel.
-- Het versienummer zit in het voorvoegsel. Een nieuwe versie wordt `WOOF2`, en
-  een emulator die die niet kent negeert hem.
-- Maximale lengte: wat in één aanroep past. Een te lange regel wordt niet
-  afgekapt maar zonder `en` opnieuw gestuurd.
-
-### Woordenlijst `vocab.jsonl`
-
-Eén JSON-object per regel:
-
-```json
-{"v":1,"s":"勇者","p":"yǒngzhě","g":"hero","zh":"勇者啊，你终于来了。","en":"Ah, hero, you have finally come.","loc":"LittlerootTown","at":"2026-11-02T14:03:00Z","status":"new"}
-```
-
-Wijzigen of verwijderen gebeurt door een nieuwe regel met hetzelfde woord
-achteraan te zetten (`"status":"deleted"` voor verwijderen). Wie het bestand
-leest, neemt per woord de laatste regel. Zo hoeft niemand ooit het hele bestand
-te herschrijven.
+| Onderdeel | Uit PokemonWoofer | Per game aan te passen |
+|---|---|---|
+| Brug | `port/woofer_bridge.c`, `.h` | `game`-id in `Woofer_Init` |
+| Woorddata | `kit/zh_pinyin.py`, `zh_gloss.py`, `zh_gloss_bin.py` | tekstcodering en uitlezen van de dialogen |
+| Tests | `scripts/test_port.sh`, `kit/test_zh_gloss.py` | eigen voorbeelddata |
+| Woordenlijst | `sdmc:/woofer/vocab.jsonl` | niets |
 
 ## 6. Wat er gebeurt met eerder werk
 

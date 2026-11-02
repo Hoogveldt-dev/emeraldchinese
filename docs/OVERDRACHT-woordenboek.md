@@ -29,6 +29,24 @@ schrijver en lezer), de commando's `gloss` en `review` in
 doen: de proefronde met ROM en API-sleutel, en het oordeel over de
 steekproef. Daarna fase 2.
 
+## Update: de brug (beide repo's, branch `ccr-f8302ad8-9uq3y4`)
+
+Plan versie 3: de koppeling is spelonafhankelijk gemaakt voor volgende games.
+
+- `docs/woofer-bridge/PROTOCOL.md` in beide repo's (gelijk houden).
+- WooferCitra: `src/core/woofer/bridge.*` (herkent `WOOF1`-regels, handdruk
+  via `svcGetSystemInfo` type `'WOOF'`), `src/core/woofer/vocab.*` (gedeelde
+  woordenlijst `sdmc:/woofer/vocab.jsonl`), JNI en
+  `org.citra.emu.woofer.WooferBridge` voor het Android-paneel, Catch-tests in
+  `src/tests/core/woofer/`.
+- PokemonWoofer: `port/woofer_bridge.c`/`.h`, patch
+  `patches/port/0110-woofer-bridge.patch` (handdruk en `hello` bij opstarten),
+  host-test `scripts/test_port.sh`.
+- Nog niet: `line`, `clear` en `saved` vanuit de game (na fase 2) en het
+  paneel zelf in WooferCitra (fase 4). De volledige builds (3DSX, Android)
+  zijn in de cloudsessie niet gedraaid: geen ROM, geen devkitARM, geen
+  Android SDK.
+
 ## Volgende stap: fase 1 in PokemonWoofer (`kit/`)
 
 Nieuwe stap `gloss` in `kit/translate_dialogue.py`, met de helpers in een
