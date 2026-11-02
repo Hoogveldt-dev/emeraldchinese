@@ -95,18 +95,18 @@ Dat staat in beide repo's, en beide kanten controleren het versienummer.
 Eerst de data, omdat de kwaliteit daarvan alles bepaalt en we dit zonder
 emulator of hercompilatie kunnen beoordelen.
 
-- [ ] `translate_dialogue.py` uitbreiden met een stap `gloss`. Per vertaalde
+- [x] `translate_dialogue.py` uitbreiden met een stap `gloss`. Per vertaalde
       tekst: een lijst woorden met per woord de tekens, pinyin met toontekens
       en een korte Engelse betekenis (eventueel ook Nederlands).
-- [ ] Werkwijze: eerst automatisch segmenteren en pinyin bepalen, daarna het
+- [x] Werkwijze: eerst automatisch segmenteren en pinyin bepalen, daarna het
       taalmodel laten controleren en verbeteren, met de hele zin en de Engelse
       bron als context. Dat vangt woorden met meerdere uitspraken (行, 了, 得,
       长, 重) en spelnamen uit `glossary.json`.
-- [ ] Hervatbaar via een cache, net als `zh_cache.json`.
-- [ ] `build` maakt naast `zh_dialog.bin` een `zh_gloss.bin`, met dezelfde
+- [x] Hervatbaar via een cache, net als `zh_cache.json`.
+- [x] `build` maakt naast `zh_dialog.bin` een `zh_gloss.bin`, met dezelfde
       hash als sleutel. Betekenissen worden ontdubbeld in één tabel, zodat het
       bestand klein blijft voor een Old 3DS.
-- [ ] Controle: `--only birch_speech,LittlerootTown` en de resultaten met de
+- [x] Controle: `--only birch_speech,LittlerootTown` en de resultaten met de
       hand nalopen. Pas daarna alles verwerken.
 - [ ] Later dezelfde gegevens voor de ingebouwde catalogi (`catalog/zh_cn`):
       menu's en gevechtsberichten.
@@ -115,22 +115,24 @@ emulator of hercompilatie kunnen beoordelen.
 
 Na deze fase is het doel bereikt.
 
-- [ ] Bijhouden welke tekst er in het berichtvak staat: de hash uit
+- [x] Bijhouden welke tekst er in het berichtvak staat: de hash uit
       `Cjk_TextOverride` en de uitgevouwen tekst die de printer van het
       berichtvak krijgt.
-- [ ] Namen als `{PLAYER}` worden pas tijdens het spelen ingevuld. Daardoor
+- [x] Namen als `{PLAYER}` worden pas tijdens het spelen ingevuld. Daardoor
       kloppen vaste byteposities niet. De game loopt daarom de uitgevouwen
       tekst door en koppelt de woorden uit `zh_gloss.bin` op volgorde. Wat niet
       overeenkomt (een ingevulde naam) blijft een los, niet-aantikbaar stuk.
-- [ ] Bij meerdere pagina's (`\p`) alleen de pagina die nu in beeld is.
-- [ ] Een woordenboekpaneel in `3ds_bottom_ui.c`: de huidige zin groot, woorden
+- [x] Bij meerdere pagina's (`\p`) alleen de pagina die nu in beeld is.
+- [x] Een woordenboekpaneel in `3ds_bottom_ui.c`: de huidige zin groot, woorden
       aantikbaar; daaronder pinyin en betekenis van het gekozen woord; knoppen
       "Opslaan" en "Engels". Te openen via een knop op het onderscherm, en
       optioneel via een sneltoets.
-- [ ] Lettertype: de pinyin heeft klinkers met toontekens nodig (ā á ǎ à, ē é ě è,
+- [x] (anders opgelost) Lettertype: de pinyin heeft klinkers met toontekens nodig (ā á ǎ à, ē é ě è,
       ī í ǐ ì, ō ó ǒ ò, ū ú ǔ ù, ǖ ǘ ǚ ǜ, ü). Die toevoegen via `tools/gen_font.py`
-      uit hetzelfde WenQuanYi-lettertype.
-- [ ] Opslaan in `sdmc:/woofer/vocab.jsonl` (gedeeld door alle Woofer-games),
+      uit hetzelfde WenQuanYi-lettertype. Opgelost zonder nieuwe glyphs: de
+      letters komen uit het lettertype van de game en het paneel tekent de
+      toonstreep erboven, zodat alle tekencodes gelijk blijven.
+- [x] Opslaan in `sdmc:/woofer/vocab.jsonl` (gedeeld door alle Woofer-games),
       met `Woofer_BeginVocab` en `Woofer_SaveVocab`. Elk opgeslagen woord is
       één nieuwe regel die achteraan wordt toegevoegd. Dat is veilig op een
       SD-kaart: bij stroomuitval gaat hooguit de laatste regel verloren, nooit
@@ -153,7 +155,7 @@ Na deze fase is het doel bereikt.
 - [x] WooferCitra (core): `src/core/woofer/` herkent `WOOF1 `-regels in
       `SVC::OutputDebugString`, bewaart de laatste `hello` en `line`, geeft ze
       via een callback aan de frontend en beantwoordt de handdruk.
-- [ ] Game: `line` bij elke nieuwe pagina, `clear` bij sluiten, `saved` bij
+- [x] Game: `line` bij elke nieuwe pagina, `clear` bij sluiten, `saved` bij
       opslaan. Hangt af van fase 2 (bijhouden welke pagina in beeld is).
 
 ### Fase 4: Android-paneel in WooferCitra
@@ -161,16 +163,16 @@ Na deze fase is het doel bereikt.
 - [x] JNI: de callback doorgeven aan Java (`NativeLibrary.onWooferMessage`,
       `org.citra.emu.woofer.WooferBridge`), met lezen en aanvullen van
       `vocab.jsonl` via de core (werkt ook met Android-opslagrechten via SAF).
-- [ ] Een inklapbaar paneel naast of onder het beeld met de huidige zin, de
+- [x] Een inklapbaar paneel naast of onder het beeld met de huidige zin, de
       aantikbare woorden, pinyin en betekenis. Op een telefoon in landschap is
       daar ruim plek voor.
-- [ ] Uitspraak met de Android-spraakfunctie (`TextToSpeech`, zh-CN), per woord
+- [x] Uitspraak met de Android-spraakfunctie (`TextToSpeech`, zh-CN), per woord
       en voor de hele zin. Dit is een duidelijke meerwaarde boven de 3DS.
-- [ ] "Opslaan" via `WooferBridge.saveWord`: hetzelfde `vocab.jsonl` op de
+- [x] "Opslaan" via `WooferBridge.saveWord`: hetzelfde `vocab.jsonl` op de
       geëmuleerde SD-kaart, zodat de games en de emulator één lijst delen.
-- [ ] `WooferBridge.setPanelVisible` aanroepen als het paneel open of dicht
+- [x] `WooferBridge.setPanelVisible` aanroepen als het paneel open of dicht
       gaat, zodat de game zijn eigen paneel kan aanpassen.
-- [ ] Een woordenlijstscherm in het hoofdmenu: zoeken, verwijderen, en export
+- [x] Een woordenlijstscherm in het hoofdmenu: zoeken, verwijderen, en export
       naar Anki (TSV met hanzi, pinyin, betekenis, zin en plek in het spel).
 
 ### Fase 5: leren
@@ -178,7 +180,7 @@ Na deze fase is het doel bereikt.
 - [ ] Status per woord (nieuw, aan het leren, bekend). De game kan bekende
       woorden in het paneel anders kleuren, omdat hij `vocab.jsonl` zelf kan
       lezen.
-- [ ] HSK-niveau per woord, toe te voegen in de `gloss`-stap.
+- [x] HSK-niveau per woord, toe te voegen in de `gloss`-stap.
 - [ ] Herhalen volgens spaced repetition in WooferCitra (eenvoudig SM-2).
 
 ## 5. Protocol en volgende games
