@@ -1,0 +1,154 @@
+{
+"d31e4280795cc44c": {
+"id": "data/text/birch_speech.inc:gText_Birch_Welcome",
+"zh": [
+"你好！让你久等了！",
+"欢迎来到宝可梦的世界！",
+"我叫小田卷。",
+"不过大家都叫我宝可梦博士。"
+]
+},
+"b950738ab9547799": {
+"id": "data/text/birch_speech.inc:gText_Birch_MainSpeech",
+"zh": [
+"这个世界上到处都生活着叫做宝可梦的生物。",
+"我们人类和宝可梦一起生活，有时是友好的玩伴，有时是互相合作的伙伴。",
+"有时候，我们也会联手和别人对战。",
+"不过，虽然我们这么亲近，我们对宝可梦还是不够了解。",
+"其实，宝可梦身上还有很多很多秘密。",
+"为了解开宝可梦的谜团，我一直在做研究。这就是我的工作。"
+]
+},
+"d09cb5c51ff9ba60": {
+"id": "data/text/birch_speech.inc:gText_Birch_AndYouAre",
+"zh": [
+"那么，你是？"
+]
+},
+"65a71b4d52726c59": {
+"id": "data/text/birch_speech.inc:gText_Birch_BoyOrGirl",
+"zh": [
+"你是男孩？还是女孩？"
+]
+},
+"6552021895b35885": {
+"id": "data/text/birch_speech.inc:gText_Birch_WhatsYourName",
+"zh": [
+"好的。你叫什么名字？"
+]
+},
+"961dcec16373f778": {
+"id": "data/text/birch_speech.inc:gText_Birch_SoItsPlayer",
+"zh": [
+"你是{PLAYER}{KUN}吗？"
+]
+},
+"7ad440d62bd1d288": {
+"id": "data/text/birch_speech.inc:gText_Birch_YourePlayer",
+"zh": [
+"啊，原来如此！",
+"你就是要搬到我的家乡未白镇来的{PLAYER}{KUN}啊。我明白了！"
+]
+},
+"62b369d456381884": {
+"id": "data/text/birch_speech.inc:gText_Birch_AreYouReady",
+"zh": [
+"好了，准备好了吗？",
+"属于你自己的冒险就要开始了。",
+"鼓起勇气，跳进充满梦想、冒险和友谊的宝可梦世界吧！",
+"那么，我等你过来。到我的宝可梦研究所来找我吧。"
+]
+},
+"66296aa62e4020e6": {
+"id": "data/maps/LittlerootTown/scripts.inc:LittlerootTown_Text_OurNewHomeLetsGoInside",
+"zh": [
+"妈妈：{PLAYER}，亲爱的，我们到了！",
+"跟着行李坐搬家卡车，一定很累吧。",
+"这里就是未白镇。",
+"你觉得怎么样？这是我们的新家！",
+"虽然有点古朴，但看起来是个住着很舒服的地方，你说呢？",
+"还有，{PLAYER}，你会有自己的房间哦！我们进去吧。"
+]
+},
+"e37da507dc0870ad": {
+"id": "data/maps/LittlerootTown/scripts.inc:LittlerootTown_Text_WaitPlayer",
+"zh": [
+"妈妈：等一下，{PLAYER}！"
+]
+},
+"b1dc1a567a3eb014": {
+"id": "data/maps/LittlerootTown/scripts.inc:LittlerootTown_Text_WearTheseRunningShoes",
+"zh": [
+"妈妈：{PLAYER}！{PLAYER}！你跟小田卷博士打过招呼了吗？",
+"哎呀！好可爱的宝可梦！是小田卷博士给你的吧。真好！",
+"你果然是你爸爸的孩子。你和宝可梦在一起真合适！",
+"来，亲爱的！如果你要出去冒险，就穿上这双跑步鞋吧。",
+"穿上它，你的脚步会变得很轻快！"
+]
+},
+"5894ae909fc49936": {
+"id": "data/maps/LittlerootTown/scripts.inc:LittlerootTown_Text_SwitchShoesWithRunningShoes",
+"zh": [
+"{PLAYER}换上了跑步鞋。"
+]
+},
+"4efab51d54855ad4": {
+"id": "data/maps/LittlerootTown/scripts.inc:LittlerootTown_Text_CanUsePCToStoreItems",
+"zh": [
+"用电脑的话，可以存放道具和宝可梦。",
+"科学的力量真是太厉害了！"
+]
+},
+"a1fdb18a7e9e17bc": {
+"id": "data/maps/LittlerootTown/scripts.inc:LittlerootTown_Text_IfYouGoInGrassPokemonWillJumpOut",
+"zh": [
+"嗯，嗯，嗯！",
+"如果走到外面的草丛里，野生的宝可梦就会跳出来！"
+]
+},
+"e920f2b8fb469690": {
+"id": "data/maps/LittlerootTown/scripts.inc:LittlerootTown_Text_DangerousIfYouDontHavePokemon",
+"zh": [
+"如果你没有自己的宝可梦，那是很危险的。"
+]
+},
+"99298b1ebf2e3d9e": {
+"id": "data/maps/LittlerootTown/scripts.inc:LittlerootTown_Text_YouSavedBirch",
+"zh": [
+"你救了小田卷博士！我太高兴了！"
+]
+},
+"44f15c7c559431c9": {
+"id": "data/maps/LittlerootTown/scripts.inc:LittlerootTown_Text_GoodLuckCatchingPokemon",
+"zh": [
+"你要去抓宝可梦吗？加油！"
+]
+},
+"e2f7106a6cde6ff1": {
+"id": "data/maps/LittlerootTown/scripts.inc:LittlerootTown_Text_ProfBirchsLab",
+"zh": [
+"小田卷博士的宝可梦研究所"
+]
+},
+"599ce2ed7863b269": {
+"id": "data/maps/LittlerootTown/scripts.inc:LittlerootTown_Text_PlayersHouse",
+"zh": [
+"{PLAYER}的家"
+]
+},
+"4c82d85299eec749": {
+"id": "data/maps/LittlerootTown/scripts.inc:LittlerootTown_Text_ProfBirchsHouse",
+"zh": [
+"小田卷博士的家"
+]
+},
+"08da08b4fa7c78ae": {
+"id": "data/maps/LittlerootTown/scripts.inc:LittlerootTown_Text_BirchSomethingToShowYouAtLab",
+"zh": [
+"小田卷博士：哎呀哎呀，{PLAYER}{KUN}！你在外面干得很好！",
+"我第一次见到你的时候，就觉得你有点特别，不过真没想到会这样。",
+"对了，我给你的宝可梦图鉴还在吗？",
+"我有东西要给你看。我们去我的研究所吧。"
+]
+}
+}
