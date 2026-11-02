@@ -19,8 +19,10 @@ python3 translate_dialogue.py status
 python3 translate_dialogue.py build                                          # -> zh_dialog.bin
 ```
 
-* OpenAI-compatibel (bijv. DeepSeek):
-  `--provider openai --base-url https://api.deepseek.com --model deepseek-chat`
+* OpenAI-compatibel, sleutel in `OPENAI_API_KEY`:
+  * DeepSeek: `--provider openai --base-url https://api.deepseek.com --model deepseek-chat`
+  * SiliconFlow: `--provider openai --base-url https://api.siliconflow.cn/v1 --model <model-id>`
+    (bijv. `deepseek-ai/DeepSeek-V3` of een Qwen-model uit hun lijst)
 * `--level simple` geeft eenvoudiger Chinees (rond HSK 3-4).
 * Voortgang staat in `zh_cache.json` (in git); stoppen en hervatten kan.
 

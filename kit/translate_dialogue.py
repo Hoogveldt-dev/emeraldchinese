@@ -172,8 +172,12 @@ def call_api(args, system: str, user: str) -> str:
         headers = {"x-api-key": args.key or os.environ.get("ANTHROPIC_API_KEY", ""),
                    "anthropic-version": "2023-06-01", "content-type": "application/json"}
     else:
-        url = (args.base_url or "https://api.openai.com").rstrip("/") + "/v1/chat/completions"
-        body = {"model": args.model or "gpt-4o", "temperature": 0.3,
+        base = (args.base_url or "https://api.openai.com").rstrip("/")
+        if base.endswith("/v1"):        # e.g. https://api.siliconflow.cn/v1
+            base = base[:-3]
+        url = base + "/v1/chat/completions"
+        body = {"model": args.model or "gpt-4o", "temperature": 0.3, "max_tokens": 8000,
+                "response_format": {"type": "json_object"},
                 "messages": [{"role": "system", "content": system}, {"role": "user", "content": user}]}
         headers = {"authorization": "Bearer " + (args.key or os.environ.get("OPENAI_API_KEY", "")),
                    "content-type": "application/json"}
