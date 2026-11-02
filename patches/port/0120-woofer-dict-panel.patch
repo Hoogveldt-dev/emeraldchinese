@@ -1,0 +1,295 @@
+--- a/3ds_port/src/3ds_bottom_ui.c
++++ b/3ds_port/src/3ds_bottom_ui.c
+@@ -120,6 +120,8 @@
+ #include "3ds_log.h"
+ #include "3ds_platform.h"
+ #include "3ds_video.h"
++/* Chinese build: the dictionary panel (PokemonWoofer port/woofer_dict.c). */
++#include "woofer_dict.h"
+ 
+ /* Exported by the game under PLATFORM_3DS, or not exported by its headers. */
+ void CB2_BagMenuRun(void);
+@@ -2355,6 +2357,8 @@
+     struct CtrSummaryView sv;
+     struct CtrBagView bv;
+     struct CtrDexView dx;
++    /* Chinese build: the dictionary panel's stamp, 0 without one. */
++    u32 dict;
+ } ViewState;
+ 
+ /* NATIVE_BLANK: one of those whose view is not there yet: the section's
+@@ -3554,6 +3558,7 @@
+     s->mode = mode;
+     s->pressed = pressed;
+     s->pickMapsec = MAPSEC_NONE;
++    s->dict = mode == MODE_FIELD ? WooferDict_Stamp() : 0;
+     if (s->mode == MODE_OFF)
+     {
+         s->title = CtrTitleScreen_RayquazaBg() >= 0;
+@@ -5162,9 +5167,213 @@
+ #define CTR_RENDER_SLOW_MS 4.0f
+ #define CTR_RENDER_SLOW_LINES 60
+ 
++/* ------------------------------------------------------------------------ */
++/* Chinese build: the dictionary panel                                      */
++/* ------------------------------------------------------------------------ */
++
++/*
++ * While a field message with words (zh_gloss.bin) is up, the whole bottom
++ * screen shows its page: the words to tap, the tapped word with pinyin,
++ * meaning and HSK level, and SAVE and ENGLISH. The data is woofer_dict.c's.
++ */
++#define DICT_X0 10
++#define DICT_X1 (W - 10)
++#define DICT_TEXT_Y 12
++#define DICT_TEXT_Y1 132
++#define DICT_INFO_Y 144
++#define DICT_BUTTON_Y 204
++#define DICT_BUTTON_H 28
++#define DICT_BUTTON_W 140
++
++typedef struct
++{
++    s16 x, y, w, h;
++} DictHit;
++
++static DictHit sDictHits[96];
++static u8 sDictHitCount;
++
++static u16 DictColour(u8 r, u8 g, u8 b)
++{
++    return Rgb565((u16)(r | (g << 5) | (b << 10)));
++}
++
++/* A tone mark over the letter drawn at x (its advance w), y the glyph's top. */
++static void DrawToneMark(int x, int w, int y, u8 tone, u16 c)
++{
++    int cx = x + (w - 1) / 2;
++
++    switch (tone)
++    {
++    case 1:
++        for (int i = -2; i <= 1; ++i)
++            Put(cx + i, y + 3, c);
++        break;
++    case 2:
++        Put(cx + 1, y + 1, c);
++        Put(cx, y + 2, c);
++        Put(cx - 1, y + 3, c);
++        break;
++    case 3:
++        Put(cx - 2, y + 1, c);
++        Put(cx - 1, y + 2, c);
++        Put(cx, y + 3, c);
++        Put(cx + 1, y + 2, c);
++        Put(cx + 2, y + 1, c);
++        break;
++    case 4:
++        Put(cx - 1, y + 1, c);
++        Put(cx, y + 2, c);
++        Put(cx + 1, y + 3, c);
++        break;
++    }
++}
++
++/* Pinyin as the game's letters with the tones drawn over them; returns x. */
++static int DrawPinyin(const WooferWord *w, int x, int y, u16 fg, u16 shadow)
++{
++    if (!w->pGame)
++        return x;
++    for (int i = 0; w->pGame[i] != EOS; ++i)
++    {
++        int adv = DrawGlyph(&sNormal, w->pGame[i], x, y, fg, shadow);
++
++        DrawToneMark(x, adv, y, w->pTones[i], fg);
++        x += adv;
++    }
++    return x;
++}
++
++/* Game text wrapped at spaces between x0 and x1, from y. */
++static void DrawWrapped(const Font *font, const u8 *str, int x0, int x1, int y, int y1, u16 fg, u16 shadow)
++{
++    u8 word[64];
++    int x = x0, lh = font->lineHeight + 2;
++
++    while (*str != EOS && y + font->height <= y1)
++    {
++        int n = 0, w;
++
++        while (*str == CHAR_SPACE)
++            ++str;
++        while (*str != EOS && *str != CHAR_SPACE && n < (int)sizeof(word) - 1)
++            word[n++] = *str++;
++        word[n] = EOS;
++        if (!n)
++            break;
++        w = StrWidth(font, word);
++        if (x > x0 && x + w > x1)
++        {
++            x = x0;
++            y += lh;
++            if (y + font->height > y1)
++                break;
++        }
++        DrawStr(font, word, x, y, fg, shadow);
++        x += w + font->widths[CHAR_SPACE];
++    }
++}
++
++static void DrawDictButton(int x, const u8 *label, bool8 lit)
++{
++    u16 face = lit ? DictColour(8, 16, 12) : DictColour(6, 9, 14);
++
++    FillRect(x, DICT_BUTTON_Y, DICT_BUTTON_W, DICT_BUTTON_H, DictColour(18, 20, 24));
++    FillRect(x + 1, DICT_BUTTON_Y + 1, DICT_BUTTON_W - 2, DICT_BUTTON_H - 2, face);
++    DrawStr(&sNormal, label, x + (DICT_BUTTON_W - StrWidth(&sNormal, label)) / 2,
++            DICT_BUTTON_Y + (DICT_BUTTON_H - sNormal.height) / 2 + 1, DictColour(31, 31, 31), DictColour(2, 3, 6));
++}
++
++static void DrawDictPanel(void)
++{
++    u16 bg = DictColour(3, 4, 8), fg = DictColour(31, 31, 31), shadow = DictColour(1, 1, 3);
++    u16 accent = DictColour(31, 24, 8), soft = DictColour(18, 20, 24), mark = DictColour(8, 12, 22);
++    int x = DICT_X0, y = DICT_TEXT_Y, lh = sNormal.lineHeight + 6, n = WooferDict_SegCount();
++    int selected = WooferDict_Selected();
++    WooferWord word;
++
++    FillRect(0, 0, W, H, bg);
++    sDictHitCount = 0;
++    if (WooferDict_ShowsEnglish())
++        DrawWrapped(&sNormal, WooferDict_EnglishPage(), DICT_X0, DICT_X1, y, DICT_TEXT_Y1, soft, shadow);
++    else for (int i = 0; i < n && i < (int)ARRAY_COUNT(sDictHits); ++i)
++    {
++        int isWord = 0, w;
++        const u8 *text = WooferDict_Seg(i, &isWord);
++
++        if (!text)
++            continue;
++        w = StrWidth(&sNormal, text);
++        if (x > DICT_X0 && x + w > DICT_X1)
++        {
++            x = DICT_X0;
++            y += lh;
++        }
++        if (y + sNormal.height > DICT_TEXT_Y1)
++            break;
++        if (i == selected)
++            FillRect(x - 1, y - 1, w + 2, sNormal.height + 2, mark);
++        DrawStr(&sNormal, text, x, y, i == selected ? accent : fg, shadow);
++        if (isWord)
++            FillRect(x, y + sNormal.height + 1, w - 1, 1, i == selected ? accent : soft);
++        sDictHits[i].x = x;
++        sDictHits[i].y = y - 3;
++        sDictHits[i].w = w;
++        sDictHits[i].h = lh;
++        sDictHitCount = i + 1;
++        x += w;
++    }
++    FillRect(DICT_X0, DICT_INFO_Y - 6, DICT_X1 - DICT_X0, 1, soft);
++    if (WooferDict_SelectedWord(&word))
++    {
++        int px = DrawStr(&sNormal, word.game, DICT_X0, DICT_INFO_Y, accent, shadow) + 10;
++
++        DrawPinyin(&word, px, DICT_INFO_Y, fg, shadow);
++        if (word.hsk)
++        {
++            u8 hsk[16];
++
++            memcpy(hsk, Ascii("HSK "), 5);
++            hsk[4] = CHAR_0 + (word.hsk > 6 ? 7 : word.hsk);
++            hsk[5] = EOS;
++            DrawStrRight(&sNormal, hsk, DICT_X1, DICT_INFO_Y, soft, shadow);
++        }
++        if (word.gGame)
++            DrawWrapped(&sNormal, word.gGame, DICT_X0, DICT_X1, DICT_INFO_Y + lh, DICT_BUTTON_Y - 4, fg, shadow);
++    }
++    else
++        DrawStr(&sNormal, Ascii("Tap a word."), DICT_X0, DICT_INFO_Y + 8, soft, shadow);
++    DrawDictButton(DICT_X0, Ascii(WooferDict_SelectedIsSaved() ? "SAVED" : "SAVE"), WooferDict_SelectedIsSaved());
++    DrawDictButton(DICT_X1 - DICT_BUTTON_W, Ascii(WooferDict_ShowsEnglish() ? "CHINESE" : "ENGLISH"), FALSE);
++}
++
++static void DictTouch(int x, int y)
++{
++    if (y >= DICT_BUTTON_Y && y < DICT_BUTTON_Y + DICT_BUTTON_H)
++    {
++        if (x >= DICT_X0 && x < DICT_X0 + DICT_BUTTON_W)
++            WooferDict_Save();
++        else if (x >= DICT_X1 - DICT_BUTTON_W && x < DICT_X1)
++            WooferDict_ToggleEnglish();
++        return;
++    }
++    if (WooferDict_ShowsEnglish())
++        return;
++    for (int i = 0; i < sDictHitCount; ++i)
++    {
++        const DictHit *h = &sDictHits[i];
++
++        if (x >= h->x - 2 && x < h->x + h->w + 2 && y >= h->y && y < h->y + h->h)
++        {
++            WooferDict_Select(i);
++            return;
++        }
++    }
++}
++
+ static void Render(const ViewState *s)
+ {
+-    bool8 cacheable = MapCacheable(s), blitted = FALSE;
++    bool8 cacheable = MapCacheable(s) && !s->dict, blitted = FALSE;
+     uint64_t phase[6] = {CtrPlatform_Ticks()};
+     u32 platesAt = sPlatesMade, evictedAt = sPlatesEvicted;
+     uint64_t plateTicksAt = sPlateTicks, drawTicksAt = sPlateDrawTicks, textTicksAt = sTextTicks;
+@@ -5265,6 +5474,8 @@
+         DrawHeader(s);
+         DrawDock(s);
+     }
++    if (s->dict)
++        DrawDictPanel();
+     phase[3] = CtrPlatform_Ticks();
+     phase[4] = CtrPlatform_Ticks();
+     /* The game's window is the compositor's while it draws there, and the
+@@ -6638,6 +6849,14 @@
+         sTouch.bag = FALSE;
+         return HIT_NONE;
+     }
++    /* The dictionary panel has the whole screen while it is on show. */
++    if (mode == MODE_FIELD && sShown.dict)
++    {
++        if (in->touchDown)
++            DictTouch(in->touchX, in->touchY);
++        sTouch.active = FALSE;
++        return HIT_NONE;
++    }
+     /* The shop's BUY screen: its picture in the middle of the whole screen,
+      * the touch in pixels of it, as it goes (drags scroll its list). */
+     if ((in->touchDown && ShopShown(mode)) || (sTouch.bag && sTouch.active && ShopShown(mode)))
+@@ -7622,6 +7841,7 @@
+      * field opens it (OpenAsked), or it is dropped after four seconds. */
+     if (sLeaveTo < SCR_COUNT && (mode == MODE_FIELD || mode >= MODE_BATTLE_INFO || ++sLeaveToWait > 240))
+         sLeaveTo = SCR_COUNT;
++    WooferDict_Frame();
+     pressed = ProcessTouch(mode);
+     ProcessKeys(mode);
+     OpenAsked(mode);
+@@ -7652,6 +7872,10 @@
+     }
+     ticks[1] = CtrPlatform_Ticks();
+     Snapshot(&sState, mode, pressed);
++    /* The dictionary panel is drawn over the whole screen: no partial
++     * redraws while it is (or was) on show. */
++    if ((sState.dict || sShown.dict) && memcmp(&sState, &sShown, sizeof(sState)) != 0)
++        sForceRedraw = TRUE;
+     /* Walking into another area, its name waits a few frames: the frame of
+      * the crossing loads the map and moves the voxel world, and the title's
+      * 2 ms on top of that were a drop on an Old 3DS. */
+@@ -7727,7 +7951,7 @@
+         return;
+     }
+     /* A part left with a flat label: that part again, the label further on. */
+-    if (sRefinePart && !sForceRedraw && !CtrVideo_BottomWhole()
++    if (sRefinePart && !sForceRedraw && !sShown.dict && !CtrVideo_BottomWhole()
+      && memcmp(&sState, &sShown, sizeof(sState)) == 0)
+     {
+         Rect r;

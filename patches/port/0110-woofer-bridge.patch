@@ -6,14 +6,14 @@ diff --git a/3ds_port/Makefile b/3ds_port/Makefile
  SOURCES += src/3ds_field_view.c
  SOURCES += src/3ds_cjk.c src/3ds_cjk_font.c
 +# Woofer bridge to WooferCitra (docs/woofer-bridge/PROTOCOL.md).
-+SOURCES += src/woofer_bridge.c
++SOURCES += src/woofer_bridge.c src/woofer_gloss.c src/woofer_dict.c
  LIBS := -lcitro2d -lcitro3d $(LIBS)
  OBJECTS := $(patsubst src/%.c,build/%.o,$(SOURCES))
  GAMEFLAGS := -DPORTABLE -DPLATFORM_3DS -D__3DS__ -DMODERN=1 -DUBFIX -D__INTELLISENSE__
 diff --git a/3ds_port/src/main_3ds.c b/3ds_port/src/main_3ds.c
 --- a/3ds_port/src/main_3ds.c
 +++ b/3ds_port/src/main_3ds.c
-@@ -91,6 +91,14 @@ int main(void)
+@@ -91,6 +91,17 @@ int main(void)
          extern void Cjk_Init(void);
          Cjk_Init();
      }
@@ -24,6 +24,9 @@ diff --git a/3ds_port/src/main_3ds.c b/3ds_port/src/main_3ds.c
 +                               const char *src, const char *build);
 +        extern const char gCtrBuildVersion[];
 +        Woofer_Init("pokeemerald-zh", "PokemonWoofer", "zh-Hans", "en", gCtrBuildVersion);
++        /* The dictionary on the bottom screen: zh_gloss.bin (woofer_dict.c). */
++        extern void WooferDict_Init(void);
++        WooferDict_Init();
 +    }
      CtrPlatformHooks hooks = {0};
      hooks.vblank = CtrGame_VBlank;
