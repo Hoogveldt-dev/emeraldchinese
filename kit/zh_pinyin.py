@@ -138,3 +138,16 @@ def to_marks(pinyin: str) -> str:
     """'ni3hao3' -> 'nǐhǎo'; text without tone numbers is returned unchanged.
     Tone numbers are cheaper for the model to write than tone marks."""
     return re.sub(r"([A-Za-zÜü:]+?)([1-5])", lambda m: _mark(m.group(1), int(m.group(2))), pinyin)
+
+
+def tone_letters(pinyin: str):
+    """'nǐhǎo' -> [('n', 0), ('i', 3), ('h', 0), ('a', 3), ('o', 0)]; ü stays ü."""
+    out = []
+    for ch in unicodedata.normalize("NFC", pinyin):
+        low = ch.lower()
+        if low in _TONES:
+            base, tone = _TONES[low]
+            out.append((base.upper() if ch != low else base, tone))
+        else:
+            out.append((ch, 0))
+    return out

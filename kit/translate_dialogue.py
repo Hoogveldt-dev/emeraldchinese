@@ -303,7 +303,8 @@ def cmd_translate(args):
                 paras, _ = split_paragraphs(r["en"])
                 zh = answer.get(str(n + 1))
                 if (isinstance(zh, list) and len(zh) == len(paras) and all(isinstance(p, str) for p in zh)
-                        and tokens(" ".join(zh)) == tokens(" ".join(paras))):
+                        and tokens(" ".join(zh)) == tokens(" ".join(paras))
+                        and set(re.findall(r"\{[^}]*\}", " ".join(zh))) <= set(re.findall(r"\{[^}]*\}", r["en"]))):
                     cache[r["hash"]] = {"id": r["id"], "zh": zh}
                     done += 1
                 else:

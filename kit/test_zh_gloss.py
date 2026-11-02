@@ -132,6 +132,8 @@ class BinaryTest(unittest.TestCase):
         w.add(0x0042, "", [[["{COLOR BLUE}"], ["你好", "nǐhǎo", "hello", 1]]])
         self.assertEqual(w.missing, {"吧"})
         texts = read_gloss(w.to_bytes())
+        decode = texts.pop("decode")
+        self.assertEqual(decode[0xBB], "A")
         self.assertEqual(sorted(texts), [0x42, 0x1234])
         self.assertEqual(texts[0x1234]["loc"], "SomeTown")
         toks = texts[0x1234]["tokens"]
@@ -141,10 +143,31 @@ class BinaryTest(unittest.TestCase):
         bank = toks[6]
         self.assertEqual((bank["p"], bank["g"], bank["h"], bank["n"]), ("yínháng", "bank", 3, 2))
         self.assertEqual(bank["game"], enc.encode("银行", terminate=True))
+        # pinyin to draw: game letters, tones apart (only A-H exist in this charmap)
+        self.assertEqual(bank["p_game"], b"")
+        hello = toks[0]
+        self.assertEqual(hello["g_game"], b"")
         self.assertIs(toks[6], toks[11])                  # same word stored once
         self.assertEqual(len(w.words), 7)
         self.assertEqual([t if isinstance(t, str) else t["s"] for t in texts[0x42]["tokens"]],
                          ["control", "你好"])
+
+
+class DrawablePinyinTest(unittest.TestCase):
+    def test_pinyin_letters_and_tones(self):
+        d = fixture(self)
+        (d / "charmap.txt").write_text(CHARMAP + "".join("'%s' = %02X\n" % (c, 0xD5 + i)
+                                                          for i, c in enumerate("abcdefghijklmnopqrstuvwxyz"))
+                                       + "'ü' = F6\n", encoding="utf-8")
+        enc = Encoder(d / "charmap.txt", d / "cjk_table.json")
+        w = GlossWriter(enc, lambda t: False)
+        w.add(7, "", [[["银行", "yínháng", "bank", 3], ["你好", "nǚ", "x", 1]]])
+        toks = read_gloss(w.to_bytes())[7]["tokens"]
+        self.assertEqual(toks[0]["p_game"], bytes(0xD5 + "yinhang".index(c) * 0 + ord(c) - 97 for c in "yinhang") + b"\xff")
+        self.assertEqual(toks[0]["p_tones"], bytes([0, 2, 0, 0, 2, 0, 0]))
+        self.assertEqual(toks[0]["g_game"], bytes(0xD5 + ord(c) - 97 for c in "bank") + b"\xff")
+        self.assertEqual(toks[1]["p_game"], bytes([0xD5 + 13, 0xF6, 0xFF]))
+        self.assertEqual(toks[1]["p_tones"], bytes([0, 3]))
 
 
 class BuildTest(unittest.TestCase):
@@ -167,6 +190,7 @@ class BuildTest(unittest.TestCase):
             self.addCleanup(setattr, td, name, old)
         td.cmd_build(SimpleNamespace(out=str(d / "zh_dialog.bin")))
         texts = read_gloss((d / "zh_gloss.bin").read_bytes())
+        texts.pop("decode")
         self.assertEqual(list(texts), [1])
         self.assertEqual(texts[1]["loc"], "TownA")
         self.assertIn("name", texts[1]["tokens"])
