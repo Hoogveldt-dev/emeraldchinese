@@ -51,6 +51,7 @@ static struct
     const unsigned char *printed; /* the buffer being printed */
     unsigned char window;         /* its text printer */
     uint64_t hash;
+    uint32_t sum;                 /* of the printed bytes when matched */
     const unsigned char *english;
     const char *loc;
     int page;
@@ -179,10 +180,21 @@ static void SendLine(void)
     }
 }
 
+/* FNV-1a of the printed text up to its end, to see that a buffer changed. */
+static uint32_t Sum(const unsigned char *p)
+{
+    uint32_t h = 2166136261u;
+    size_t n;
+    for (n = 0; n < 0x400 && p[n] != WOOFER_EOS; n++)
+        h = (h ^ p[n]) * 16777619u;
+    return h;
+}
+
 static void Rematch(void)
 {
     int i;
 
+    sDict.sum = Sum(sDict.printed);
     sDict.count = WooferGloss_MatchPage(sDict.hash, sDict.page, sDict.printed, &sCharset, sDict.segs, MAX_SEGS);
     for (i = 0; i < sDict.count; i++)
         WooferGloss_CleanCopy(sDict.text[i], SEG_BYTES, sDict.printed + sDict.segs[i].start, sDict.segs[i].len,
@@ -208,8 +220,11 @@ void WooferDict_OnText(const unsigned char *src, const unsigned char *printed, u
      || !WooferGloss_Find(hash, NULL, NULL, &sDict.loc))
         return;             /* no words for this text: keep what is up */
     /* The same text reported twice (a source hook and the printer both do):
-     * stay on the page we are on. */
-    if (sDict.active && sDict.hash == hash && sDict.printed == printed)
+     * stay on the page we are on. Only when the buffer still holds what was
+     * matched: a hook that runs before the game fills the buffer would
+     * otherwise leave the words of the previous text up. */
+    if (sDict.active && sDict.hash == hash && sDict.printed == printed && sDict.page >= 0
+     && sDict.sum == Sum(printed))
         return;
     sDict.active = 1;
     sDict.count = 0;

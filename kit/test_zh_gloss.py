@@ -134,6 +134,11 @@ class BinaryTest(unittest.TestCase):
         texts = read_gloss(w.to_bytes())
         decode = texts.pop("decode")
         self.assertEqual(decode[0xBB], "A")
+        # every two-byte character of the table, for names and unmatched text
+        wide = texts.pop("wide")
+        for ch in "你好我们去银行":
+            self.assertEqual(wide[enc.encode(ch)], ch)
+        self.assertEqual(len(wide), len(enc.cjk))
         self.assertEqual(sorted(texts), [0x42, 0x1234])
         self.assertEqual(texts[0x1234]["loc"], "SomeTown")
         toks = texts[0x1234]["tokens"]
@@ -191,6 +196,7 @@ class BuildTest(unittest.TestCase):
         td.cmd_build(SimpleNamespace(out=str(d / "zh_dialog.bin")))
         texts = read_gloss((d / "zh_gloss.bin").read_bytes())
         texts.pop("decode")
+        texts.pop("wide")
         self.assertEqual(list(texts), [1])
         self.assertEqual(texts[1]["loc"], "TownA")
         self.assertIn("name", texts[1]["tokens"])

@@ -70,7 +70,12 @@ int WooferGloss_MatchPage(uint64_t hash, int page, const unsigned char *printed,
 size_t WooferGloss_CleanCopy(unsigned char *dst, size_t max, const unsigned char *src, size_t len,
                              const WooferCharset *cs);
 
-/* UTF-8 of game bytes with the decode table (single bytes only); returns length. */
+/* UTF-8 of game bytes: two-byte characters with the file's wide table (when
+ * it has one), single bytes with the decode table; returns length. */
 size_t WooferGloss_ToUtf8(char *dst, size_t max, const unsigned char *src, size_t len, const WooferCharset *cs);
+
+/* Bytes of the character at p: 2 for a two-byte character of the wide
+ * table, else 1. avail is how many bytes may be read from p. */
+int WooferGloss_CharLen(const unsigned char *p, size_t avail);
 
 #endif

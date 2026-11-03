@@ -15,6 +15,9 @@
 static const unsigned char *sData;
 static size_t sSize;
 static uint32_t sTexts, sOffTexts, sWords, sOffWords, sTokens, sOffTokens, sPoolSize, sOffPool, sOffDecode;
+/* The table of two-byte characters (header field off_wide); none when 0. */
+static uint32_t sOffWide, sWideChars;
+static unsigned sTrailMin, sTrails;
 
 static uint32_t U32(size_t off)
 {
@@ -50,6 +53,20 @@ int WooferGloss_Use(const unsigned char *data, size_t size)
     sPoolSize = U32(32);
     sOffPool = U32(36);
     sOffDecode = U32(40);
+    sOffWide = U32(44);
+    sWideChars = 0;
+    if (sOffWide != 0)
+    {
+        uint16_t v[2];
+        if (!Fits(sOffWide, 264, 1))
+            goto bad;
+        memcpy(v, sData + sOffWide + 256, 4);
+        sTrailMin = v[0];
+        sTrails = v[1];
+        sWideChars = U32(sOffWide + 260);
+        if (sTrails == 0 || !Fits(sOffWide + 264, sWideChars, 2))
+            goto bad;
+    }
     if (!Fits(sOffTexts, sTexts, TEXT_SIZE) || !Fits(sOffWords, sWords, WORD_SIZE) || !Fits(sOffTokens, sTokens, 4)
      || !Fits(sOffDecode, 256, 4) || !Fits(sOffPool, sPoolSize, 1) || sPoolSize == 0)
         goto bad;
@@ -58,6 +75,7 @@ bad:
     sData = NULL;
     sSize = 0;
     sTexts = 0;
+    sOffWide = sWideChars = 0;
     return 0;
 }
 
@@ -173,6 +191,29 @@ const char *WooferGloss_Decode(unsigned char b)
         return NULL;
     p = Pool(U32(sOffDecode + (size_t)b * 4), 0);
     return p != NULL ? (const char *)p : NULL;
+}
+
+/* The code point of the two-byte character at p (p[1] must be readable), 0
+ * when p does not start one. */
+static uint32_t WideAt(const unsigned char *p)
+{
+    unsigned lead, index;
+    uint16_t cp;
+    if (sData == NULL || sWideChars == 0)
+        return 0;
+    lead = sData[sOffWide + p[0]];
+    if (lead == 0xFF || p[1] < sTrailMin || p[1] - sTrailMin >= sTrails)
+        return 0;
+    index = lead * sTrails + (p[1] - sTrailMin);
+    if (index >= sWideChars)
+        return 0;
+    memcpy(&cp, sData + sOffWide + 264 + (size_t)index * 2, 2);
+    return cp;
+}
+
+int WooferGloss_CharLen(const unsigned char *p, size_t avail)
+{
+    return avail >= 2 && WideAt(p) != 0 ? 2 : 1;
 }
 
 /* ------------------------------------------------------------------------ */
@@ -293,7 +334,8 @@ int WooferGloss_MatchPage(uint64_t hash, int page, const unsigned char *printed,
             m = MatchAt(printed, at, pe, w.game, cs);
         if (m == 0)
         {
-            for (at = pos; at < pe; at++)
+            /* character by character: never from the second byte of one */
+            for (at = pos; at < pe; at += (size_t)WooferGloss_CharLen(printed + at, pe - at))
                 if ((m = MatchAt(printed, at, pe, w.game, cs)) > 0)
                     break;
             if (m == 0)
@@ -339,6 +381,7 @@ size_t WooferGloss_ToUtf8(char *dst, size_t max, const unsigned char *src, size_
     while (i < len && src[i] != WOOFER_EOS && src[i] != cs->clear)
     {
         const char *u;
+        uint32_t cp;
         int skip = Skip(src, i, len, cs);
         if (skip > 0)
         {
@@ -346,6 +389,32 @@ size_t WooferGloss_ToUtf8(char *dst, size_t max, const unsigned char *src, size_
              && (n == 0 || dst[n - 1] != ' '))
                 dst[n++] = ' ';
             i += (size_t)skip;
+            continue;
+        }
+        if (i + 1 < len && (cp = WideAt(src + i)) != 0)
+        {
+            /* a two-byte character: a code point of the BMP, so 1 to 3 bytes */
+            char w[4];
+            size_t k = 0;
+            if (cp < 0x80)
+                w[k++] = (char)cp;
+            else if (cp < 0x800)
+            {
+                w[k++] = (char)(0xC0 | (cp >> 6));
+                w[k++] = (char)(0x80 | (cp & 0x3F));
+            }
+            else
+            {
+                w[k++] = (char)(0xE0 | (cp >> 12));
+                w[k++] = (char)(0x80 | ((cp >> 6) & 0x3F));
+                w[k++] = (char)(0x80 | (cp & 0x3F));
+            }
+            if (n + k + 1 < max)
+            {
+                memcpy(dst + n, w, k);
+                n += k;
+            }
+            i += 2;
             continue;
         }
         u = WooferGloss_Decode(src[i]);

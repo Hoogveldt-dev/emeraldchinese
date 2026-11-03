@@ -8,7 +8,7 @@ All numbers little endian. Layout:
     u32 n_words,  u32 off_words
     u32 n_tokens, u32 off_tokens
     u32 pool_size, u32 off_pool
-    u32 off_decode, u32 reserved
+    u32 off_decode, u32 off_wide (0 when the file has no wide table)
   texts  (24 bytes each, sorted by hash for binary search)
     u64 hash (same as zh_dialog.bin), u32 first_token, u32 n_tokens,
     u32 loc (pool offset, UTF-8), u32 reserved
@@ -22,6 +22,12 @@ All numbers little endian. Layout:
   tokens (u32 each): a word index, or one of the TOKEN_* values below
   decode (256 u32): per single game byte the UTF-8 of its character (pool
          offset, 0 when none), to turn names and English text into UTF-8
+  wide   the two-byte characters (lead, trail) of cjk_table.json, to turn
+         Chinese that is not a word (a name filled in, unmatched text) into
+         UTF-8: u8 lead index per byte (256, 0xFF when not a lead byte),
+         u16 trail_min, u16 trails, u32 n_chars, then n_chars u16 code points
+         (index = lead index * trails + trail - trail_min), padded to 4 bytes.
+         Optional: an older reader ignores it, as the field was reserved.
   pool   strings; offset 0 is the empty string. UTF-8 strings end with 0x00.
 
 A word without pinyin (punctuation) is still a word, so the game can follow
@@ -86,7 +92,8 @@ class GlossWriter:
         return self._str(bytes(out) + b"\xff") if out else 0
 
     def _word(self, s, p, g, h):
-        kept = "".join(c for c in s if not c.isspace() and self.enc.has(c))
+        # "$" is the end of a text in the game (0xFF): never part of a word
+        kept = "".join(c for c in s if not c.isspace() and self.enc.has(c) and self.enc.chars.get(c) != b"\xff")
         self.missing.update(c for c in s if not c.isspace() and not self.enc.has(c))
         if not kept:
             return None
@@ -131,21 +138,39 @@ class GlossWriter:
         off_words = off_texts + TEXT.size * len(self.texts)
         off_tokens = off_words + WORD.size * len(self.words)
         off_decode = off_tokens + 4 * len(self.tokens)
-        off_pool = off_decode + 4 * 256
+        wide = self._wide()
+        off_wide = off_decode + 4 * 256 if wide else 0
+        off_pool = off_decode + 4 * 256 + len(wide)
         out = bytearray(HEADER.pack(MAGIC, len(self.texts), off_texts, len(self.words), off_words,
-                                    len(self.tokens), off_tokens, len(self.pool), off_pool, off_decode, 0))
+                                    len(self.tokens), off_tokens, len(self.pool), off_pool, off_decode, off_wide))
         for h, first, n, loc in sorted(self.texts):
             out += TEXT.pack(h, first, n, loc, 0)
         for word in self.words:
             out += WORD.pack(*word, 0)
         out += struct.pack("<%dI" % len(self.tokens), *self.tokens)
         out += struct.pack("<256I", *decode)
+        out += wide
         return bytes(out + self.pool)
+
+    def _wide(self) -> bytes:
+        """The table of two-byte characters (see the layout above), b"" without one."""
+        t = getattr(self.enc, "table", None)
+        if not t or not t.get("chars"):
+            return b""
+        lead_index = bytearray(b"\xff" * 256)
+        for n, lead in enumerate(t["leads"]):
+            lead_index[lead] = n
+        points = [ord(c) if ord(c) <= 0xFFFF else 0 for c in t["chars"]]
+        out = bytearray(lead_index) + struct.pack("<HHI", t["trail_min"], t["trails"], len(points))
+        out += struct.pack("<%dH" % len(points), *points)
+        while len(out) % 4:
+            out += b"\x00"
+        return bytes(out)
 
 
 def read_gloss(data: bytes) -> dict:
     """zh_gloss.bin -> {hash: {"loc": str, "tokens": [word dict | "para" | "name" | "control"]}}."""
-    magic, n_texts, off_texts, n_words, off_words, n_tokens, off_tokens, pool_size, off_pool, off_decode, _ = \
+    magic, n_texts, off_texts, n_words, off_words, n_tokens, off_tokens, pool_size, off_pool, off_decode, off_wide = \
         HEADER.unpack_from(data, 0)
     if magic != MAGIC:
         raise ValueError("not a zh_gloss.bin file")
@@ -168,7 +193,18 @@ def read_gloss(data: bytes) -> dict:
     tokens = struct.unpack_from("<%dI" % n_tokens, data, off_tokens)
     special = {TOKEN_PARA: "para", TOKEN_NAME: "name", TOKEN_CONTROL: "control"}
     decode = struct.unpack_from("<256I", data, off_decode)
-    out = {"decode": {b: utf8(o) for b, o in enumerate(decode) if o}}
+    out = {"decode": {b: utf8(o) for b, o in enumerate(decode) if o}, "wide": {}}
+    if off_wide:
+        lead_index = data[off_wide:off_wide + 256]
+        trail_min, trails, n = struct.unpack_from("<HHI", data, off_wide + 256)
+        points = struct.unpack_from("<%dH" % n, data, off_wide + 264)
+        for lead, li in enumerate(lead_index):
+            if li == 0xFF:
+                continue
+            for k in range(trails):
+                i = li * trails + k
+                if i < n and points[i]:
+                    out["wide"][bytes([lead, trail_min + k])] = chr(points[i])
     for i in range(n_texts):
         h, first, n, loc, _ = TEXT.unpack_from(data, off_texts + i * TEXT.size)
         out[h] = {"loc": utf8(loc),

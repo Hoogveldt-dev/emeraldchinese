@@ -174,6 +174,28 @@ int main(int argc, char **argv)
         printf("FAIL: decode gave '%s'\n", utf8);
         missed++;
     }
+    /* Every word back to UTF-8 from its game bytes: two-byte characters
+     * through the wide table. This is what the panel gets for a name or for
+     * text that is not a word. */
+    {
+        uint32_t w, bad = 0, n = 0;
+        WooferWord word;
+        for (w = 0; WooferGloss_Word(w, &word) || w < 1; w++)
+        {
+            size_t len = 0;
+            while (word.game[len] != 0xFF)
+                len++;
+            WooferGloss_ToUtf8(utf8, sizeof(utf8), word.game, len, &kCharset);
+            n++;
+            if (strcmp(utf8, word.s) != 0 && bad++ < 5)
+                printf("FAIL: word %u decodes to '%s', not '%s'\n", w, utf8, word.s);
+        }
+        if (bad || n < 100)
+        {
+            printf("FAIL: %u of %u words do not decode\n", bad, n);
+            missed++;
+        }
+    }
     printf("woofer_gloss: %ld texts, %ld pages, %ld fully matched (%.1f%%), %ld words\n", texts, pages, matched,
            pages ? 100.0 * matched / pages : 0.0, words);
     free(dlg);

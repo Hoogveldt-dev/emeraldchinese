@@ -158,6 +158,70 @@ int main(int argc, char **argv)
     CHECK(WooferDict_Stamp() == 0);
     CHECK(sOutCount == 5 && strcmp(sOut[4], "WOOF1 {\"t\":\"clear\"}") == 0);
 
+    /* The next text is reported while the buffer still holds the previous
+     * one (a hook before the game fills it), then again once it is filled:
+     * the words must be those of the new text, not left over from the old. */
+    {
+        uint64_t prev = sHash, next = 0;
+        uint32_t first = 0, ntok = 0, k;
+        static char expect[1024];
+        static unsigned char fresh[1000];
+        size_t m = 0;
+        for (i = 0; i < count && next == 0; i++)
+        {
+            uint32_t off, len;
+            const unsigned char *t;
+            uint64_t h;
+            memcpy(&h, dlg + 16 + i * 16, 8);
+            memcpy(&off, dlg + 24 + i * 16, 4);
+            memcpy(&len, dlg + 28 + i * 16, 4);
+            t = dlg + blob + off;
+            if (h == prev || len < 8 || len >= sizeof(fresh) || memchr(t, 0xFD, len) || memchr(t, 0xFC, len)
+             || !WooferGloss_Find(h, &first, &ntok, NULL))
+                continue;
+            expect[0] = '\0';
+            for (k = first; k < first + ntok; k++)
+            {
+                uint32_t tok = WooferGloss_Token(k);
+                WooferWord w;
+                if (tok == WOOFER_TOKEN_PARA)
+                    break;
+                if (tok >= WOOFER_TOKEN_PARA || !WooferGloss_Word(tok, &w))
+                {
+                    expect[0] = '\0';
+                    break;
+                }
+                strncat(expect, w.s, sizeof(expect) - strlen(expect) - 1);
+            }
+            if (expect[0] == '\0')
+                continue;
+            for (m = 0; m < len && t[m] != 0xFF; m++)
+                fresh[m] = t[m];
+            fresh[m] = 0xFF;
+            next = h;
+        }
+        CHECK(next != 0);
+        sHash = next;
+        sPage = 0;
+        sOutCount = 0;
+        WooferDict_OnMessage(english);            /* gStringVar4: still the old text */
+        memcpy(gStringVar4, fresh, m + 1);
+        WooferDict_OnMessage(english);            /* now filled */
+        CHECK(sOutCount >= 1);
+        if (sOutCount >= 1)
+        {
+            char want[1100];
+            snprintf(want, sizeof(want), "\"zh\":\"%s\"", expect);
+            CHECK(strstr(sOut[sOutCount - 1], want) != NULL);
+            if (strstr(sOut[sOutCount - 1], want) == NULL)
+                printf("  want %s\n  got  %.300s\n", want, sOut[sOutCount - 1]);
+        }
+        /* The same text reported again with the same buffer: nothing new. */
+        n = sOutCount;
+        WooferDict_OnMessage(english);
+        CHECK(sOutCount == n);
+    }
+
     printf(sFailures ? "woofer_dict: %d failures\n" : "woofer_dict: ok\n", sFailures);
     if (!sFailures)
         printf("  line: %.160s...\n  saved: %.160s\n", sOut[1], line);
