@@ -411,13 +411,26 @@ def cmd_build(args):
             writer.add(int(h, 16), r["context"], g["w"])
         elif g:
             stale += 1
+    # The built-in Chinese texts (catalog/zh_cn in the repo): the game looks
+    # these up by the hash of the Chinese it has compiled in, so they are not
+    # in the table, only in the word data. See tools/catalog_texts.py.
+    catalog, catalog_gloss, from_catalog = HERE / "zh_catalog.jsonl", HERE / "zh_catalog_gloss.json", 0
+    if catalog.exists() and catalog_gloss.exists():
+        cg = json.loads(catalog_gloss.read_text(encoding="utf-8"))
+        for line in catalog.open(encoding="utf-8"):
+            r = json.loads(line)
+            g = cg.get(r["hash"])
+            if g and g["zh"] == zh_gloss.zh_key(zh_gloss.paragraphs(r["zh"])):
+                writer.add(int(r["hash"], 16), r["context"], g["w"])
+                from_catalog += 1
+
     out = Path(args.out)
     write_table(table, out)
     print("%s: %d texts (%d skipped)" % (out, len(table), problems))
     gloss_out = out.with_name("zh_gloss.bin")
     gloss_out.write_bytes(writer.to_bytes())
-    print("%s: %d texts, %d words (%d out of date, run 'gloss')"
-          % (gloss_out, len(writer.texts), len(writer.words), stale))
+    print("%s: %d texts (%d built in), %d words (%d out of date, run 'gloss')"
+          % (gloss_out, len(writer.texts), from_catalog, len(writer.words), stale))
     if missing_chars:
         print("characters without a glyph (left out):", "".join(sorted(missing_chars)))
 

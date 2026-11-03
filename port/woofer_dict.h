@@ -15,7 +15,11 @@
 
 void WooferDict_Init(void);
 /* A field message starts (src: the text passed to the message box) or ends. */
+/* A text the game is about to show; see woofer_dict.c. */
+void WooferDict_OnText(const unsigned char *src, const unsigned char *printed, unsigned char window);
 void WooferDict_OnMessage(const unsigned char *src);
+void WooferDict_OnBattle(const unsigned char *src);
+void WooferDict_OnPrint(unsigned char window, const unsigned char *str);
 void WooferDict_OnHide(void);
 /* Once a frame: follows the page the message box prints. */
 void WooferDict_Frame(void);

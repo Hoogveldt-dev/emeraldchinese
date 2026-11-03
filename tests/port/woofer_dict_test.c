@@ -13,6 +13,7 @@
 
 /* ---- stand-ins for the game ---- */
 unsigned char gStringVar4[1000];
+unsigned char gDisplayedStringBattle[1000];
 static int16_t sPage;
 static uint64_t sHash;
 static const unsigned char kCtrl[] = {1, 2, 2, 2, 4, 2, 2, 1, 2, 1, 1, 3, 2, 2, 2, 1, 3, 2, 2, 2, 2, 1, 1, 1, 1};

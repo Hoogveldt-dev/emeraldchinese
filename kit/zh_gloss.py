@@ -40,6 +40,11 @@ def clean_para(para: str) -> str:
     return re.sub(r"\\[nlp]|\n", "", para)
 
 
+def paragraphs(zh: str):
+    """A text as the game shows it, one entry per paragraph (\\p)."""
+    return [p for p in (clean_para(part) for part in re.split(r"\\p", zh)) if p]
+
+
 def parse_item(raw):
     """Model item (list or dict) -> [s, p, g, h], or None when unusable."""
     if isinstance(raw, dict):

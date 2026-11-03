@@ -1,9 +1,13 @@
 /*
  * The dictionary in the game. See woofer_dict.h.
  *
- * Game glue for Pokémon Emerald 3DS: the printed message is gStringVar4,
- * printed by text printer 0, its page from CtrText_PrinterPage (text.c),
- * the text's hash from Cjk_TextKey (3ds_cjk.c). The rest is game independent.
+ * Game glue for Pokémon Emerald 3DS. A text has two sides: the source the
+ * game looked up (its hash comes from Cjk_TextKey, 3ds_cjk.c) and the buffer
+ * that is printed, with names filled in. For a field message those are the
+ * script text and gStringVar4, in a battle the battle string and
+ * gDisplayedStringBattle, and for a menu or a description both are the same
+ * pointer. The page being shown comes from CtrText_PrinterPage (text.c).
+ * The rest is game independent.
  */
 #include <stdio.h>
 #include <string.h>
@@ -16,6 +20,7 @@
 /* The game (declared here with plain types; the port's own files do not
  * include pokeemerald's headers). */
 extern unsigned char gStringVar4[];
+extern unsigned char gDisplayedStringBattle[];
 int16_t CtrText_PrinterPage(uint8_t windowId, const uint8_t *str);
 uint8_t GetExtCtrlCodeLength(uint8_t code);
 int Cjk_TextKey(const unsigned char *ptr, uint64_t *hash, const unsigned char **english);
@@ -42,7 +47,9 @@ static const WooferCharset sCharset = {0xFE, 0xFA, 0xFB, 0x00, CtrlLen};
 
 static struct
 {
-    int active;                   /* a field message is up */
+    int active;                   /* a text with words is up */
+    const unsigned char *printed; /* the buffer being printed */
+    unsigned char window;         /* its text printer */
     uint64_t hash;
     const unsigned char *english;
     const char *loc;
@@ -126,7 +133,7 @@ static void SendLine(void)
             strncat(zh, w.s, sizeof(zh) - strlen(zh) - 1);
         else
         {
-            WooferGloss_ToUtf8(part, sizeof(part), gStringVar4 + s->start, s->len, &sCharset);
+            WooferGloss_ToUtf8(part, sizeof(part), sDict.printed + s->start, s->len, &sCharset);
             strncat(zh, part, sizeof(zh) - strlen(zh) - 1);
         }
     }
@@ -161,7 +168,7 @@ static void SendLine(void)
             }
             else
             {
-                WooferGloss_ToUtf8(part, sizeof(part), gStringVar4 + s->start, s->len, &sCharset);
+                WooferGloss_ToUtf8(part, sizeof(part), sDict.printed + s->start, s->len, &sCharset);
                 Woofer_Str(&msg, "s", part);
             }
             Woofer_ObjectEnd(&msg);
@@ -176,9 +183,9 @@ static void Rematch(void)
 {
     int i;
 
-    sDict.count = WooferGloss_MatchPage(sDict.hash, sDict.page, gStringVar4, &sCharset, sDict.segs, MAX_SEGS);
+    sDict.count = WooferGloss_MatchPage(sDict.hash, sDict.page, sDict.printed, &sCharset, sDict.segs, MAX_SEGS);
     for (i = 0; i < sDict.count; i++)
-        WooferGloss_CleanCopy(sDict.text[i], SEG_BYTES, gStringVar4 + sDict.segs[i].start, sDict.segs[i].len,
+        WooferGloss_CleanCopy(sDict.text[i], SEG_BYTES, sDict.printed + sDict.segs[i].start, sDict.segs[i].len,
                               &sCharset);
     sDict.selected = -1;
     EnglishPage();
@@ -186,30 +193,61 @@ static void Rematch(void)
     SendLine();
 }
 
-void WooferDict_OnMessage(const unsigned char *src)
+/*
+ * A text the game is about to show.
+ * @param src      what the game looked up: gives the hash and the English
+ * @param printed  the buffer that is printed (names filled in); may be src
+ * @param window   the text printer that prints it
+ */
+void WooferDict_OnText(const unsigned char *src, const unsigned char *printed, unsigned char window)
 {
     uint64_t hash;
     const unsigned char *english;
 
-    if (src == NULL || !WooferGloss_Ready() || !Cjk_TextKey(src, &hash, &english)
+    if (src == NULL || printed == NULL || !WooferGloss_Ready() || !Cjk_TextKey(src, &hash, &english)
      || !WooferGloss_Find(hash, NULL, NULL, &sDict.loc))
-    {
-        sDict.active = 0;
-        sDict.count = 0;
-        Changed();
-        return;
-    }
-    /* The same text reported twice (StringExpandPlaceholders and the field
-     * message box both do): stay on the page we are on. */
-    if (sDict.active && sDict.hash == hash)
+        return;             /* no words for this text: keep what is up */
+    /* The same text reported twice (a source hook and the printer both do):
+     * stay on the page we are on. */
+    if (sDict.active && sDict.hash == hash && sDict.printed == printed)
         return;
     sDict.active = 1;
     sDict.count = 0;
+    sDict.printed = printed;
+    sDict.window = window;
     sDict.hash = hash;
-    sDict.english = english;
+    /* For a text that is printed as it is, the "English" is the text itself. */
+    sDict.english = english == src && src == printed ? NULL : english;
     sDict.page = -1;
     sDict.showEnglish = 0;
     WooferDict_Frame();
+}
+
+/* A field message: the script text, printed from gStringVar4 by printer 0. */
+void WooferDict_OnMessage(const unsigned char *src)
+{
+    if (src == NULL)
+    {
+        WooferDict_OnHide();
+        return;
+    }
+    WooferDict_OnText(src, gStringVar4, 0);
+}
+
+/* A battle message: the battle string, printed from gDisplayedStringBattle. */
+void WooferDict_OnBattle(const unsigned char *src)
+{
+    WooferDict_OnText(src, gDisplayedStringBattle, 0);
+}
+
+/* Any other text printer: a menu, a description, a list. The text is printed
+ * as it is, so it is its own source. The two buffers above have their own
+ * hooks, which know the text the game started from. */
+void WooferDict_OnPrint(unsigned char window, const unsigned char *str)
+{
+    if (str == gStringVar4 || str == gDisplayedStringBattle)
+        return;
+    WooferDict_OnText(str, str, window);
 }
 
 void WooferDict_OnHide(void)
@@ -229,7 +267,7 @@ void WooferDict_Frame(void)
 
     if (!sDict.active)
         return;
-    page = CtrText_PrinterPage(0, gStringVar4);
+    page = CtrText_PrinterPage(sDict.window, sDict.printed);
     if (page < 0 && sDict.page < 0)
         page = 0;           /* not printing yet: the first page */
     if (page >= 0 && page != sDict.page)
@@ -326,7 +364,7 @@ int WooferDict_Save(void)
             strncat(zh, sw.s, sizeof(zh) - strlen(zh) - 1);
         else
         {
-            WooferGloss_ToUtf8(part, sizeof(part), gStringVar4 + sDict.segs[i].start, sDict.segs[i].len, &sCharset);
+            WooferGloss_ToUtf8(part, sizeof(part), sDict.printed + sDict.segs[i].start, sDict.segs[i].len, &sCharset);
             strncat(zh, part, sizeof(zh) - strlen(zh) - 1);
         }
     }

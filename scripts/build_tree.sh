@@ -32,6 +32,10 @@ rm -f "$TREE/.emerald3ds-patches" "$TREE/src/data/region_map/region_map_entries.
 make -C "$TREE" tools -j"$JOBS"
 make -C "$TREE" generated -j"$JOBS"
 
+# De sleutels van de ingebouwde teksten, nu de boom nog Engels is.
+step "sleutels van de ingebouwde teksten (kit/zh_catalog.jsonl)"
+$PY tools/catalog_texts.py "$TREE" kit/zh_catalog.jsonl
+
 step "Chinese teksten in de boom zetten"
 $PY tools/localize_chinese.py --tree "$TREE" --catalog catalog/zh_cn --table out/cjk_table.json
 
