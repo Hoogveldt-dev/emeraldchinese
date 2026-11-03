@@ -1,8 +1,27 @@
-# Pokémon Emerald 3DS, Chinese build (简体中文)
+# PokemonWoofer (简体中文)
 
-Gebouwd uit jouw eigen ROM (BPEE, SHA-1 `f3ae0881…07b7`, gecontroleerd) op
-basis van Emerald 3DS v0.5.0. Alleen voor eigen gebruik: het bestand bevat
-speldata uit jouw cartridge, deel het dus niet.
+`PokemonWoofer.3dsx`, gebouwd uit jouw eigen ROM (BPEE, SHA-1
+`f3ae0881…07b7`, gecontroleerd) op basis van Emerald 3DS v0.5.0. Alleen voor
+eigen gebruik: het bestand bevat speldata uit jouw cartridge, deel het dus
+niet.
+
+Deze build is van 2026-11-03 (commit van de repo hieronder) en bevat de
+volledige Chinese dialoog, het woordenboek op het onderscherm en de
+Woofer-brug naar WooferAzahar. Opnieuw maken: `scripts/build.sh`, de uitvoer
+komt in `dist/`.
+
+## Drie bestanden
+
+| Bestand | Waar |
+|---|---|
+| `PokemonWoofer.3dsx` | openen via *File > Load File* |
+| `zh_dialog.bin` | `sdmc/3ds/emerald3ds/` (de Chinese dialoog) |
+| `zh_gloss.bin` | `sdmc/3ds/emerald3ds/` (woorden, pinyin, betekenis) |
+
+De twee `.bin`-bestanden maak je met `cd kit && python3 translate_dialogue.py
+build`; ze staan niet in git omdat ze uit de caches (wel in git) te maken
+zijn. Zonder die bestanden speelt het spel met Engelse dialoog en zonder
+woordenboek.
 
 ## Wat is Chinees
 
@@ -13,21 +32,34 @@ speldata uit jouw cartridge, deel het dus niet.
 | Plaatsnamen in Hoenn | Chinees, ingebouwd | Officiële namen |
 | Alle gevechtsberichten (520) | Chinees, ingebouwd | Mijn vertaling, in de stijl van de officiële games |
 | Menu's en systeemteksten (hoofdmenu, tas, winkel, team, pc, opslaan) | Chinees, ingebouwd | Mijn vertaling |
-| Verhaaldialoog, NPC's, borden (ongeveer 7.000 teksten) | **Engels totdat je de kit draait** | `zh-kit`, zie hieronder |
+| Verhaaldialoog, NPC's, borden (6.982 teksten) | Chinees, uit `zh_dialog.bin` | DeepSeek, met controles nagelopen |
+| Woorden met pinyin, betekenis en HSK (6.923 teksten, 15.756 woorden) | uit `zh_gloss.bin` | DeepSeek plus CC-CEDICT |
 
 Het aanraakmenu op het onderscherm tekent de port zelf. De eigen labels
 daarvan (zoals MAP en OPTION) blijven Engels.
 
 ## Spelen in Citra of Azahar
 
-1. Open `Emerald3DS-ZH.3dsx` via *File > Load File*. De speldata zit in het
+1. Open `PokemonWoofer.3dsx` via *File > Load File*. De speldata zit in het
    bestand zelf. Een `emerald3ds.pak` is niet nodig.
 2. **Geluid:** zoals elke 3DS-homebrew heeft het spel `dspfirm.cdc` nodig in
    de SD-root (`sdmc/3ds/dspfirm.cdc`). Zie de geluidsinstructies op
    emerald-3ds.com. Zonder dat bestand draait het spel zonder geluid.
 3. Zet *OPTION > TEXT SPEED* op MID of SLOW als je leestijd wilt.
 
-## De dialoog vertalen (zh-kit)
+## Het woordenboek
+
+Tijdens een dialoog staat op het onderscherm de zin met de woorden los. Tik
+een woord aan voor de pinyin en de betekenis, en bewaar het met één tik in
+`sdmc:/woofer/vocab.jsonl`. Dat werkt in elke emulator en op een echte 3DS.
+
+In WooferAzahar komt daar een paneel over het beeld bij, met uitspraak, de
+woordenlijst buiten het spel en export naar Anki. Dat loopt via de
+Woofer-brug (`docs/woofer-bridge/PROTOCOL.md`): de game stuurt per pagina de
+zin en de woorden. Een andere emulator of een echte 3DS antwoordt niet op de
+handdruk, en dan stuurt de game niets.
+
+## De dialoog opnieuw vertalen (zh-kit)
 
 De dialoog wordt tijdens het spelen vervangen vanuit één bestand. Opnieuw
 compileren is dus niet nodig.
