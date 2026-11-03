@@ -10,18 +10,16 @@ volledige Chinese dialoog, het woordenboek op het onderscherm en de
 Woofer-brug naar WooferAzahar. Opnieuw maken: `scripts/build.sh`, de uitvoer
 komt in `dist/`.
 
-## Drie bestanden
+## Eén bestand
 
-| Bestand | Waar |
-|---|---|
-| `PokemonWoofer.3dsx` | openen via *File > Load File* |
-| `zh_dialog.bin` | `sdmc/3ds/emerald3ds/` (de Chinese dialoog) |
-| `zh_gloss.bin` | `sdmc/3ds/emerald3ds/` (woorden, pinyin, betekenis) |
+Open `PokemonWoofer.3dsx` via *File > Load File*. Meer is er niet: de
+Chinese dialoog (`zh_dialog.bin`) en de woorden (`zh_gloss.bin`) zitten in
+de 3DSX zelf, net als de speldata.
 
-De twee `.bin`-bestanden maak je met `cd kit && python3 translate_dialogue.py
-build`; ze staan niet in git omdat ze uit de caches (wel in git) te maken
-zijn. Zonder die bestanden speelt het spel met Engelse dialoog en zonder
-woordenboek.
+Wil je een nieuwe vertaling proberen zonder opnieuw te compileren, zet dan
+`zh_dialog.bin` of `zh_gloss.bin` in `sdmc/3ds/emerald3ds/`. De game kijkt
+daar eerst, dus zo'n bestand wint van het ingebouwde. Maken met
+`cd kit && python3 translate_dialogue.py build`.
 
 ## Wat is Chinees
 
@@ -32,8 +30,8 @@ woordenboek.
 | Plaatsnamen in Hoenn | Chinees, ingebouwd | Officiële namen |
 | Alle gevechtsberichten (520) | Chinees, ingebouwd | Mijn vertaling, in de stijl van de officiële games |
 | Menu's en systeemteksten (hoofdmenu, tas, winkel, team, pc, opslaan) | Chinees, ingebouwd | Mijn vertaling |
-| Verhaaldialoog, NPC's, borden (6.982 teksten) | Chinees, uit `zh_dialog.bin` | DeepSeek, met controles nagelopen |
-| Woorden met pinyin, betekenis en HSK (6.923 teksten, 15.756 woorden) | uit `zh_gloss.bin` | DeepSeek plus CC-CEDICT |
+| Verhaaldialoog, NPC's, borden (6.982 teksten) | Chinees, ingebouwd | DeepSeek, met controles nagelopen |
+| Woorden met pinyin, betekenis en HSK (6.923 teksten, 15.756 woorden) | ingebouwd | DeepSeek plus CC-CEDICT |
 
 Het aanraakmenu op het onderscherm tekent de port zelf. De eigen labels
 daarvan (zoals MAP en OPTION) blijven Engels.

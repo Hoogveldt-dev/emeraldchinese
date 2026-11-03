@@ -19,6 +19,8 @@ scripts/build.sh            # of: scripts/build.sh --native
 
 # 3. spelen
 #    dist/PokemonWoofer.3dsx openen in Azahar/Citra (File > Load File)
+#    De Chinese dialoog en de woorden zitten in de 3DSX; losse bestanden
+#    in sdmc:/3ds/emerald3ds/ winnen daarvan (handig bij het vertalen).
 ```
 
 De eerste build duurt lang (Docker-image, decomp-tools, ca. 2.000
