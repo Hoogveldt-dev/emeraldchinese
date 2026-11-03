@@ -17,6 +17,7 @@
 {"id": "src/battle_main.c:TYPE_DARK", "hash": "9a221818479091da", "context": "battle_main", "kind": "c", "en": "DARK", "zh": "恶"}
 {"id": "src/battle_main.c:TYPE_MYSTERY", "hash": "31b54db5790ff300", "context": "battle_main", "kind": "c", "en": "???", "zh": "？？？"}
 {"id": "src/battle_message.c:sText_PkmnGainedEXP", "hash": "ff2192516538f769", "context": "battle_message", "kind": "c", "en": "{B_BUFF1} gained{B_BUFF2}\\n{B_BUFF3} EXP. Points!\\p", "zh": "{B_BUFF1}获得了{B_BUFF2}\\n{B_BUFF3}点经验值！\\p"}
+{"id": "src/battle_message.c:sText_PkmnTeamGainedEXP", "hash": "b56a61b80fddcfcf", "context": "battle_message", "kind": "c", "en": "The rest of your team gained\\nEXP. Points!\\p", "zh": "其他宝可梦也获得了\\n经验值！\\p"}
 {"id": "src/battle_message.c:sText_ABoosted", "hash": "c692aeb1a034fc37", "context": "battle_message", "kind": "c", "en": " a boosted", "zh": "大量的"}
 {"id": "src/battle_message.c:sText_PkmnGrewToLv", "hash": "8d0e68fdfad94bd4", "context": "battle_message", "kind": "c", "en": "{B_BUFF1} grew to\\nLV. {B_BUFF2}!{WAIT_SE}\\p", "zh": "{B_BUFF1}的等级\\n提升到了{B_BUFF2}！{WAIT_SE}\\p"}
 {"id": "src/battle_message.c:sText_PkmnLearnedMove", "hash": "5edb7b7bbdcccbde", "context": "battle_message", "kind": "c", "en": "{B_BUFF1} learned\\n{B_BUFF2}!{WAIT_SE}\\p", "zh": "{B_BUFF1}学会了\\n{B_BUFF2}！{WAIT_SE}\\p"}
@@ -258,6 +259,8 @@
 {"id": "src/battle_message.c:sText_StatSharply", "hash": "03b932c87f913ebd", "context": "battle_message", "kind": "c", "en": "sharply ", "zh": "大幅"}
 {"id": "src/battle_message.c:gText_StatRose", "hash": "850ccebbd4be362c", "context": "battle_message", "kind": "c", "en": "rose!", "zh": "提高了！"}
 {"id": "src/battle_message.c:sText_StatFell", "hash": "18a627bf3de82737", "context": "battle_message", "kind": "c", "en": "fell!", "zh": "降低了！"}
+{"id": "src/battle_message.c:sText_StatSharplyRose", "hash": "957fcb24db8fa247", "context": "battle_message", "kind": "c", "en": "sharply rose!", "zh": "大幅提高了！"}
+{"id": "src/battle_message.c:sText_StatHarshlyFell", "hash": "75d0ebc8938c19ac", "context": "battle_message", "kind": "c", "en": "harshly fell!", "zh": "大幅降低了！"}
 {"id": "src/battle_message.c:sText_UsingItemTheStatOfPkmnRose", "hash": "dd60478525987ff7", "context": "battle_message", "kind": "c", "en": "Using {B_LAST_ITEM}, the {B_BUFF1}\\nof {B_SCR_ACTIVE_NAME_WITH_PREFIX} {B_BUFF2}", "zh": "使用{B_LAST_ITEM}后，{B_SCR_ACTIVE_NAME_WITH_PREFIX}\\n的{B_BUFF1}{B_BUFF2}"}
 {"id": "src/battle_message.c:sText_StatsWontIncrease2", "hash": "1f826761779aeccc", "context": "battle_message", "kind": "c", "en": "{B_ATK_NAME_WITH_PREFIX}'s stats won't\\ngo any higher!", "zh": "{B_ATK_NAME_WITH_PREFIX}的能力\\n已经无法再提高了！"}
 {"id": "src/battle_message.c:sText_StatsWontDecrease2", "hash": "c160984496209ef2", "context": "battle_message", "kind": "c", "en": "{B_DEF_NAME_WITH_PREFIX}'s stats won't\\ngo any lower!", "zh": "{B_DEF_NAME_WITH_PREFIX}的能力\\n已经无法再降低了！"}
@@ -1074,6 +1077,83 @@
 {"id": "src/data/pokemon/pokedex_entries.h:NATIONAL_DEX_RAYQUAZA", "hash": "eb09e10b7c0ab07e", "context": "pokedex_entries", "kind": "c", "en": "SKY HIGH", "zh": "天空"}
 {"id": "src/data/pokemon/pokedex_entries.h:NATIONAL_DEX_JIRACHI", "hash": "955f8f5973012091", "context": "pokedex_entries", "kind": "c", "en": "WISH", "zh": "祈愿"}
 {"id": "src/data/pokemon/pokedex_entries.h:NATIONAL_DEX_DEOXYS", "hash": "7bb23758bcf5993d", "context": "pokedex_entries", "kind": "c", "en": "DNA", "zh": "DNA"}
+{"id": "src/data/region_map/region_map_entries.h:sMapName_LITTLEROOT_TOWN", "hash": "f580804d1e874c19", "context": "region_map_entries", "kind": "c", "en": "LITTLEROOT TOWN", "zh": "未白镇"}
+{"id": "src/data/region_map/region_map_entries.h:sMapName_OLDALE_TOWN", "hash": "1f706b79fb037df1", "context": "region_map_entries", "kind": "c", "en": "OLDALE TOWN", "zh": "古辰镇"}
+{"id": "src/data/region_map/region_map_entries.h:sMapName_DEWFORD_TOWN", "hash": "89f58b63915c4677", "context": "region_map_entries", "kind": "c", "en": "DEWFORD TOWN", "zh": "武斗镇"}
+{"id": "src/data/region_map/region_map_entries.h:sMapName_LAVARIDGE_TOWN", "hash": "0f4d1af2d398fb85", "context": "region_map_entries", "kind": "c", "en": "LAVARIDGE TOWN", "zh": "釜炎镇"}
+{"id": "src/data/region_map/region_map_entries.h:sMapName_FALLARBOR_TOWN", "hash": "2c202e849442254c", "context": "region_map_entries", "kind": "c", "en": "FALLARBOR TOWN", "zh": "秋叶镇"}
+{"id": "src/data/region_map/region_map_entries.h:sMapName_VERDANTURF_TOWN", "hash": "632be1e4b74fe36c", "context": "region_map_entries", "kind": "c", "en": "VERDANTURF TOWN", "zh": "绿荫镇"}
+{"id": "src/data/region_map/region_map_entries.h:sMapName_PACIFIDLOG_TOWN", "hash": "da13c9245191044a", "context": "region_map_entries", "kind": "c", "en": "PACIFIDLOG TOWN", "zh": "暮水镇"}
+{"id": "src/data/region_map/region_map_entries.h:sMapName_PETALBURG_CITY", "hash": "c176c8f913b0b8fa", "context": "region_map_entries", "kind": "c", "en": "PETALBURG CITY", "zh": "橙华市"}
+{"id": "src/data/region_map/region_map_entries.h:sMapName_SLATEPORT_CITY", "hash": "1d9a7b54bd3441d1", "context": "region_map_entries", "kind": "c", "en": "SLATEPORT CITY", "zh": "凯那市"}
+{"id": "src/data/region_map/region_map_entries.h:sMapName_MAUVILLE_CITY", "hash": "745ed3a8a6837411", "context": "region_map_entries", "kind": "c", "en": "MAUVILLE CITY", "zh": "紫堇市"}
+{"id": "src/data/region_map/region_map_entries.h:sMapName_RUSTBORO_CITY", "hash": "d570d05444ad5314", "context": "region_map_entries", "kind": "c", "en": "RUSTBORO CITY", "zh": "卡那兹市"}
+{"id": "src/data/region_map/region_map_entries.h:sMapName_FORTREE_CITY", "hash": "53bbab493ba6992d", "context": "region_map_entries", "kind": "c", "en": "FORTREE CITY", "zh": "茵郁市"}
+{"id": "src/data/region_map/region_map_entries.h:sMapName_LILYCOVE_CITY", "hash": "ef43f51bc98a16d0", "context": "region_map_entries", "kind": "c", "en": "LILYCOVE CITY", "zh": "水静市"}
+{"id": "src/data/region_map/region_map_entries.h:sMapName_MOSSDEEP_CITY", "hash": "261e202cc81df965", "context": "region_map_entries", "kind": "c", "en": "MOSSDEEP CITY", "zh": "绿岭市"}
+{"id": "src/data/region_map/region_map_entries.h:sMapName_SOOTOPOLIS_CITY", "hash": "5c077201417bc50c", "context": "region_map_entries", "kind": "c", "en": "SOOTOPOLIS CITY", "zh": "琉璃市"}
+{"id": "src/data/region_map/region_map_entries.h:sMapName_EVER_GRANDE_CITY", "hash": "7d2210aa64d25d97", "context": "region_map_entries", "kind": "c", "en": "EVER GRANDE CITY", "zh": "彩幽市"}
+{"id": "src/data/region_map/region_map_entries.h:sMapName_GRANITE_CAVE", "hash": "22323edb53db356a", "context": "region_map_entries", "kind": "c", "en": "GRANITE CAVE", "zh": "石之洞窟"}
+{"id": "src/data/region_map/region_map_entries.h:sMapName_MT__CHIMNEY", "hash": "aabfda437e973475", "context": "region_map_entries", "kind": "c", "en": "MT. CHIMNEY", "zh": "烟囱山"}
+{"id": "src/data/region_map/region_map_entries.h:sMapName_SAFARI_ZONE", "hash": "9f799b1374d19fe1", "context": "region_map_entries", "kind": "c", "en": "SAFARI ZONE", "zh": "狩猎地带"}
+{"id": "src/data/region_map/region_map_entries.h:sMapName_BATTLE_FRONTIER", "hash": "3975ec4c5bfebc77", "context": "region_map_entries", "kind": "c", "en": "BATTLE FRONTIER", "zh": "对战开拓区"}
+{"id": "src/data/region_map/region_map_entries.h:sMapName_PETALBURG_WOODS", "hash": "cac751243944e29d", "context": "region_map_entries", "kind": "c", "en": "PETALBURG WOODS", "zh": "橙华森林"}
+{"id": "src/data/region_map/region_map_entries.h:sMapName_RUSTURF_TUNNEL", "hash": "3d880bf7b66a72bf", "context": "region_map_entries", "kind": "c", "en": "RUSTURF TUNNEL", "zh": "卡绿隧道"}
+{"id": "src/data/region_map/region_map_entries.h:sMapName_ABANDONED_SHIP", "hash": "d464b0f0c5aed483", "context": "region_map_entries", "kind": "c", "en": "ABANDONED SHIP", "zh": "弃船"}
+{"id": "src/data/region_map/region_map_entries.h:sMapName_NEW_MAUVILLE", "hash": "8c417fec0c6bc761", "context": "region_map_entries", "kind": "c", "en": "NEW MAUVILLE", "zh": "新紫堇"}
+{"id": "src/data/region_map/region_map_entries.h:sMapName_METEOR_FALLS", "hash": "a28b90159b7e26af", "context": "region_map_entries", "kind": "c", "en": "METEOR FALLS", "zh": "流星瀑布"}
+{"id": "src/data/region_map/region_map_entries.h:sMapName_MT__PYRE", "hash": "5e5f184fa5bd2d49", "context": "region_map_entries", "kind": "c", "en": "MT. PYRE", "zh": "送神山"}
+{"id": "src/data/region_map/region_map_entries.h:sMapName_SHOAL_CAVE", "hash": "3a489fe61eb11098", "context": "region_map_entries", "kind": "c", "en": "SHOAL CAVE", "zh": "浅滩洞穴"}
+{"id": "src/data/region_map/region_map_entries.h:sMapName_SEAFLOOR_CAVERN", "hash": "479a0cf443afcbf6", "context": "region_map_entries", "kind": "c", "en": "SEAFLOOR CAVERN", "zh": "海底洞窟"}
+{"id": "src/data/region_map/region_map_entries.h:sMapName_VICTORY_ROAD", "hash": "8a690630f58ebfe2", "context": "region_map_entries", "kind": "c", "en": "VICTORY ROAD", "zh": "冠军之路"}
+{"id": "src/data/region_map/region_map_entries.h:sMapName_MIRAGE_ISLAND", "hash": "ad932e627a167b4f", "context": "region_map_entries", "kind": "c", "en": "MIRAGE ISLAND", "zh": "幻影岛"}
+{"id": "src/data/region_map/region_map_entries.h:sMapName_CAVE_OF_ORIGIN", "hash": "aa1bd3f506a01c05", "context": "region_map_entries", "kind": "c", "en": "CAVE OF ORIGIN", "zh": "觉醒祠堂"}
+{"id": "src/data/region_map/region_map_entries.h:sMapName_SOUTHERN_ISLAND", "hash": "9a97b63b62c22652", "context": "region_map_entries", "kind": "c", "en": "SOUTHERN ISLAND", "zh": "南方小岛"}
+{"id": "src/data/region_map/region_map_entries.h:sMapName_FIERY_PATH", "hash": "5db303756bbd21b3", "context": "region_map_entries", "kind": "c", "en": "FIERY PATH", "zh": "火焰小径"}
+{"id": "src/data/region_map/region_map_entries.h:sMapName_JAGGED_PASS", "hash": "6d1e3616ef71986c", "context": "region_map_entries", "kind": "c", "en": "JAGGED PASS", "zh": "凹凸山道"}
+{"id": "src/data/region_map/region_map_entries.h:sMapName_SEALED_CHAMBER", "hash": "7e455ec68c436058", "context": "region_map_entries", "kind": "c", "en": "SEALED CHAMBER", "zh": "封印之间"}
+{"id": "src/data/region_map/region_map_entries.h:sMapName_SCORCHED_SLAB", "hash": "93097172188039c6", "context": "region_map_entries", "kind": "c", "en": "SCORCHED SLAB", "zh": "炙热岩洞"}
+{"id": "src/data/region_map/region_map_entries.h:sMapName_ISLAND_CAVE", "hash": "4d1a3902f0fd4aba", "context": "region_map_entries", "kind": "c", "en": "ISLAND CAVE", "zh": "小岛横穴"}
+{"id": "src/data/region_map/region_map_entries.h:sMapName_DESERT_RUINS", "hash": "65afde3c78bc5956", "context": "region_map_entries", "kind": "c", "en": "DESERT RUINS", "zh": "沙漠遗迹"}
+{"id": "src/data/region_map/region_map_entries.h:sMapName_ANCIENT_TOMB", "hash": "02717e292bcfeaba", "context": "region_map_entries", "kind": "c", "en": "ANCIENT TOMB", "zh": "古代墓穴"}
+{"id": "src/data/region_map/region_map_entries.h:sMapName_INSIDE_OF_TRUCK", "hash": "e3c5764a0f4e5701", "context": "region_map_entries", "kind": "c", "en": "INSIDE OF TRUCK", "zh": "卡车里"}
+{"id": "src/data/region_map/region_map_entries.h:sMapName_SKY_PILLAR", "hash": "e21cdbe83f799ec1", "context": "region_map_entries", "kind": "c", "en": "SKY PILLAR", "zh": "天空柱"}
+{"id": "src/data/region_map/region_map_entries.h:sMapName_SECRET_BASE", "hash": "488136cb1bc14ad5", "context": "region_map_entries", "kind": "c", "en": "SECRET BASE", "zh": "秘密基地"}
+{"id": "src/data/region_map/region_map_entries.h:sMapName__AQUA__HIDEOUT_Clone", "hash": "ea247c89d5f44686", "context": "region_map_entries", "kind": "c", "en": "{AQUA} HIDEOUT", "zh": "{AQUA}基地"}
+{"id": "src/data/region_map/region_map_entries.h:sMapName_ROUTE_101", "hash": "d9cbe4f13362516f", "context": "region_map_entries", "kind": "c", "en": "ROUTE 101", "zh": "101号道路"}
+{"id": "src/data/region_map/region_map_entries.h:sMapName_ROUTE_102", "hash": "d465f7866fce833a", "context": "region_map_entries", "kind": "c", "en": "ROUTE 102", "zh": "102号道路"}
+{"id": "src/data/region_map/region_map_entries.h:sMapName_ROUTE_103", "hash": "72c9d62a440c3305", "context": "region_map_entries", "kind": "c", "en": "ROUTE 103", "zh": "103号道路"}
+{"id": "src/data/region_map/region_map_entries.h:sMapName_ROUTE_104", "hash": "ae9351e365109250", "context": "region_map_entries", "kind": "c", "en": "ROUTE 104", "zh": "104号道路"}
+{"id": "src/data/region_map/region_map_entries.h:sMapName_ROUTE_105", "hash": "a3f21c45c78cb40b", "context": "region_map_entries", "kind": "c", "en": "ROUTE 105", "zh": "105号道路"}
+{"id": "src/data/region_map/region_map_entries.h:sMapName_ROUTE_106", "hash": "601d9c0225430c46", "context": "region_map_entries", "kind": "c", "en": "ROUTE 106", "zh": "106号道路"}
+{"id": "src/data/region_map/region_map_entries.h:sMapName_ROUTE_107", "hash": "d564f2159734ac11", "context": "region_map_entries", "kind": "c", "en": "ROUTE 107", "zh": "107号道路"}
+{"id": "src/data/region_map/region_map_entries.h:sMapName_ROUTE_108", "hash": "3898f65f191539dc", "context": "region_map_entries", "kind": "c", "en": "ROUTE 108", "zh": "108号道路"}
+{"id": "src/data/region_map/region_map_entries.h:sMapName_ROUTE_109", "hash": "d6852b82d3da7717", "context": "region_map_entries", "kind": "c", "en": "ROUTE 109", "zh": "109号道路"}
+{"id": "src/data/region_map/region_map_entries.h:sMapName_ROUTE_110", "hash": "51ed19049e48fd71", "context": "region_map_entries", "kind": "c", "en": "ROUTE 110", "zh": "110号道路"}
+{"id": "src/data/region_map/region_map_entries.h:sMapName_ROUTE_111", "hash": "4e8662fc0e5224a2", "context": "region_map_entries", "kind": "c", "en": "ROUTE 111", "zh": "111号道路"}
+{"id": "src/data/region_map/region_map_entries.h:sMapName_ROUTE_112", "hash": "0735f7fa9f013177", "context": "region_map_entries", "kind": "c", "en": "ROUTE 112", "zh": "112号道路"}
+{"id": "src/data/region_map/region_map_entries.h:sMapName_ROUTE_113", "hash": "27307e63c99441d8", "context": "region_map_entries", "kind": "c", "en": "ROUTE 113", "zh": "113号道路"}
+{"id": "src/data/region_map/region_map_entries.h:sMapName_ROUTE_114", "hash": "c11fbf45a4e6394d", "context": "region_map_entries", "kind": "c", "en": "ROUTE 114", "zh": "114号道路"}
+{"id": "src/data/region_map/region_map_entries.h:sMapName_ROUTE_115", "hash": "df6c722e584f9aae", "context": "region_map_entries", "kind": "c", "en": "ROUTE 115", "zh": "115号道路"}
+{"id": "src/data/region_map/region_map_entries.h:sMapName_ROUTE_116", "hash": "9f5f7f288f0cff33", "context": "region_map_entries", "kind": "c", "en": "ROUTE 116", "zh": "116号道路"}
+{"id": "src/data/region_map/region_map_entries.h:sMapName_ROUTE_117", "hash": "e324b4c74216e2d4", "context": "region_map_entries", "kind": "c", "en": "ROUTE 117", "zh": "117号道路"}
+{"id": "src/data/region_map/region_map_entries.h:sMapName_ROUTE_118", "hash": "2d33ed5af81268e9", "context": "region_map_entries", "kind": "c", "en": "ROUTE 118", "zh": "118号道路"}
+{"id": "src/data/region_map/region_map_entries.h:sMapName_ROUTE_119", "hash": "a7af594c8cf7b41a", "context": "region_map_entries", "kind": "c", "en": "ROUTE 119", "zh": "119号道路"}
+{"id": "src/data/region_map/region_map_entries.h:sMapName_ROUTE_120", "hash": "8fc4e994b782cc7e", "context": "region_map_entries", "kind": "c", "en": "ROUTE 120", "zh": "120号道路"}
+{"id": "src/data/region_map/region_map_entries.h:sMapName_ROUTE_121", "hash": "1fac06c1c1e52f1d", "context": "region_map_entries", "kind": "c", "en": "ROUTE 121", "zh": "121号道路"}
+{"id": "src/data/region_map/region_map_entries.h:sMapName_ROUTE_122", "hash": "341edc5816716da8", "context": "region_map_entries", "kind": "c", "en": "ROUTE 122", "zh": "122号道路"}
+{"id": "src/data/region_map/region_map_entries.h:sMapName_ROUTE_123", "hash": "e50162a7f4532287", "context": "region_map_entries", "kind": "c", "en": "ROUTE 123", "zh": "123号道路"}
+{"id": "src/data/region_map/region_map_entries.h:sMapName_ROUTE_124", "hash": "59a3c51b76c589b2", "context": "region_map_entries", "kind": "c", "en": "ROUTE 124", "zh": "124号道路"}
+{"id": "src/data/region_map/region_map_entries.h:sMapName_ROUTE_125", "hash": "b678b1d001f81281", "context": "region_map_entries", "kind": "c", "en": "ROUTE 125", "zh": "125号道路"}
+{"id": "src/data/region_map/region_map_entries.h:sMapName_ROUTE_126", "hash": "69f8a50382470b0c", "context": "region_map_entries", "kind": "c", "en": "ROUTE 126", "zh": "126号道路"}
+{"id": "src/data/region_map/region_map_entries.h:sMapName_ROUTE_127", "hash": "a554d7a33879a6bb", "context": "region_map_entries", "kind": "c", "en": "ROUTE 127", "zh": "127号道路"}
+{"id": "src/data/region_map/region_map_entries.h:sMapName_ROUTE_128", "hash": "e8eddfe536285bf6", "context": "region_map_entries", "kind": "c", "en": "ROUTE 128", "zh": "128号道路"}
+{"id": "src/data/region_map/region_map_entries.h:sMapName_ROUTE_129", "hash": "1f2eebf42f4cad75", "context": "region_map_entries", "kind": "c", "en": "ROUTE 129", "zh": "129号道路"}
+{"id": "src/data/region_map/region_map_entries.h:sMapName_ROUTE_130", "hash": "fe5e7babf5005583", "context": "region_map_entries", "kind": "c", "en": "ROUTE 130", "zh": "130号道路"}
+{"id": "src/data/region_map/region_map_entries.h:sMapName_ROUTE_131", "hash": "39486170352f8128", "context": "region_map_entries", "kind": "c", "en": "ROUTE 131", "zh": "131号道路"}
+{"id": "src/data/region_map/region_map_entries.h:sMapName_ROUTE_132", "hash": "24d58bd9e0a3429d", "context": "region_map_entries", "kind": "c", "en": "ROUTE 132", "zh": "132号道路"}
+{"id": "src/data/region_map/region_map_entries.h:sMapName_ROUTE_133", "hash": "5ecd4a3395839d32", "context": "region_map_entries", "kind": "c", "en": "ROUTE 133", "zh": "133号道路"}
+{"id": "src/data/region_map/region_map_entries.h:sMapName_ROUTE_134", "hash": "ea2ae7c013113607", "context": "region_map_entries", "kind": "c", "en": "ROUTE 134", "zh": "134号道路"}
 {"id": "src/data/text/abilities.h:ABILITY_AIR_LOCK", "hash": "ee83ade28f571584", "context": "abilities", "kind": "c", "en": "AIR LOCK", "zh": "气闸"}
 {"id": "src/data/text/abilities.h:ABILITY_ARENA_TRAP", "hash": "c7929b155164f8a2", "context": "abilities", "kind": "c", "en": "ARENA TRAP", "zh": "沙穴"}
 {"id": "src/data/text/abilities.h:ABILITY_BATTLE_ARMOR", "hash": "7fcb2fa8909a90dd", "context": "abilities", "kind": "c", "en": "BATTLE ARMOR", "zh": "战斗盔甲"}
