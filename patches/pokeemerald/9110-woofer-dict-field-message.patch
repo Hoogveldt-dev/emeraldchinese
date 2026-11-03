@@ -1,0 +1,53 @@
+--- a/src/field_message_box.c
++++ b/src/field_message_box.c
+@@ -8,6 +8,18 @@
+ 
+ static EWRAM_DATA u8 sFieldMessageBoxMode = 0;
+ 
++#ifdef PLATFORM_3DS
++// Chinese build: the dictionary on the bottom screen follows the field
++// message (PokemonWoofer port/woofer_dict.c).
++void WooferDict_OnMessage(const u8 *src);
++void WooferDict_OnHide(void);
++#define WOOFER_DICT_MESSAGE(src) WooferDict_OnMessage(src)
++#define WOOFER_DICT_HIDE() WooferDict_OnHide()
++#else
++#define WOOFER_DICT_MESSAGE(src)
++#define WOOFER_DICT_HIDE()
++#endif
++
+ static void ExpandStringAndStartDrawFieldMessage(const u8 *, bool32);
+ static void StartDrawFieldMessage(void);
+ 
+@@ -111,6 +123,7 @@
+     if (sFieldMessageBoxMode != FIELD_MESSAGE_BOX_HIDDEN)
+         return FALSE;
+     sFieldMessageBoxMode = FIELD_MESSAGE_BOX_NORMAL;
++    WOOFER_DICT_MESSAGE(NULL);
+     StartDrawFieldMessage();
+     return TRUE;
+ }
+@@ -119,6 +132,7 @@
+ {
+     StringExpandPlaceholders(gStringVar4, str);
+     AddTextPrinterForMessage(allowSkippingDelayWithButtonPress);
++    WOOFER_DICT_MESSAGE(str);
+     CreateTask_DrawFieldMessage();
+ }
+ 
+@@ -130,6 +144,7 @@
+ 
+ void HideFieldMessageBox(void)
+ {
++    WOOFER_DICT_HIDE();
+     DestroyTask_DrawFieldMessage();
+     ClearDialogWindowAndFrame(0, TRUE);
+     sFieldMessageBoxMode = FIELD_MESSAGE_BOX_HIDDEN;
+@@ -156,6 +171,7 @@
+ 
+ void StopFieldMessage(void)
+ {
++    WOOFER_DICT_HIDE();
+     DestroyTask_DrawFieldMessage();
+     sFieldMessageBoxMode = FIELD_MESSAGE_BOX_HIDDEN;
+ }

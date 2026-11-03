@@ -1,0 +1,19 @@
+--- a/src/text.c
++++ b/src/text.c
+@@ -309,6 +309,16 @@
+ #ifdef PORT_BRIDGE
+     sTempTextPrinter.printerTemplate.currentChar = ResolveTextString(printerTemplate->currentChar);
+ #endif
++#ifdef PLATFORM_3DS
++    // Chinese build: every text on screen passes here, so the dictionary sees
++    // menus, descriptions and lists too (PokemonWoofer, port/woofer_dict.c).
++    // The message boxes have their own hooks: they know the text the game
++    // started from, which this one cannot see any more.
++    {
++        void WooferDict_OnPrint(u8 window, const u8 *str);
++        WooferDict_OnPrint(printerTemplate->windowId, sTempTextPrinter.printerTemplate.currentChar);
++    }
++#endif
+     sTempTextPrinter.callback = callback;
+     sTempTextPrinter.minLetterSpacing = 0;
+ #if defined(PORT_BRIDGE) && GAME_LANGUAGE == LANGUAGE_JAPANESE

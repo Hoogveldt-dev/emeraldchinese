@@ -1,0 +1,16 @@
+--- a/src/battle_message.c
++++ b/src/battle_message.c
+@@ -2297,6 +2297,13 @@
+ 
+ u32 BattleStringExpandPlaceholdersToDisplayedString(const u8 *src)
+ {
+     BattleStringExpandPlaceholders(src, gDisplayedStringBattle);
++#ifdef PLATFORM_3DS
++    // Chinese build: the dictionary follows the battle text as well
++    // (PokemonWoofer, port/woofer_dict.c). Every battle message passes here,
++    // and the words are found in gDisplayedStringBattle, so after it is filled.
++    void WooferDict_OnBattle(const u8 *src);
++    WooferDict_OnBattle(src);
++#endif
+ }
+ 

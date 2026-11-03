@@ -92,6 +92,79 @@ void Cjk_Init(void)
     }
 }
 
+/* The last texts replaced, so the dictionary (woofer_dict.c) can find the
+ * hash and the English of a translation the game shows. */
+#define CJK_RECENT 8
+static struct
+{
+    const unsigned char *en, *zh;
+    uint64_t hash;
+} sRecent[CJK_RECENT];
+static unsigned sRecentNext;
+
+static void Remember(const unsigned char *en, const unsigned char *zh, uint64_t hash)
+{
+    unsigned last = (sRecentNext + CJK_RECENT - 1) % CJK_RECENT;
+    if (sRecent[last].zh == zh && sRecent[last].en == en)
+        return;
+    sRecent[sRecentNext].en = en;
+    sRecent[sRecentNext].zh = zh;
+    sRecent[sRecentNext].hash = hash;
+    sRecentNext = (sRecentNext + 1) % CJK_RECENT;
+}
+
+static uint64_t Fnv(const unsigned char *ptr, size_t *length)
+{
+    uint64_t hash = 0xcbf29ce484222325ULL;
+    size_t n;
+    for (n = 0; n < CJK_MAX_TEXT; n++)
+    {
+        hash ^= ptr[n];
+        hash *= 0x100000001b3ULL;
+        if (ptr[n] == CJK_EOS)
+            break;
+    }
+    *length = n;
+    return hash;
+}
+
+/*
+ * The key of a text the game is about to show: the hash of its English, as
+ * in zh_dialog.bin and zh_gloss.bin, and the English itself (NULL when not
+ * known). ptr may be the English or its translation. Returns 0 for no text.
+ */
+int Cjk_TextKey(const unsigned char *ptr, uint64_t *hash, const unsigned char **english)
+{
+    size_t n;
+    uint32_t i;
+
+    if (ptr == NULL)
+        return 0;
+    *english = NULL;
+    if (sBlob != NULL && ptr >= sBlob && ptr < sBlob + sBlobSize)
+    {
+        for (i = 0; i < CJK_RECENT; i++)
+            if (sRecent[i].zh == ptr)
+            {
+                *hash = sRecent[i].hash;
+                *english = sRecent[i].en;
+                return 1;
+            }
+        for (i = 0; i < sCount; i++)
+            if (sBlob + sEntries[i].offset == ptr)
+            {
+                *hash = sEntries[i].hash;
+                return 1;
+            }
+        return 0;
+    }
+    *hash = Fnv(ptr, &n);
+    if (n == CJK_MAX_TEXT)
+        return 0;
+    *english = ptr;
+    return 1;
+}
+
 const unsigned char *Cjk_TextOverride(const unsigned char *ptr)
 {
     uint64_t hash = 0xcbf29ce484222325ULL;
@@ -120,7 +193,10 @@ const unsigned char *Cjk_TextOverride(const unsigned char *ptr)
         if (h == hash)
         {
             if (sEntries[mid].offset < sBlobSize)
+            {
+                Remember(ptr, sBlob + sEntries[mid].offset, hash);
                 return sBlob + sEntries[mid].offset;
+            }
             return ptr;
         }
         if (h < hash)

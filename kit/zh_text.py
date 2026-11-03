@@ -38,6 +38,7 @@ class Encoder:
             if m:
                 self.consts.setdefault(m.group(1), bytes(int(x, 16) for x in m.group(2).split()))
         t = json.loads(table.read_text(encoding="utf-8"))
+        self.table = t
         self.cjk = {}
         for i, ch in enumerate(t["chars"]):
             self.cjk[ch] = bytes([t["leads"][i // t["trails"]], t["trail_min"] + i % t["trails"]])
