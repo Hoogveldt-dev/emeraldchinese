@@ -191,15 +191,20 @@ void WooferDict_OnMessage(const unsigned char *src)
     uint64_t hash;
     const unsigned char *english;
 
-    sDict.active = 0;
-    sDict.count = 0;
     if (src == NULL || !WooferGloss_Ready() || !Cjk_TextKey(src, &hash, &english)
      || !WooferGloss_Find(hash, NULL, NULL, &sDict.loc))
     {
+        sDict.active = 0;
+        sDict.count = 0;
         Changed();
         return;
     }
+    /* The same text reported twice (StringExpandPlaceholders and the field
+     * message box both do): stay on the page we are on. */
+    if (sDict.active && sDict.hash == hash)
+        return;
     sDict.active = 1;
+    sDict.count = 0;
     sDict.hash = hash;
     sDict.english = english;
     sDict.page = -1;

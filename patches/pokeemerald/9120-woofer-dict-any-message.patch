@@ -1,0 +1,36 @@
+--- a/src/string_util.c
++++ b/src/string_util.c
+@@ -368,8 +368,24 @@
+     return dest;
+ }
+ 
++static u8 *StringExpandPlaceholdersInner(u8 *dest, const u8 *src);
++
+ u8 *StringExpandPlaceholders(u8 *dest, const u8 *src)
+ {
++#ifdef PLATFORM_3DS
++    // Chinese build: the dictionary follows every text that is built into
++    // gStringVar4, not only field messages (PokemonWoofer, port/woofer_dict.c).
++    // Only here, not in the inner function: a placeholder expands through a
++    // recursive call that writes into the middle of the same buffer.
++    void WooferDict_OnMessage(const u8 *src);
++    if (dest == gStringVar4)
++        WooferDict_OnMessage(src);
++#endif
++    return StringExpandPlaceholdersInner(dest, src);
++}
++
++static u8 *StringExpandPlaceholdersInner(u8 *dest, const u8 *src)
++{
+ #ifdef PORT_BRIDGE
+     src = ResolveTextString(src);
+ #endif
+@@ -385,7 +401,7 @@
+         case PLACEHOLDER_BEGIN:
+             placeholderId = *src++;
+             expandedString = GetExpandedPlaceholder(placeholderId);
+-            dest = StringExpandPlaceholders(dest, expandedString);
++            dest = StringExpandPlaceholdersInner(dest, expandedString);
+             break;
+         case EXT_CTRL_CODE_BEGIN:
+             *dest++ = c;
