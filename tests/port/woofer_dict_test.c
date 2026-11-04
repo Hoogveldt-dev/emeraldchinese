@@ -30,11 +30,43 @@ uint8_t GetExtCtrlCodeLength(uint8_t code)
     return code < sizeof(kCtrl) ? kCtrl[code] : 1;
 }
 
+/* As the game: a text compiled in (a name) has the hash of its bytes; the
+ * test's message gets sHash and its English is what the test passes. */
 int Cjk_TextKey(const unsigned char *ptr, uint64_t *hash, const unsigned char **english)
 {
-    *hash = sHash;
-    *english = ptr;      /* the test gives the English */
+    uint64_t h = 0xcbf29ce484222325ULL;
+    size_t n;
+    for (n = 0; n < 1024; n++)
+    {
+        h ^= ptr[n];
+        h *= 0x100000001b3ULL;
+        if (ptr[n] == 0xFF)
+            break;
+    }
+    *hash = WooferGloss_Find(h, NULL, NULL, NULL) ? h : sHash;
+    *english = ptr;
     return 1;
+}
+
+/* The game's placeholders, as the test fills them in: {RIVAL} 0xFD 0x06 is
+ * sRivalName, any other "AB". */
+const unsigned char *sRivalName;
+unsigned char *StringExpandPlaceholders(unsigned char *dest, const unsigned char *src)
+{
+    for (; *src != 0xFF; src++)
+    {
+        if (src[0] == 0xFD && src[1] != 0xFF)
+        {
+            const unsigned char *name = src[1] == 0x06 && sRivalName ? sRivalName : (const unsigned char *)"\xBB\xBC\xFF";
+            while (*name != 0xFF)
+                *dest++ = *name++;
+            src++;
+            continue;
+        }
+        *dest++ = *src;
+    }
+    *dest = 0xFF;
+    return dest;
 }
 
 /* ---- bridge capture ---- */
@@ -266,6 +298,84 @@ int main(int argc, char **argv)
             CHECK(sOutCount == 2 && strstr(sOut[1], want) != NULL);
         }
         sPage = 0;
+    }
+
+    /* A name filled in that is a text with words (the rival, 小遥): its words
+     * are tappable, and the English gets the name where its placeholder is. */
+    {
+        uint64_t birch = 0xe7b8feb0ec030bdeULL;   /* "...My kid, {RIVAL}, is also studying..." */
+        const unsigned char *rival = NULL;
+        WooferWord w;
+        uint32_t k;
+        int namePage = -1, page;
+        static unsigned char en[16];
+        for (k = 0; WooferGloss_Word(k, &w) || k == 0; k++)
+            if (strcmp(w.s, "小遥") == 0 && w.p[0])
+            {
+                rival = w.game;
+                break;
+            }
+        CHECK(rival != NULL);
+        for (i = 0; i < count && rival != NULL; i++)
+        {
+            uint64_t h;
+            uint32_t off, len, m = 0, j;
+            const unsigned char *t;
+            memcpy(&h, dlg + 16 + i * 16, 8);
+            if (h != birch)
+                continue;
+            memcpy(&off, dlg + 24 + i * 16, 4);
+            memcpy(&len, dlg + 28 + i * 16, 4);
+            t = dlg + blob + off;
+            for (j = 0, page = 0; j < len && t[j] != 0xFF && m + 8 < sizeof(gStringVar4); j++)
+            {
+                if (t[j] == 0xFB)
+                    page++;
+                if (t[j] == 0xFD && t[j + 1] == 0x06)
+                {
+                    size_t r = 0;
+                    while (rival[r] != 0xFF)
+                        gStringVar4[m++] = rival[r++];
+                    namePage = page;
+                    j++;
+                    continue;
+                }
+                if (t[j] == 0xFD)       /* {PLAYER}: "AB" */
+                {
+                    gStringVar4[m++] = 0xBB;
+                    gStringVar4[m++] = 0xBC;
+                    j++;
+                    continue;
+                }
+                gStringVar4[m++] = t[j];
+            }
+            gStringVar4[m] = 0xFF;
+        }
+        CHECK(namePage >= 0);
+        sRivalName = rival;
+        if (namePage >= 0)
+        {
+            /* English: as many pages before, then "A {RIVAL} B" */
+            size_t e = 0;
+            for (page = 0; page < namePage; page++)
+                en[e++] = 0xFB;
+            en[e++] = 0xBB;
+            en[e++] = 0x00;
+            en[e++] = 0xFD;
+            en[e++] = 0x06;
+            en[e++] = 0x00;
+            en[e++] = 0xBC;
+            en[e++] = 0xFF;
+            sHash = birch;
+            sPage = (int16_t)namePage;
+            sOutCount = 0;
+            WooferDict_OnMessage(en);
+            CHECK(sOutCount >= 1 && strstr(sOut[sOutCount - 1], "{\"s\":\"小遥\",\"p\":\"Xiǎoyáo\"") != NULL);
+            CHECK(sOutCount >= 1 && strstr(sOut[sOutCount - 1], "\"en\":\"A 小遥 B\"") != NULL);
+            if (sOutCount >= 1)
+                printf("  name: %.200s\n", sOut[sOutCount - 1]);
+            sPage = 0;
+        }
     }
 
     /* A text without words in the same buffer: the line that was up is gone. */

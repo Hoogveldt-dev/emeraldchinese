@@ -21,6 +21,13 @@ uint8_t GetExtCtrlCodeLength(uint8_t code)
     return code < sizeof(kCtrl) ? kCtrl[code] : 1;
 }
 
+unsigned char *StringExpandPlaceholders(unsigned char *dest, const unsigned char *src)
+{
+    (void)src;
+    *dest = 0xFF;
+    return dest;
+}
+
 int Cjk_TextKey(const unsigned char *ptr, uint64_t *hash, const unsigned char **english)
 {
     (void)ptr;

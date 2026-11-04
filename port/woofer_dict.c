@@ -23,6 +23,7 @@ extern unsigned char gStringVar4[];
 extern unsigned char gDisplayedStringBattle[];
 int16_t CtrText_PrinterPage(uint8_t windowId, const uint8_t *str);
 uint8_t GetExtCtrlCodeLength(uint8_t code);
+unsigned char *StringExpandPlaceholders(unsigned char *dest, const unsigned char *src);
 int Cjk_TextKey(const unsigned char *ptr, uint64_t *hash, const unsigned char **english);
 
 #define MAX_SEGS 96
@@ -89,6 +90,15 @@ const WooferCharset *WooferDict_Charset(void)
     return &sCharset;
 }
 
+/* The names filled in on the page (NAME segments, before ExpandNames), in
+ * order: the English page gets them where its placeholders are. */
+#define MAX_NAMES 8
+static struct
+{
+    uint16_t start, len;
+} sNames[MAX_NAMES];
+static int sNameCount;
+
 static uint32_t sSaved[MAX_SAVED];
 static int sSavedCount;
 
@@ -109,7 +119,7 @@ static void EnglishPage(void)
 {
     const unsigned char *p = sDict.english;
     size_t n = 0;
-    int page = 0;
+    int page = 0, name = 0;
 
     sDict.englishPage[0] = WOOFER_EOS;
     if (p == NULL)
@@ -129,6 +139,29 @@ static void EnglishPage(void)
     while (*p != WOOFER_EOS && *p != sCharset.clear && n + 1 < sizeof(sDict.englishPage))
     {
         int c = CtrlLen(p);
+        if (p[0] == 0xFD && p[1] != WOOFER_EOS)
+        {
+            /* A name to fill in. Outside battles the game fills it in itself
+             * ({RIVAL} is the rival's name, {KUN} nothing). Battle texts have
+             * their own placeholders: there the names of the Chinese page,
+             * in order. */
+            if (sDict.printed != gDisplayedStringBattle)
+            {
+                static unsigned char filled[64];
+                const unsigned char code[3] = {0xFD, p[1], WOOFER_EOS};
+                StringExpandPlaceholders(filled, code);
+                n += WooferGloss_CleanCopy(sDict.englishPage + n, sizeof(sDict.englishPage) - n, filled,
+                                           sizeof(filled), &sCharset);
+            }
+            else if (name < sNameCount)
+            {
+                n += WooferGloss_CleanCopy(sDict.englishPage + n, sizeof(sDict.englishPage) - n,
+                                           sDict.printed + sNames[name].start, sNames[name].len, &sCharset);
+                name++;
+            }
+            p += 2;
+            continue;
+        }
         if (c > 0)
         {
             p += c;
@@ -245,12 +278,58 @@ static uint32_t Sum(const unsigned char *p)
     return h;
 }
 
+/*
+ * A name filled in is often a text of the game with words of its own: the
+ * rival (小遥), a mon, an item. Such a NAME segment becomes those words, so
+ * they can be tapped and saved too. The names are kept for the English page.
+ */
+static void ExpandNames(void)
+{
+    static unsigned char name[64];
+    WooferSeg sub[8];
+    int i, k, n;
+
+    sNameCount = 0;
+    for (i = 0; i < sDict.count; i++)
+        if (sDict.segs[i].kind == WOOFER_SEG_NAME && sNameCount < MAX_NAMES)
+        {
+            sNames[sNameCount].start = sDict.segs[i].start;
+            sNames[sNameCount].len = sDict.segs[i].len;
+            sNameCount++;
+        }
+    for (i = sDict.count - 1; i >= 0; i--)
+    {
+        WooferSeg s = sDict.segs[i];
+        uint64_t hash;
+        const unsigned char *english;
+
+        if (s.kind != WOOFER_SEG_NAME || s.len + 1u > sizeof(name))
+            continue;
+        memcpy(name, sDict.printed + s.start, s.len);
+        name[s.len] = WOOFER_EOS;
+        if (!Cjk_TextKey(name, &hash, &english) || !WooferGloss_Find(hash, NULL, NULL, NULL))
+            continue;
+        n = WooferGloss_MatchPage(hash, 0, name, &sCharset, sub, 8);
+        if (n <= 0 || sDict.count - 1 + n > MAX_SEGS)
+            continue;
+        /* make room for n segments where the one was, then put them there */
+        memmove(&sDict.segs[i + n], &sDict.segs[i + 1], (size_t)(sDict.count - i - 1) * sizeof(WooferSeg));
+        for (k = 0; k < n; k++)
+        {
+            sDict.segs[i + k] = sub[k];
+            sDict.segs[i + k].start = (uint16_t)(s.start + sub[k].start);
+        }
+        sDict.count += n - 1;
+    }
+}
+
 static void Rematch(void)
 {
     int i;
 
     sDict.sum = Sum(sDict.printed);
     sDict.count = WooferGloss_MatchPage(sDict.hash, sDict.page, sDict.printed, &sCharset, sDict.segs, MAX_SEGS);
+    ExpandNames();
     for (i = 0; i < sDict.count; i++)
         WooferGloss_CleanCopy(sDict.text[i], SEG_BYTES, sDict.printed + sDict.segs[i].start, sDict.segs[i].len,
                               &sCharset);
