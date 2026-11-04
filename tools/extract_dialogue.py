@@ -29,6 +29,14 @@ C_SOURCES = [
     "src/data/union_room.h",
 ]
 cfiles = [tree / name for name in C_SOURCES if (tree / name).exists()]
+def is_cjk(c):
+    """A Chinese character or full-width sign. Not "…" or curly quotes: those
+    are in the English texts too (before, every text with one was skipped as
+    if it were Chinese already, about 2,000 of them)."""
+    o = ord(c)
+    return 0x2E80 <= o <= 0x9FFF or 0xF900 <= o <= 0xFAFF or 0xFF00 <= o <= 0xFFEF
+
+
 rows, seen, skipped = [], set(), 0
 for path in files + cfiles:
     rel = path.relative_to(tree).as_posix()
@@ -37,7 +45,7 @@ for path in files + cfiles:
     texts = lp.inc_texts(src) if is_inc else lp.c_texts(src)
     ctx = rel.split("/")[2] if rel.startswith("data/maps/") else Path(rel).stem
     for label, (_, _, text) in texts.items():
-        if any(ord(c) > 0x2000 for c in text):
+        if any(is_cjk(c) for c in text):
             continue  # already Chinese in the build
         try:
             data = enc.encode(text, terminate=not is_inc, cjk=False)
