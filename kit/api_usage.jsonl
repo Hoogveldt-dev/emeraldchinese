@@ -20,3 +20,6 @@
 {"at": "2026-11-04T21:05:09Z", "cmd": "translate", "model": "deepseek-flash", "requests": 52, "texts": 2022, "input": 136001, "cached": 6656, "output": 70026, "usd": 0.0614}
 {"at": "2026-11-04T21:05:19Z", "cmd": "translate", "model": "deepseek-flash", "requests": 1, "texts": 4, "input": 921, "cached": 128, "output": 371, "usd": 0.0003}
 {"at": "2026-11-04T21:14:10Z", "cmd": "gloss", "model": "deepseek-flash", "requests": 159, "texts": 1711, "input": 247779, "cached": 23168, "output": 582078, "usd": 0.383}
+{"at": "2026-11-04T21:16:39Z", "cmd": "gloss", "model": "deepseek-flash", "requests": 36, "texts": 193, "input": 59443, "cached": 5376, "output": 136244, "usd": 0.0899}
+{"at": "2026-11-04T21:18:14Z", "cmd": "gloss", "model": "deepseek-flash", "requests": 20, "texts": 40, "input": 33453, "cached": 4096, "output": 81129, "usd": 0.0531}
+{"at": "2026-11-04T21:19:12Z", "cmd": "gloss", "model": "deepseek-flash", "requests": 10, "texts": 29, "input": 20590, "cached": 2688, "output": 50321, "usd": 0.0329}

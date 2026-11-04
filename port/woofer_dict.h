@@ -20,6 +20,9 @@ const WooferCharset *WooferDict_Charset(void);
 /* A text the game is about to show; see woofer_dict.c. */
 void WooferDict_OnText(const unsigned char *src, const unsigned char *printed, unsigned char window);
 void WooferDict_OnMessage(const unsigned char *src);
+/* What the player points at on the bottom screen (a move, an item), NULL for
+ * nothing; every frame, see woofer_dict.c. */
+void WooferDict_OnFocus(const unsigned char *str);
 void WooferDict_OnBattle(const unsigned char *src);
 void WooferDict_OnPrint(unsigned char window, const unsigned char *str);
 void WooferDict_OnHide(void);

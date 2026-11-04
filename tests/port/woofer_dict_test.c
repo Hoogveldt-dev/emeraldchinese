@@ -222,6 +222,52 @@ int main(int argc, char **argv)
         CHECK(sOutCount == n);
     }
 
+    /* The bottom screen's focus: a text pointed at there (as a move name)
+     * takes the panel, the message's line is held back, and comes back when
+     * nothing is pointed at any more. */
+    {
+        static unsigned char focusText[64];
+        uint64_t message = sHash, focus = 0;
+        uint32_t off, len;
+        for (i = 0; i < count && focus == 0; i++)
+        {
+            uint64_t h;
+            memcpy(&h, dlg + 16 + i * 16, 8);
+            memcpy(&off, dlg + 24 + i * 16, 4);
+            memcpy(&len, dlg + 28 + i * 16, 4);
+            if (h != message && len > 4 && len < sizeof(focusText) && !memchr(dlg + blob + off, 0xFD, len)
+             && !memchr(dlg + blob + off, 0xFC, len) && WooferGloss_Find(h, NULL, NULL, NULL))
+            {
+                memcpy(focusText, dlg + blob + off, len);
+                focus = h;
+            }
+        }
+        CHECK(focus != 0);
+        sOutCount = 0;
+        sHash = focus;
+        WooferDict_OnFocus(focusText);
+        CHECK(sOutCount == 1 && strstr(sOut[0], "\"t\":\"line\"") != NULL);
+        {
+            char want[40];
+            snprintf(want, sizeof(want), "\"h\":\"%016llx\"", (unsigned long long)focus);
+            CHECK(sOutCount == 1 && strstr(sOut[0], want) != NULL);
+        }
+        WooferDict_OnFocus(focusText);              /* every frame: nothing new */
+        CHECK(sOutCount == 1);
+        sHash = message;
+        sPage = 1;
+        WooferDict_Frame();                         /* the message goes on: held back */
+        CHECK(sOutCount == 1);
+        WooferDict_OnFocus(NULL);                   /* the message's line again */
+        CHECK(sOutCount == 2 && strstr(sOut[1], "\"t\":\"line\"") != NULL);
+        {
+            char want[40];
+            snprintf(want, sizeof(want), "\"h\":\"%016llx\"", (unsigned long long)message);
+            CHECK(sOutCount == 2 && strstr(sOut[1], want) != NULL);
+        }
+        sPage = 0;
+    }
+
     /* A text without words in the same buffer: the line that was up is gone. */
     sHash = 1;
     gStringVar4[0] = 0xBB;

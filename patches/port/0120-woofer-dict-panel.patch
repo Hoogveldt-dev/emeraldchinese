@@ -1,3 +1,5 @@
+diff --git a/3ds_port/src/3ds_bottom_ui.c b/3ds_port/src/3ds_bottom_ui.c
+index 8895aab..d329eab 100644
 --- a/3ds_port/src/3ds_bottom_ui.c
 +++ b/3ds_port/src/3ds_bottom_ui.c
 @@ -120,6 +120,8 @@
@@ -9,7 +11,7 @@
  
  /* Exported by the game under PLATFORM_3DS, or not exported by its headers. */
  void CB2_BagMenuRun(void);
-@@ -2355,6 +2357,8 @@
+@@ -2355,6 +2357,8 @@ typedef struct
      struct CtrSummaryView sv;
      struct CtrBagView bv;
      struct CtrDexView dx;
@@ -18,7 +20,7 @@
  } ViewState;
  
  /* NATIVE_BLANK: one of those whose view is not there yet: the section's
-@@ -3554,6 +3558,7 @@
+@@ -3554,6 +3558,7 @@ static void Snapshot(ViewState *s, u8 mode, u8 pressed)
      s->mode = mode;
      s->pressed = pressed;
      s->pickMapsec = MAPSEC_NONE;
@@ -26,7 +28,7 @@
      if (s->mode == MODE_OFF)
      {
          s->title = CtrTitleScreen_RayquazaBg() >= 0;
-@@ -5162,9 +5167,213 @@
+@@ -5162,9 +5167,249 @@ static void MapCacheTake(void)
  #define CTR_RENDER_SLOW_MS 4.0f
  #define CTR_RENDER_SLOW_LINES 60
  
@@ -54,6 +56,42 @@
 +} DictHit;
 +
 +static DictHit sDictHits[96];
++
++/*
++ * What the player points at on the bottom screen, for the Woofer panel
++ * (WooferDict_OnFocus): the move under the cursor in a battle's move menu,
++ * the item in the bag, the move chosen in the summary, the mon in the
++ * Pokédex. NULL when nothing there has words.
++ */
++static const u8 *DictFocusText(const ViewState *s)
++{
++    if (s->mode == MODE_BATTLE_MOVE)
++    {
++        if (s->cursor < MAX_MON_MOVES && s->moves4.moves[s->cursor] != MOVE_NONE
++         && s->moves4.moves[s->cursor] < MOVES_COUNT)
++            return gMoveNames[s->moves4.moves[s->cursor]];
++        return NULL;
++    }
++    switch (s->native)
++    {
++    case NATIVE_BAG:
++        if ((s->bv.state == CTR_BAG_VIEW_LIST || s->bv.state == CTR_BAG_VIEW_ACTIONS)
++         && s->bv.cursor < s->bv.numRows && s->bv.cursor < CTR_BAG_ROWS && s->bv.items[s->bv.cursor] != ITEM_NONE)
++            return ItemId_GetName(s->bv.items[s->bv.cursor]);
++        break;
++    case NATIVE_SUMMARY:
++        if (s->sv.movesMode != CTR_SUM_MOVES_VIEW && s->sv.firstMove < 5 && s->sv.moves[s->sv.firstMove] != MOVE_NONE
++         && s->sv.moves[s->sv.firstMove] < MOVES_COUNT)
++            return gMoveNames[s->sv.moves[s->sv.firstMove]];
++        break;
++    case NATIVE_DEX:
++        if ((s->dx.state == CTR_DEX_VIEW_LIST || s->dx.state == CTR_DEX_VIEW_INFO) && s->dx.species != SPECIES_NONE
++         && s->dx.species < NUM_SPECIES)
++            return gSpeciesNames[s->dx.species];
++        break;
++    }
++    return NULL;
++}
 +static u8 sDictHitCount;
 +
 +static u16 DictColour(u8 r, u8 g, u8 b)
@@ -241,7 +279,7 @@
      uint64_t phase[6] = {CtrPlatform_Ticks()};
      u32 platesAt = sPlatesMade, evictedAt = sPlatesEvicted;
      uint64_t plateTicksAt = sPlateTicks, drawTicksAt = sPlateDrawTicks, textTicksAt = sTextTicks;
-@@ -5265,6 +5474,8 @@
+@@ -5265,6 +5510,8 @@ static void Render(const ViewState *s)
          DrawHeader(s);
          DrawDock(s);
      }
@@ -250,7 +288,7 @@
      phase[3] = CtrPlatform_Ticks();
      phase[4] = CtrPlatform_Ticks();
      /* The game's window is the compositor's while it draws there, and the
-@@ -6638,6 +6849,14 @@
+@@ -6638,6 +6885,14 @@ static u8 ProcessTouch(u8 mode)
          sTouch.bag = FALSE;
          return HIT_NONE;
      }
@@ -265,7 +303,7 @@
      /* The shop's BUY screen: its picture in the middle of the whole screen,
       * the touch in pixels of it, as it goes (drags scroll its list). */
      if ((in->touchDown && ShopShown(mode)) || (sTouch.bag && sTouch.active && ShopShown(mode)))
-@@ -7622,6 +7841,7 @@
+@@ -7622,6 +7877,7 @@ void CtrBottom_Frame(void)
       * field opens it (OpenAsked), or it is dropped after four seconds. */
      if (sLeaveTo < SCR_COUNT && (mode == MODE_FIELD || mode >= MODE_BATTLE_INFO || ++sLeaveToWait > 240))
          sLeaveTo = SCR_COUNT;
@@ -273,10 +311,12 @@
      pressed = ProcessTouch(mode);
      ProcessKeys(mode);
      OpenAsked(mode);
-@@ -7652,6 +7872,10 @@
+@@ -7652,6 +7908,12 @@ void CtrBottom_Frame(void)
      }
      ticks[1] = CtrPlatform_Ticks();
      Snapshot(&sState, mode, pressed);
++    /* Chinese build: what is pointed at here goes to the Woofer panel. */
++    WooferDict_OnFocus(DictFocusText(&sState));
 +    /* The dictionary panel is drawn over the whole screen: no partial
 +     * redraws while it is (or was) on show. */
 +    if ((sState.dict || sShown.dict) && memcmp(&sState, &sShown, sizeof(sState)) != 0)
@@ -284,7 +324,7 @@
      /* Walking into another area, its name waits a few frames: the frame of
       * the crossing loads the map and moves the voxel world, and the title's
       * 2 ms on top of that were a drop on an Old 3DS. */
-@@ -7727,7 +7951,7 @@
+@@ -7727,7 +7989,7 @@ void CtrBottom_Frame(void)
          return;
      }
      /* A part left with a flat label: that part again, the label further on. */

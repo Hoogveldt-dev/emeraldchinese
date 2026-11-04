@@ -141,8 +141,22 @@ static void EnglishPage(void)
     sDict.englishPage[n] = WOOFER_EOS;
 }
 
-/* "line" for WooferCitra (docs/woofer-bridge/PROTOCOL.md). */
-static void SendLine(void)
+/* The bottom screen's focus: what the player points at there (a move, an
+ * item), sent instead of the message while it lasts (WooferDict_OnFocus). */
+#define MAX_FOCUS_SEGS 16
+static struct
+{
+    const unsigned char *str;     /* NULL: no focus */
+    uint64_t hash;
+    const char *loc;
+    int count;
+    WooferSeg segs[MAX_FOCUS_SEGS];
+} sFocus;
+
+/* "line" for WooferCitra (docs/woofer-bridge/PROTOCOL.md): the segments of
+ * printed, with the English page (game bytes, may be NULL). */
+static void SendLineOf(uint64_t hash, const unsigned char *printed, const WooferSeg *segs, int count,
+                       const unsigned char *english, const char *loc)
 {
     static WooferMsg msg;
     static char zh[1024], en[1024], part[256];
@@ -150,40 +164,42 @@ static void SendLine(void)
 
     if (!Woofer_Active())
         return;
-    if (sDict.count == 0)
+    if (count == 0)
     {
         /* a page without words (only a name, say): not the previous line */
         Woofer_SendClear();
         return;
     }
     zh[0] = '\0';
-    for (i = 0; i < sDict.count; i++)
+    for (i = 0; i < count; i++)
     {
-        const WooferSeg *s = &sDict.segs[i];
+        const WooferSeg *s = &segs[i];
         WooferWord w;
         if (s->kind == WOOFER_SEG_WORD && WooferGloss_Word(s->word, &w))
             strncat(zh, w.s, sizeof(zh) - strlen(zh) - 1);
         else
         {
-            WooferGloss_ToUtf8(part, sizeof(part), sDict.printed + s->start, s->len, &sCharset);
+            WooferGloss_ToUtf8(part, sizeof(part), printed + s->start, s->len, &sCharset);
             strncat(zh, part, sizeof(zh) - strlen(zh) - 1);
         }
     }
-    WooferGloss_ToUtf8(en, sizeof(en), sDict.englishPage, sizeof(sDict.englishPage), &sCharset);
+    en[0] = '\0';
+    if (english != NULL)
+        WooferGloss_ToUtf8(en, sizeof(en), english, sizeof(sDict.englishPage), &sCharset);
     /* Too long for one message: without the English, then without meanings. */
     for (withEnglish = 1, withMeaning = 1;; withEnglish ? (withEnglish = 0) : (withMeaning = 0))
     {
         Woofer_Begin(&msg, "line");
-        Woofer_Hex64(&msg, "h", sDict.hash);
+        Woofer_Hex64(&msg, "h", hash);
         Woofer_Str(&msg, "zh", zh);
         if (withEnglish && en[0])
             Woofer_Str(&msg, "en", en);
-        if (sDict.loc != NULL && sDict.loc[0])
-            Woofer_Str(&msg, "loc", sDict.loc);
+        if (loc != NULL && loc[0])
+            Woofer_Str(&msg, "loc", loc);
         Woofer_ArrayBegin(&msg, "w");
-        for (i = 0; i < sDict.count; i++)
+        for (i = 0; i < count; i++)
         {
-            const WooferSeg *s = &sDict.segs[i];
+            const WooferSeg *s = &segs[i];
             WooferWord w;
             Woofer_ObjectBegin(&msg, NULL);
             if (s->kind == WOOFER_SEG_WORD && WooferGloss_Word(s->word, &w))
@@ -200,7 +216,7 @@ static void SendLine(void)
             }
             else
             {
-                WooferGloss_ToUtf8(part, sizeof(part), sDict.printed + s->start, s->len, &sCharset);
+                WooferGloss_ToUtf8(part, sizeof(part), printed + s->start, s->len, &sCharset);
                 Woofer_Str(&msg, "s", part);
             }
             Woofer_ObjectEnd(&msg);
@@ -209,6 +225,14 @@ static void SendLine(void)
         if (Woofer_Send(&msg) || !withMeaning)
             break;
     }
+}
+
+/* The message's line; held back while the bottom screen has the focus. */
+static void SendLine(void)
+{
+    if (sFocus.str != NULL)
+        return;
+    SendLineOf(sDict.hash, sDict.printed, sDict.segs, sDict.count, sDict.englishPage, sDict.loc);
 }
 
 /* FNV-1a of the printed text up to its end, to see that a buffer changed. */
@@ -314,7 +338,45 @@ void WooferDict_OnHide(void)
         sDict.count = 0;
         Changed();
     }
-    Woofer_SendClear();
+    if (sFocus.str == NULL)
+        Woofer_SendClear();
+}
+
+/*
+ * What the player points at on the bottom screen: a move in a battle's move
+ * menu, an item in the bag, a mon in the Pokédex. Its words go to the panel
+ * instead of the message; with NULL (nothing pointed at any more) the
+ * message's line comes back. Call it every frame; it sends only on a change.
+ * A text without words counts as nothing pointed at.
+ */
+void WooferDict_OnFocus(const unsigned char *str)
+{
+    uint64_t hash = 0;
+    const unsigned char *english;
+    const char *loc = NULL;
+
+    if (str == sFocus.str)
+        return;
+    if (str != NULL && (!WooferGloss_Ready() || !Cjk_TextKey(str, &hash, &english)
+                        || !WooferGloss_Find(hash, NULL, NULL, &loc)))
+        str = NULL;
+    if (str == NULL)
+    {
+        if (sFocus.str == NULL)
+            return;
+        sFocus.str = NULL;
+        /* back to the message, or to nothing */
+        if (sDict.active)
+            SendLine();
+        else
+            Woofer_SendClear();
+        return;
+    }
+    sFocus.str = str;
+    sFocus.hash = hash;
+    sFocus.loc = loc;
+    sFocus.count = WooferGloss_MatchPage(hash, 0, str, &sCharset, sFocus.segs, MAX_FOCUS_SEGS);
+    SendLineOf(hash, str, sFocus.segs, sFocus.count, NULL, loc);
 }
 
 void WooferDict_Frame(void)
