@@ -19,3 +19,4 @@
 {"at": "2026-11-03T11:22:53Z", "cmd": "gloss", "model": "deepseek-flash", "requests": 2, "texts": 0, "input": 2836, "cached": 1920, "output": 6244, "usd": 0.0039}
 {"at": "2026-11-04T21:05:09Z", "cmd": "translate", "model": "deepseek-flash", "requests": 52, "texts": 2022, "input": 136001, "cached": 6656, "output": 70026, "usd": 0.0614}
 {"at": "2026-11-04T21:05:19Z", "cmd": "translate", "model": "deepseek-flash", "requests": 1, "texts": 4, "input": 921, "cached": 128, "output": 371, "usd": 0.0003}
+{"at": "2026-11-04T21:14:10Z", "cmd": "gloss", "model": "deepseek-flash", "requests": 159, "texts": 1711, "input": 247779, "cached": 23168, "output": 582078, "usd": 0.383}
