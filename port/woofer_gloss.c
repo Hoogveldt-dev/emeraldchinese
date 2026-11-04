@@ -216,6 +216,17 @@ int WooferGloss_CharLen(const unsigned char *p, size_t avail)
     return avail >= 2 && WideAt(p) != 0 ? 2 : 1;
 }
 
+/* Bytes of the character, symbol or control code at p. */
+static size_t Step(const unsigned char *p, size_t avail, const WooferCharset *cs)
+{
+    int n = cs->ctrlLen != NULL ? cs->ctrlLen(p) : 0;
+    if (n <= 0 && cs->symbol != NULL && cs->symbol(p, &n) == NULL)
+        n = 0;
+    if (n <= 0)
+        n = WooferGloss_CharLen(p, avail);
+    return (size_t)n < avail ? (size_t)n : avail;
+}
+
 /* ------------------------------------------------------------------------ */
 /* Matching                                                                 */
 /* ------------------------------------------------------------------------ */
@@ -335,7 +346,7 @@ int WooferGloss_MatchPage(uint64_t hash, int page, const unsigned char *printed,
         if (m == 0)
         {
             /* character by character: never from the second byte of one */
-            for (at = pos; at < pe; at += (size_t)WooferGloss_CharLen(printed + at, pe - at))
+            for (at = pos; at < pe; at += Step(printed + at, pe - at, cs))
                 if ((m = MatchAt(printed, at, pe, w.game, cs)) > 0)
                     break;
             if (m == 0)
@@ -388,6 +399,16 @@ size_t WooferGloss_ToUtf8(char *dst, size_t max, const unsigned char *src, size_
             if ((src[i] == cs->space || src[i] == cs->newline || src[i] == cs->scroll) && n + 2 < max
              && (n == 0 || dst[n - 1] != ' '))
                 dst[n++] = ' ';
+            i += (size_t)skip;
+            continue;
+        }
+        if (cs->symbol != NULL && (u = cs->symbol(src + i, &skip)) != NULL && skip > 0)
+        {
+            if (n + strlen(u) + 1 < max)
+            {
+                memcpy(dst + n, u, strlen(u));
+                n += strlen(u);
+            }
             i += (size_t)skip;
             continue;
         }

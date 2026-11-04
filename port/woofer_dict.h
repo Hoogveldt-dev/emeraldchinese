@@ -14,6 +14,8 @@
 #include "woofer_gloss.h"
 
 void WooferDict_Init(void);
+/* The bytes the game uses in printed text (for host tools and tests). */
+const WooferCharset *WooferDict_Charset(void);
 /* A field message starts (src: the text passed to the message box) or ends. */
 /* A text the game is about to show; see woofer_dict.c. */
 void WooferDict_OnText(const unsigned char *src, const unsigned char *printed, unsigned char window);

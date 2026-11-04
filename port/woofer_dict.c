@@ -43,7 +43,26 @@ static int CtrlLen(const unsigned char *p)
     return 0;
 }
 
-static const WooferCharset sCharset = {0xFE, 0xFA, 0xFB, 0x00, CtrlLen};
+/* The symbols the game draws from two bytes (charmap.txt): 0xF8 a button
+ * icon, 0xF9 an extra symbol, 0xF7 a dynamic placeholder that was not filled
+ * in (left out). Without this the panel showed the second byte as a letter. */
+static const char *const sKeys[] = {"Ⓐ", "Ⓑ", "Ⓛ", "Ⓡ", "START", "SELECT", "↑", "↓", "←", "→", "↕", "↔", "✚"};
+static const char *const sExtra[] = {"↑", "↓", "←", "→", "+", "Lv", "PP", "ID", "No", "_", "①", "②", "③", "④",
+                                     "⑤", "⑥", "⑦", "⑧", "⑨", "(", ")", "◎", "△", "✕"};
+
+static const char *Symbol(const unsigned char *p, int *len)
+{
+    if (p[0] < 0xF7 || p[0] > 0xF9 || p[1] == 0xFF)
+        return NULL;
+    *len = 2;
+    if (p[0] == 0xF8)
+        return p[1] < sizeof(sKeys) / sizeof(sKeys[0]) ? sKeys[p[1]] : "";
+    if (p[0] == 0xF9)
+        return p[1] < sizeof(sExtra) / sizeof(sExtra[0]) ? sExtra[p[1]] : "";
+    return "";
+}
+
+static const WooferCharset sCharset = {0xFE, 0xFA, 0xFB, 0x00, CtrlLen, Symbol};
 
 static struct
 {
@@ -63,6 +82,12 @@ static struct
     int showEnglish;
     uint32_t stamp;
 } sDict;
+
+/* The game's charset, for the host tools (tools/scan_panel.py). */
+const WooferCharset *WooferDict_Charset(void)
+{
+    return &sCharset;
+}
 
 static uint32_t sSaved[MAX_SAVED];
 static int sSavedCount;
@@ -123,8 +148,14 @@ static void SendLine(void)
     static char zh[1024], en[1024], part[256];
     int i, withEnglish, withMeaning;
 
-    if (!Woofer_Active() || sDict.count == 0)
+    if (!Woofer_Active())
         return;
+    if (sDict.count == 0)
+    {
+        /* a page without words (only a name, say): not the previous line */
+        Woofer_SendClear();
+        return;
+    }
     zh[0] = '\0';
     for (i = 0; i < sDict.count; i++)
     {
@@ -215,10 +246,20 @@ void WooferDict_OnText(const unsigned char *src, const unsigned char *printed, u
 {
     uint64_t hash;
     const unsigned char *english;
+    const char *loc;
 
-    if (src == NULL || printed == NULL || !WooferGloss_Ready() || !Cjk_TextKey(src, &hash, &english)
-     || !WooferGloss_Find(hash, NULL, NULL, &sDict.loc))
-        return;             /* no words for this text: keep what is up */
+    if (src == NULL || printed == NULL || !WooferGloss_Ready())
+        return;
+    if (!Cjk_TextKey(src, &hash, &english) || !WooferGloss_Find(hash, NULL, NULL, &loc))
+    {
+        /* No words for this text. In the buffer we follow it replaces the
+         * text that is up, so that one is gone; elsewhere (a menu) it is
+         * not ours and what is up stays. */
+        if (sDict.active && printed == sDict.printed)
+            WooferDict_OnHide();
+        return;
+    }
+    sDict.loc = loc;
     /* The same text reported twice (a source hook and the printer both do):
      * stay on the page we are on. Only when the buffer still holds what was
      * matched: a hook that runs before the game fills the buffer would

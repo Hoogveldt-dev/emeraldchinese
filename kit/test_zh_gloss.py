@@ -158,6 +158,25 @@ class BinaryTest(unittest.TestCase):
                          ["control", "你好"])
 
 
+class DecodeTableTest(unittest.TestCase):
+    """A single byte decodes to what the Latin font draws, never to the kana
+    that charmap.txt also puts on it."""
+
+    def test_symbols_win_over_kana(self):
+        d = fixture(self)
+        (d / "charmap.txt").write_text(CHARMAP + "LEFT_ARROW = 7B\nPOKEBLOCK = 55 56 57 58 59\nPKMN = 53 54\n"
+                                       "'ロ' = 7B\n'オ' = 55\n'é' = 1B\n'ひ' = 1B\n", encoding="utf-8")
+        enc = Encoder(d / "charmap.txt", d / "cjk_table.json")
+        w = GlossWriter(enc, lambda t: False)
+        w.add(7, "", [[["你好", "nǐhǎo", "hello", 1]]])
+        decode = read_gloss(w.to_bytes())["decode"]
+        self.assertEqual(decode[0x7B], "←")
+        self.assertEqual(decode[0x55], "POKéBLOCK")
+        self.assertNotIn(0x56, decode)
+        self.assertEqual((decode[0x53], decode[0x54]), ("PK", "MN"))
+        self.assertEqual(decode[0x1B], "é")
+
+
 class DrawablePinyinTest(unittest.TestCase):
     def test_pinyin_letters_and_tones(self):
         d = fixture(self)

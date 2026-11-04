@@ -13,3 +13,9 @@ $CC $FLAGS -I"$ROOT/port" "$ROOT/port/woofer_gloss.c" "$ROOT/tests/port/woofer_g
 $CC $FLAGS -I"$ROOT/port" "$ROOT/port/woofer_dict.c" "$ROOT/port/woofer_gloss.c" "$ROOT/port/woofer_bridge.c" \
     "$ROOT/tests/port/woofer_dict_test.c" -o "$TMP/woofer_dict_test"
 "$TMP/woofer_dict_test" "$ROOT/kit" "$TMP"
+# Wat het Woofer-paneel per pagina krijgt, voor elke tekst (echte C-code via ctypes).
+if [ -f "$ROOT/kit/zh_gloss.bin" ] && [ -f "$ROOT/kit/zh_dialog.bin" ]; then
+    python3 "$ROOT/tools/scan_panel.py"
+else
+    echo "scan_panel: skipped (no kit/zh_dialog.bin or kit/zh_gloss.bin)"
+fi

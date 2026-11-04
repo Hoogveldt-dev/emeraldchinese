@@ -40,11 +40,17 @@ typedef struct WooferSeg
  * 0 when p is not one. Given by the game (pokeemerald: EXT_CTRL_CODE_BEGIN). */
 typedef int (*WooferCtrlLen)(const unsigned char *p);
 
+/* A symbol of more than one byte that the game draws (a button icon, "Lv",
+ * an arrow): its UTF-8 ("" to leave it out) with *len set to its bytes, or
+ * NULL when p does not start one. Given by the game (pokeemerald: 0xF8, 0xF9). */
+typedef const char *(*WooferSymbol)(const unsigned char *p, int *len);
+
 /* Bytes the game uses in printed text (pokeemerald's charmap). */
 typedef struct WooferCharset
 {
     unsigned char newline, scroll, clear, space;
     WooferCtrlLen ctrlLen;
+    WooferSymbol symbol;    /* may be NULL */
 } WooferCharset;
 
 /* Takes the file's bytes (kept, not copied). 1 when it is a v2 gloss file. */

@@ -20,7 +20,7 @@ static int CtrlLen(const unsigned char *p)
     return 1 + (p[1] < sizeof(kCtrl) ? kCtrl[p[1]] : 1);
 }
 
-static const WooferCharset kCharset = {0xFE, 0xFA, 0xFB, 0x00, CtrlLen};
+static const WooferCharset kCharset = {0xFE, 0xFA, 0xFB, 0x00, CtrlLen, NULL};
 
 static unsigned char *ReadFile(const char *path, size_t *size)
 {

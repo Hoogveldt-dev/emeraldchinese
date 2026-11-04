@@ -222,6 +222,15 @@ int main(int argc, char **argv)
         CHECK(sOutCount == n);
     }
 
+    /* A text without words in the same buffer: the line that was up is gone. */
+    sHash = 1;
+    gStringVar4[0] = 0xBB;
+    gStringVar4[1] = 0xFF;
+    sOutCount = 0;
+    WooferDict_OnMessage(english);
+    CHECK(sOutCount == 1 && strcmp(sOut[0], "WOOF1 {\"t\":\"clear\"}") == 0);
+    CHECK(WooferDict_Stamp() == 0);
+
     printf(sFailures ? "woofer_dict: %d failures\n" : "woofer_dict: ok\n", sFailures);
     if (!sFailures)
         printf("  line: %.160s...\n  saved: %.160s\n", sOut[1], line);

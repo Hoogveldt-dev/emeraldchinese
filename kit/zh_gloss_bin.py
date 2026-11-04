@@ -45,6 +45,11 @@ TOKEN_PARA = 0xFFFF0000      # next paragraph (\p)
 TOKEN_NAME = 0xFFFF0001      # {PLAYER} and other names filled in while playing
 TOKEN_CONTROL = 0xFFFF0002   # {COLOR ...}, {PAUSE ...}: control codes, no text
 HEADER = struct.Struct("<8s10I")
+# Symbols of the game's Latin font that charmap.txt names as constants: their
+# text in UTF-8 per byte (a string: all of it on the first byte).
+LATIN_SYMBOLS = {"LV": "Lv", "PKMN": ["PK", "MN"], "POKEBLOCK": "POKéBLOCK", "UNK_SPACER": "",
+                 "UP_ARROW": "↑", "DOWN_ARROW": "↓", "LEFT_ARROW": "←", "RIGHT_ARROW": "→",
+                 "SUPER_E": "ᵉ", "SUPER_RE": "ʳᵉ"}
 TEXT = struct.Struct("<QIIII")
 WORD = struct.Struct("<IIIIIIBBH")
 
@@ -129,9 +134,18 @@ class GlossWriter:
 
     def to_bytes(self) -> bytes:
         decode = [0] * 256
+        # What the game draws for a single byte: its Latin font. The charmap
+        # also gives Japanese kana for many of these bytes; the Chinese build
+        # never shows those (it would draw the Latin glyph), so they are left
+        # out, and the Latin font's own symbols (arrows, Lv, POKéBLOCK) are
+        # put in their place.
         for ch, code in self.enc.chars.items():
-            if len(code) == 1 and code[0] != 0xFF and not decode[code[0]]:
+            if len(code) == 1 and code[0] != 0xFF and not decode[code[0]] and not 0x3000 <= ord(ch[0]) <= 0x30FF:
                 decode[code[0]] = self._utf8(ch)
+        for name, text in LATIN_SYMBOLS.items():
+            for i, b in enumerate(self.enc.consts.get(name, b"")):
+                part = text[i] if isinstance(text, list) else text if i == 0 else ""
+                decode[b] = self._utf8(part)
         while len(self.pool) % 4:
             self.pool += b"\x00"
         off_texts = HEADER.size
