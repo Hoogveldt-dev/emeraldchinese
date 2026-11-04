@@ -64,6 +64,23 @@ static size_t Expand(unsigned char *dst, const unsigned char *src, size_t len)
     return n;
 }
 
+/* s with "’" written as "'": the game has one byte for both. */
+static void Apostrophes(char *s)
+{
+    char *r = s, *w = s;
+    while (*r)
+    {
+        if ((unsigned char)r[0] == 0xE2 && (unsigned char)r[1] == 0x80 && (unsigned char)r[2] == 0x99)
+        {
+            *w++ = '\'';
+            r += 3;
+        }
+        else
+            *w++ = *r++;
+    }
+    *w = '\0';
+}
+
 static int SameGame(const unsigned char *a, const unsigned char *b)
 {
     while (*a == *b && *a != 0xFF)
@@ -179,6 +196,7 @@ int main(int argc, char **argv)
      * text that is not a word. */
     {
         uint32_t w, bad = 0, n = 0;
+        static char want[512];
         WooferWord word;
         for (w = 0; WooferGloss_Word(w, &word) || w < 1; w++)
         {
@@ -187,7 +205,10 @@ int main(int argc, char **argv)
                 len++;
             WooferGloss_ToUtf8(utf8, sizeof(utf8), word.game, len, &kCharset);
             n++;
-            if (strcmp(utf8, word.s) != 0 && bad++ < 5)
+            snprintf(want, sizeof(want), "%s", word.s);
+            Apostrophes(utf8);
+            Apostrophes(want);
+            if (strcmp(utf8, want) != 0 && bad++ < 5)
                 printf("FAIL: word %u decodes to '%s', not '%s'\n", w, utf8, word.s);
         }
         if (bad || n < 100)

@@ -214,7 +214,8 @@ def main():
                                                    cs)
                             got.append(out.value.decode("utf-8", "replace"))
                     got = "".join(got).replace(" ", "")
-                    if got != want.replace(" ", ""):
+                    # "'" and "’" are one byte in the game: the same text
+                    if got.replace("’", "'") != want.replace(" ", "").replace("’", "'"):
                         problems["garbled"].append((where, h, page, name_kind, want, got))
                     elif any(s.kind == 2 for s in segs[:n]):
                         problems["partial"].append((where, h, page, name_kind, want, got))

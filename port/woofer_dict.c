@@ -346,8 +346,9 @@ void WooferDict_OnHide(void)
  * What the player points at on the bottom screen: a move in a battle's move
  * menu, an item in the bag, a mon in the Pokédex. Its words go to the panel
  * instead of the message; with NULL (nothing pointed at any more) the
- * message's line comes back. Call it every frame; it sends only on a change.
- * A text without words counts as nothing pointed at.
+ * message's line comes back. Call it every frame; it sends only on a change
+ * (of the text, not only of the pointer: a list row keeps its buffer while
+ * it scrolls). A text without words counts as nothing pointed at.
  */
 void WooferDict_OnFocus(const unsigned char *str)
 {
@@ -355,10 +356,13 @@ void WooferDict_OnFocus(const unsigned char *str)
     const unsigned char *english;
     const char *loc = NULL;
 
-    if (str == sFocus.str)
+    if (str == NULL && sFocus.str == NULL)
         return;
-    if (str != NULL && (!WooferGloss_Ready() || !Cjk_TextKey(str, &hash, &english)
-                        || !WooferGloss_Find(hash, NULL, NULL, &loc)))
+    if (str != NULL && (!WooferGloss_Ready() || !Cjk_TextKey(str, &hash, &english)))
+        str = NULL;
+    if (str != NULL && str == sFocus.str && hash == sFocus.hash)
+        return;
+    if (str != NULL && !WooferGloss_Find(hash, NULL, NULL, &loc))
         str = NULL;
     if (str == NULL)
     {

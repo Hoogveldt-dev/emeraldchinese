@@ -1,5 +1,5 @@
 diff --git a/3ds_port/src/3ds_bottom_ui.c b/3ds_port/src/3ds_bottom_ui.c
-index 8895aab..d329eab 100644
+index 8895aab..91ec74c 100644
 --- a/3ds_port/src/3ds_bottom_ui.c
 +++ b/3ds_port/src/3ds_bottom_ui.c
 @@ -120,6 +120,8 @@
@@ -77,7 +77,7 @@ index 8895aab..d329eab 100644
 +    case NATIVE_BAG:
 +        if ((s->bv.state == CTR_BAG_VIEW_LIST || s->bv.state == CTR_BAG_VIEW_ACTIONS)
 +         && s->bv.cursor < s->bv.numRows && s->bv.cursor < CTR_BAG_ROWS && s->bv.items[s->bv.cursor] != ITEM_NONE)
-+            return ItemId_GetName(s->bv.items[s->bv.cursor]);
++            return s->bv.names[s->bv.cursor];     /* the item's name, as the list shows it */
 +        break;
 +    case NATIVE_SUMMARY:
 +        if (s->sv.movesMode != CTR_SUM_MOVES_VIEW && s->sv.firstMove < 5 && s->sv.moves[s->sv.firstMove] != MOVE_NONE
