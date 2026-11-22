@@ -14,6 +14,10 @@
   Nooit naar een openbare repo of fork pushen. Moet de repo ooit openbaar,
   dan eerst `roms/`, `prebuilt/` en de kitdata uit de hele geschiedenis
   verwijderen (bijv. `git filter-repo`).
+  Controleer aan het begin van een sessie of de repo nog privé is (GitHub,
+  Settings, Danger Zone). Was hij tussendoor publiek, zeg dat dan meteen: de
+  ROM en de 3DSX zijn dan gelekt, ook uit de geschiedenis, en kunnen in forks
+  of caches staan. Zet hem terug op privé en schoon de geschiedenis op.
 * Vertalen via DeepSeek (`kit/llm.py`, standaard): sleutel in de omgeving als
   `DEEPSEEK_API_KEY`, nooit in git of in bestanden in de repo. Tegoed is
   beperkt: altijd eerst `--estimate`, alleen buiten de piekuren, en na elke
