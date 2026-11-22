@@ -1,6 +1,6 @@
 # De repo is privé: de ROM (roms/), de kant-en-klare 3DSX (prebuilt/) en de
 # kitdata (kit/) staan bewust in git, zodat elke sessie erbij kan.
-# Zie CLAUDE.md voordat de repo ooit openbaar wordt.
+# Deze repo mag nooit publiek zijn. Zie CLAUDE.md.
 
 # Builduitvoer: altijd opnieuw te maken
 build/
